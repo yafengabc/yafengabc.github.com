@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第一弹：了解btrfs | Yafeng&#39;s blog</title>
+  <title>hi | Yafeng&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全没必要知道文件系统的存在。
-但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统">
+  <meta name="description" content="Yafeng&apos;s blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一弹：了解btrfs">
-<meta property="og:url" content="http://yafengabc.github.io/2015/06/02/use-btrfs/index.html">
+<meta property="og:title" content="hi">
+<meta property="og:url" content="http://yafengabc.github.io/2015/06/02/hi/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全没必要知道文件系统的存在。
-但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统">
-<meta property="og:updated_time" content="2015-06-02T08:31:23.359Z">
+<meta property="og:description" content="Yafeng&apos;s blog">
+<meta property="og:updated_time" content="2015-06-02T09:08:03.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第一弹：了解btrfs">
-<meta name="twitter:description" content="文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全没必要知道文件系统的存在。
-但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统">
+<meta name="twitter:title" content="hi">
+<meta name="twitter:description" content="Yafeng&apos;s blog">
   
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
   
@@ -63,16 +60,12 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-use-btrfs" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="_draft-hi" class="article article-type-_draft" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/06/02/use-btrfs/" class="article-date">
-  <time datetime="2015-06-02T02:15:46.000Z" itemprop="datePublished">2015-06-02</time>
+    <a href="/2015/06/02/hi/" class="article-date">
+  <time datetime="2015-06-02T09:08:02.000Z" itemprop="datePublished">2015-06-02</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/linux/">linux</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -81,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      第一弹：了解btrfs
+      hi
     </h1>
   
 
@@ -89,23 +82,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得<br>知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全<br>没必要知道文件系统的存在。</p>
-<p>但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新<br>一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统，linux也在<br>Oracle以及社区的努力下开发了btrfs文件系统。</p>
-<p>这些新型文件系统主要包含以下功能：</p>
-<ul>
-<li>COW机制：<br>COW即写时复制技术，通俗来讲就是比如某文件存在A这个地方，如果我们对这个文件进行了修改<br>如果没用COW技术，那就直接修改了A处的文件，如果一不小心删了不该删的地方，那基本上没有再<br>找回来的可能了，如果使用了COW技术呢，当我们改写文件时，</li>
-<li>卷管理</li>
-<li>透明压缩</li>
-</ul>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yafengabc.github.io/2015/06/02/use-btrfs/" data-id="ciaf1kvbs0003nleg9rvq49pk" class="article-share-link">Share</a>
+      <a data-url="http://yafengabc.github.io/2015/06/02/hi/" data-id="ciaf4278b0009zzeg1amo897e" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/archlinux/">archlinux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/btrfs/">btrfs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
-
     </footer>
   </div>
   
@@ -113,9 +96,9 @@
 <nav id="article-nav">
   
   
-    <a href="/2015/06/01/hello-github/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/06/02/draft/use-btrfs/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">你好github，你好hexo</div>
+      <div class="article-nav-title">第一弹：了解btrfs</div>
     </a>
   
 </nav>
@@ -158,7 +141,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -170,7 +153,11 @@
       <ul>
         
           <li>
-            <a href="/2015/06/02/use-btrfs/">第一弹：了解btrfs</a>
+            <a href="/2015/06/02/hi/">hi</a>
+          </li>
+        
+          <li>
+            <a href="/2015/06/02/draft/use-btrfs/">第一弹：了解btrfs</a>
           </li>
         
           <li>

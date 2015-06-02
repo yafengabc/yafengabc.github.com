@@ -61,9 +61,45 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-use-btrfs" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="_draft-hi" class="article article-type-_draft" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/06/02/use-btrfs/" class="article-date">
+    <a href="/2015/06/02/hi/" class="article-date">
+  <time datetime="2015-06-02T09:08:02.000Z" itemprop="datePublished">2015-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/02/hi/">hi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yafengabc.github.io/2015/06/02/hi/" data-id="ciaf4278b0009zzeg1amo897e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-draft/use-btrfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/02/draft/use-btrfs/" class="article-date">
   <time datetime="2015-06-02T02:15:46.000Z" itemprop="datePublished">2015-06-02</time>
 </a>
     
@@ -79,7 +115,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/02/use-btrfs/">第一弹：了解btrfs</a>
+      <a class="article-title" href="/2015/06/02/draft/use-btrfs/">第一弹：了解btrfs</a>
     </h1>
   
 
@@ -91,15 +127,17 @@
 <p>但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新<br>一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统，linux也在<br>Oracle以及社区的努力下开发了btrfs文件系统。</p>
 <p>这些新型文件系统主要包含以下功能：</p>
 <ul>
-<li>COW机制：<br>COW即写时复制技术，通俗来讲就是比如某文件存在A这个地方，如果我们对这个文件进行了修改<br>如果没用COW技术，那就直接修改了A处的文件，如果一不小心删了不该删的地方，那基本上没有再<br>找回来的可能了，如果使用了COW技术呢，当我们改写文件时，</li>
-<li>卷管理</li>
-<li>透明压缩</li>
+<li>COW机制：<br>COW 即写时复制技术，通俗来讲就是比如某文件存在A这个地方，如果我们对这个文件进行了修改<br>如果没用COW技术，那就直接修改了A处的文件，如果一不小心删了不该删的一段，那基本上没有再<br>找回来的可能了，如果使用了COW技术呢，当我们改写文件时，会保持A处的内容不变，而把变化的<br>部分记录在B处。这样，就很容易实现比如“文件恢复”，“时光机”等功能。</li>
+<li><p>卷管理<br>通常，我们管理硬盘空间，都是以硬盘、分区这种模式来管理的。比如我有2块硬盘，每个硬盘分了<br>四个分区，那我电脑上就一共8个分区，分类存储各种数据，但这样管理问题很多：比如我最大的分<br>区只有100G，我想存一个200G的电影该怎么办？通常的做法，就是调整分区表，做一个大于该电影<br>的分区，但调整分区费时费力，并且容易不慎丢失数据，为了更好的管理海量的空间，各系统都实<br>现了卷管理的方案，比如windows的动态磁盘、linux下的LVM，这两者都是在物理卷（硬盘，分区）<br>与逻辑卷（比如C D E F盘）之间加一个逻辑层，让系统来管理，逻辑卷之间</p>
+</li>
+<li><p>透明压缩</p>
+</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yafengabc.github.io/2015/06/02/use-btrfs/" data-id="ciaf1kvbs0003nleg9rvq49pk" class="article-share-link">Share</a>
+      <a data-url="http://yafengabc.github.io/2015/06/02/draft/use-btrfs/" data-id="ciaf4279y000fzzegxyigqs0i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/archlinux/">archlinux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/btrfs/">btrfs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -149,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yafengabc.github.io/2015/06/01/hello-github/" data-id="ciaf1kv6v0000nlegr3tmn54p" class="article-share-link">Share</a>
+      <a data-url="http://yafengabc.github.io/2015/06/01/hello-github/" data-id="ciaf42796000azzeggc0pm1n5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github-hexo-随笔/">github hexo 随笔</a></li></ul>
@@ -197,7 +235,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -209,7 +247,11 @@
       <ul>
         
           <li>
-            <a href="/2015/06/02/use-btrfs/">第一弹：了解btrfs</a>
+            <a href="/2015/06/02/hi/">hi</a>
+          </li>
+        
+          <li>
+            <a href="/2015/06/02/draft/use-btrfs/">第一弹：了解btrfs</a>
           </li>
         
           <li>
