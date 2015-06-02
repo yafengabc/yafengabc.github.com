@@ -356,7 +356,7 @@ body {
   z-index: -1;
 }
 #header-title {
-  text-align: center;
+  text-align: left;
   height: 40px;
   position: absolute;
   top: 50%;
