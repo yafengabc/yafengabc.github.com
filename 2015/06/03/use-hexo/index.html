@@ -3,33 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>你好github，你好hexo | Yafeng&#39;s blog</title>
+  <title>使用hexo | Yafeng&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
-
-本地有备份，即使github关了，我可以换个地方发
-格式为markdown，比较通用，导入其他blog也简单
-全静态网站，发布只需要一个httpd即可
-可以在vim下书写，s">
+  <meta name="description" content="折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexodeployer功能没用成，最后写了一个shell脚本用git提交算了。最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：把new.js（~/myblog/node_">
 <meta property="og:type" content="article">
-<meta property="og:title" content="你好github，你好hexo">
-<meta property="og:url" content="http://yafengabc.github.io/2015/06/01/hello-github/index.html">
+<meta property="og:title" content="使用hexo">
+<meta property="og:url" content="http://yafengabc.github.io/2015/06/03/use-hexo/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
-
-本地有备份，即使github关了，我可以换个地方发
-格式为markdown，比较通用，导入其他blog也简单
-全静态网站，发布只需要一个httpd即可
-可以在vim下书写，s">
-<meta property="og:updated_time" content="2015-06-02T08:32:17.519Z">
+<meta property="og:description" content="折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexodeployer功能没用成，最后写了一个shell脚本用git提交算了。最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：把new.js（~/myblog/node_">
+<meta property="og:updated_time" content="2015-06-03T02:39:41.960Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你好github，你好hexo">
-<meta name="twitter:description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
-
-本地有备份，即使github关了，我可以换个地方发
-格式为markdown，比较通用，导入其他blog也简单
-全静态网站，发布只需要一个httpd即可
-可以在vim下书写，s">
+<meta name="twitter:title" content="使用hexo">
+<meta name="twitter:description" content="折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexodeployer功能没用成，最后写了一个shell脚本用git提交算了。最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：把new.js（~/myblog/node_">
   
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
   
@@ -75,14 +60,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-github" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-use-hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/06/01/hello-github/" class="article-date">
-  <time datetime="2015-05-31T22:31:50.000Z" itemprop="datePublished">2015-06-01</time>
+    <a href="/2015/06/03/use-hexo/" class="article-date">
+  <time datetime="2015-06-03T02:20:25.000Z" itemprop="datePublished">2015-06-03</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/随笔/">随笔</a>
+    <a class="article-category-link" href="/categories/linux/">linux</a>
   </div>
 
   </div>
@@ -93,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      你好github，你好hexo
+      使用hexo
     </h1>
   
 
@@ -101,24 +86,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,<br>因为不知道他们什么时候会死掉<br>其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些<br>但现在来看，这种写blog的方式还是有很大的优点的：</p>
-<ul>
-<li>本地有备份，即使github关了，我可以换个地方发</li>
-<li>格式为markdown，比较通用，导入其他blog也简单</li>
-<li>全静态网站，发布只需要一个httpd即可</li>
-<li>可以在vim下书写，ssh git发布，换句话说就是我可以在console下发blog了<br>虽然我不是console控，但是发表能纯console下写作，还是有一定的意义的，<br>比如本文，就是ssh到我的树莓派上写的。</li>
-</ul>
-<p>所以所以，在经过一下午的摸索之后，也就有了这个小站，虽然百度空间上的文章<br>也可以想办法挪过来，想想还是先算了，首先是嫌麻烦，再就是那里我也废弃好久了<br>也算是个新的开始吧。</p>
-<h2 id="好长的hello_world_^_^">好长的hello world ^_^</h2>
+        <p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用git提交算了。<br>最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：<br>把new.js（~/myblog/node_modules/hexo/lib/plugins/console/new.js）最后一句加上：</p>
+<pre><code><span class="tag">spawn</span>(<span class="string">"vim"</span>,[post.path],{<span class="attribute">stdio</span>: [process.stdin, process.stdout, process.stderr]});
+</code></pre><p>就可以了，即改成如下的样子：</p>
+<pre><code><span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
+        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
+
+
+
+ <span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
+        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
+        spawn(<span class="string">"vim"</span>,[<span class="keyword">post</span>.path],{stdio: [process.stdin, process.stdout, process.stderr]});
+</code></pre><p>Writed by Yafeng</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yafengabc.github.io/2015/06/01/hello-github/" data-id="ciag5c2eh000ekgegnou2mvbo" class="article-share-link">Share</a>
+      <a data-url="http://yafengabc.github.io/2015/06/03/use-hexo/" data-id="ciag5c2da0009kgegcir7cabl" class="article-share-link">Share</a>
       
-        <a href="http://yafengabc.github.io/2015/06/01/hello-github/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://yafengabc.github.io/2015/06/03/use-hexo/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github-hexo-随笔/">github hexo 随笔</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
 
     </footer>
   </div>
@@ -126,15 +115,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/06/02/draft/use-btrfs/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          第一弹：了解btrfs
-        
-      </div>
-    </a>
   
+    <a href="/2015/06/02/draft/use-btrfs/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第一弹：了解btrfs</div>
+    </a>
   
 </nav>
 
@@ -234,7 +219,7 @@
 <script>
   var disqus_shortname = 'yafengabc';
   
-  var disqus_url = 'http://yafengabc.github.io/2015/06/01/hello-github/';
+  var disqus_url = 'http://yafengabc.github.io/2015/06/03/use-hexo/';
   
   (function(){
     var dsq = document.createElement('script');
