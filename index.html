@@ -87,18 +87,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用git提交算了。<br>最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：<br>把new.js（~/myblog/node_modules/hexo/lib/plugins/console/new.js）最后一句加上：</p>
-<pre><code><span class="tag">spawn</span>(<span class="string">"vim"</span>,[post.path],{<span class="attribute">stdio</span>: [process.stdin, process.stdout, process.stderr]});
-</code></pre><p>就可以了，即改成如下的样子：</p>
+        <p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用git提交算了。<br>最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：<br>把new.js（~/myblog/node_modules/hexo/lib/plugins/console/new.js）最后一句加上：<br>    spawn(“vim”,[post.path],{stdio: [process.stdin, process.stdout, process.stderr]});<br>就可以了，即改成如下的样子：<br>    return this.post.create(data, args.r || args.replace).then(function(post){<br>            self.log.info(‘Created: %s’, chalk.magenta(tildify(post.path)));</p>
 <pre><code><span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
-        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
-
-
-
- <span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
-        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
-        spawn(<span class="string">"vim"</span>,[<span class="keyword">post</span>.path],{stdio: [process.stdin, process.stdout, process.stderr]});
-</code></pre><p>Writed by Yafeng</p>
+       self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
+       spawn(<span class="string">"vim"</span>,[<span class="keyword">post</span>.path],{stdio: [process.stdin, process.stdout, process.stderr]});
+</code></pre><p>当然，之前别忘了声明一下<br>    var spawn = require(‘child_process’).spawn</p>
+<p>Writed by Yafeng</p>
 
       
     </div>
