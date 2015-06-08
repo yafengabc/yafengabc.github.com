@@ -1,96 +1,115 @@
 
- <!DOCTYPE HTML>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   
-    <title>你好github，你好hexo | Yafeng&#39;s blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="Yafeng">
-    
-    <meta name="description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
+  <title>你好github，你好hexo | Yafeng&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
 
 本地有备份，即使github关了，我可以换个地方发
-格式为markdown">
-    
-    
-    
-    
-    <link rel="alternate" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+格式为markdown，比较通用，导入其他blog也简单
+全静态网站，发布只需要一个httpd即可
+可以在vim下书写，s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你好github，你好hexo">
+<meta property="og:url" content="http://yafengabc.github.io/2015/06/01/hello-github/index.html">
+<meta property="og:site_name" content="Yafeng's blog">
+<meta property="og:description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
+
+本地有备份，即使github关了，我可以换个地方发
+格式为markdown，比较通用，导入其他blog也简单
+全静态网站，发布只需要一个httpd即可
+可以在vim下书写，s">
+<meta property="og:updated_time" content="2015-06-03T02:42:48.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你好github，你好hexo">
+<meta name="twitter:description" content="百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,因为不知道他们什么时候会死掉其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些但现在来看，这种写blog的方式还是有很大的优点的：
+
+本地有备份，即使github关了，我可以换个地方发
+格式为markdown，比较通用，导入其他blog也简单
+全静态网站，发布只需要一个httpd即可
+可以在vim下书写，s">
+  
+    <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
 </head>
-
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/pacman.png" alt="Yafeng&#39;s blog" title="Yafeng&#39;s blog"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="Yafeng&#39;s blog">Yafeng&#39;s blog</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yafengabc.github.io">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/01/hello-github/" title="你好github，你好hexo" itemprop="url">你好github，你好hexo</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yafengabc.github.io" title="Yafeng">Yafeng</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2015-05-31T22:31:50.000Z" itemprop="datePublished">2015-06-01</time>
-    更新日期:<time datetime="2015-06-03T02:42:48.259Z" itemprop="dateModified">2015-06-03</time>
-    
-  </p>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yafeng&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="yafengabc.github.io">
+        </form>
+      </div>
+    </div>
+  </div>
 </header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#好长的hello_world_^_^"><span class="toc-number">1.</span> <span class="toc-text">好长的hello world ^_^</span></a></li></ol>
-		</div>
-		
-		<p>百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,<br>因为不知道他们什么时候会死掉<br>其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些<br>但现在来看，这种写blog的方式还是有很大的优点的：</p>
+    <div class="outer">
+      <section id="main"><article id="post-hello-github" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/01/hello-github/" class="article-date">
+  <time datetime="2015-05-31T22:31:50.000Z" itemprop="datePublished">2015-06-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/随笔/">随笔</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      你好github，你好hexo
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,<br>因为不知道他们什么时候会死掉<br>其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些<br>但现在来看，这种写blog的方式还是有很大的优点的：</p>
 <ul>
 <li>本地有备份，即使github关了，我可以换个地方发</li>
 <li>格式为markdown，比较通用，导入其他blog也简单</li>
@@ -98,80 +117,93 @@
 <li>可以在vim下书写，ssh git发布，换句话说就是我可以在console下发blog了<br>虽然我不是console控，但是发表能纯console下写作，还是有一定的意义的，<br>比如本文，就是ssh到我的树莓派上写的。</li>
 </ul>
 <p>所以所以，在经过一下午的摸索之后，也就有了这个小站，虽然百度空间上的文章<br>也可以想办法挪过来，想想还是先算了，首先是嫌麻烦，再就是那里我也废弃好久了<br>也算是个新的开始吧。</p>
-<h2 id="好长的hello_world_^_^">好长的hello world ^_^</h2>  
-	</div>
-		<footer class="article-footer clearfix">
+<h2 id="好长的hello_world_^_^">好长的hello world ^_^</h2>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yafengabc.github.io/2015/06/01/hello-github/" data-id="ciano08w9000qwieg4hcboguf" class="article-share-link" data-share="baidu">分享到</a>
+      
 
-  <div class="article-tags">
+      
+        <a href="http://yafengabc.github.io/2015/06/01/hello-github/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+
+    </footer>
+  </div>
   
-  <span></span> <a href="/tags/github/">github</a><a href="/tags/hexo/">hexo</a><a href="/tags/随笔/">随笔</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/随笔/">随笔</a>
-</div>
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yafengabc.github.io/2015/06/01/hello-github/" data-title="你好github，你好hexo | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2015/06/02/draft/use-btrfs/" title="第一弹：了解btrfs">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  第一弹：了解btrfs</span>
-</a>
-</div>
-
-
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/02/draft/use-btrfs/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          第一弹：了解btrfs
+        
+      </div>
+    </a>
+  
+  
 </nav>
 
-	
-<section class="comment">
-	<div class="ds-thread"></div>
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
 </section>
-
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#好长的hello_world_^_^"><span class="toc-number">1.</span> <span class="toc-text">好长的hello world ^_^</span></a></li></ol>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">3</span></li></ul>
+    </div>
   </div>
 
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
   
-<div class="categorieslist">
-	<p class="asidetitle">分类</p>
-		<ul>
-		
-			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
-		
-			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  
+    
   <div class="widget-wrap">
-    </br>
-    <p class="asidetitle">近期文章</p>
-	  <ul class="clearfix">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archlinux/">archlinux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/btrfs/">btrfs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/手机/">手机</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/archlinux/" style="font-size: 10px;">archlinux</a> <a href="/tags/btrfs/" style="font-size: 10px;">btrfs</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 20px;">hexo</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/手机/" style="font-size: 10px;">手机</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
         
           <li>
             <a href="/2015/06/08/test-md/">(no title)</a>
@@ -194,212 +226,95 @@
           </li>
         
       </ul>
-  </div>
-
-
-
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
-		
-			<li><a href="/tags/archlinux/" title="archlinux">archlinux<sup>1</sup></a></li>
-		
-			<li><a href="/tags/btrfs/" title="btrfs">btrfs<sup>1</sup></a></li>
-		
-			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>4</sup></a></li>
-		
-			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
-		
-			<li><a href="/tags/手机/" title="手机">手机<sup>1</sup></a></li>
-		
-			<li><a href="/tags/随笔/" title="随笔">随笔<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  
-  <div class="tagcloudlist">
-    <p class="asidetitle">标签云</p>
-    <div class="tagcloudlist clearfix">
-       <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/archlinux/" style="font-size: 10px;">archlinux</a> <a href="/tags/btrfs/" style="font-size: 10px;">btrfs</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 20px;">hexo</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/手机/" style="font-size: 10px;">手机</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
-
   
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">6</span></li></ul>
-  </div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
-      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	
-	<div class="social-font clearfix">
-		
-		
-		
-		
-		
-	</div>
-        </br>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
-		
-		<a href="http://yafengabc.github.io" target="_blank" title="Yafeng">Yafeng</a>
-		
-		</p>
-        </br>
-</div>
-</footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
         
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
+          <li>
+            <a href="http://xiguabaobao.com" target="_blank">主题作者</a>
+          </li>
+        
+          <li>
+            <a href="http://reqianduan.com" target="_blank">热前端</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Yafeng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
 
+<!-- totop end -->
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"yafengabc"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
+<script>
+  var disqus_shortname = 'yafengabc';
+  
+  var disqus_url = 'http://yafengabc.github.io/2015/06/01/hello-github/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
-</script> 
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
 
 
+<script src="/js/script.js" type="text/javascript"></script>
 
-  </body>
+</div>
+</body>
 </html>
