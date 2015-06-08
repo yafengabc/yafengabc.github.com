@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://yafengabc.github.io//"/>
-  <updated>2015-06-08T08:55:56.257Z</updated>
+  <updated>2015-06-08T15:40:31.349Z</updated>
   <id>http://yafengabc.github.io//</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title><![CDATA[测试markdown]]></title>
     <link href="http://yafengabc.github.io/2015/06/08/test-md/"/>
     <id>http://yafengabc.github.io/2015/06/08/test-md/</id>
-    <published>2015-06-08T08:55:56.257Z</published>
-    <updated>2015-06-08T08:55:56.257Z</updated>
+    <published>2015-06-08T08:20:25.000Z</published>
+    <updated>2015-06-08T15:40:31.349Z</updated>
     <content type="html"><![CDATA[<h3 id="测试代码_C/C++">测试代码 C/C++</h3><pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
 <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>
 </span>{
@@ -44,6 +44,12 @@ os.system(<span class="string">"free -h"</span>)
     <![CDATA[<h3 id="测试代码_C/C++">测试代码 C/C++</h3><pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
 <span ]]>
     </summary>
+    
+      <category term="hexo" scheme="http://yafengabc.github.io/tags/hexo/"/>
+    
+      <category term="markdown" scheme="http://yafengabc.github.io/tags/markdown/"/>
+    
+      <category term="随笔" scheme="http://yafengabc.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
