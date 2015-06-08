@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/08/test-md/</loc>
+    <lastmod>2015-06-08T08:55:56.257Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/04/syntax/</loc>
+    <lastmod>2015-06-04T14:43:39.740Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/03/moble-blog/</loc>
+    <lastmod>2015-06-03T03:28:05.069Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/03/use-hexo/</loc>
+    <lastmod>2015-06-03T02:56:42.022Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/01/hello-github/</loc>
+    <lastmod>2015-06-03T02:42:48.259Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/02/draft/use-btrfs/</loc>
+    <lastmod>2015-06-02T09:05:43.696Z</lastmod>
+  </url>
+  
+</urlset>

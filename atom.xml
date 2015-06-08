@@ -1,93 +1,59 @@
-
- <!DOCTYPE HTML>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
   
-    <title>Markdown中文版(zz) | Yafeng&#39;s blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+  <title><![CDATA[Yafeng's blog]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://yafengabc.github.io//"/>
+  <updated>2015-06-08T08:55:56.257Z</updated>
+  <id>http://yafengabc.github.io//</id>
+  
+  <author>
+    <name><![CDATA[Yafeng]]></name>
     
-    <meta name="author" content="Yafeng">
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yafengabc.github.io/2015/06/08/test-md/"/>
+    <id>http://yafengabc.github.io/2015/06/08/test-md/</id>
+    <published>2015-06-08T08:55:56.257Z</published>
+    <updated>2015-06-08T08:55:56.257Z</updated>
+    <content type="html"><![CDATA[<h3 id="测试代码_C/C++">测试代码 C/C++</h3><pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>
+</span>{
+    <span class="keyword">int</span> a=<span class="number">1</span>;
+    <span class="keyword">int</span> b=<span class="number">2</span>;
+    <span class="keyword">int</span> c=a+b;
+    <span class="built_in">printf</span>(<span class="string">"%d"</span>,c);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><h3 id="测试代码_Python">测试代码 Python</h3><pre><code><span class="comment">#import os</span>
+<span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span>
+    print(<span class="string">"hello world"</span>)
+hello()
+os.system(<span class="string">"free -h"</span>)
+</code></pre><h3 id="测试链接">测试链接</h3><p><code>&lt;http://yafengabc.github.io&gt;</code><br><a href="http://yafengabc.github.io">http://yafengabc.github.io</a><br><code>[yafengabc.github.io](http://yafengabc.github.io)</code><br><a href="http://yafengabc.github.io">yafengabc.github.io</a>   </p>
+<h3 id="测试图片">测试图片</h3><p><img src="/image/test-md/arch-linux-logo.png" alt="图片"></p>
+<p>bc.github.io](<a href="http://yafengabc.github.io">http://yafengabc.github.io</a>)   </p>
+<h3 id="测试图片-1">测试图片</h3><p><img src="/image/test-md/arch-linux-logo.png" alt="图片"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="测试代码_C/C++">测试代码 C/C++</h3><pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
+<span ]]>
+    </summary>
     
-    <meta name="description" content="NOTE: This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document. Please refer to Markdown: Sy">
-    
-    
-    
-    
-    <link rel="alternate" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-</head>
-
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/pacman.png" alt="Yafeng&#39;s blog" title="Yafeng&#39;s blog"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="Yafeng&#39;s blog">Yafeng&#39;s blog</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yafengabc.github.io">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/06/04/syntax/" title="Markdown中文版(zz)" itemprop="url">Markdown中文版(zz)</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yafengabc.github.io" title="Yafeng">Yafeng</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2015-06-04T00:23:30.000Z" itemprop="datePublished">2015-06-04</time>
-    更新日期:<time datetime="2015-06-04T14:43:39.740Z" itemprop="dateModified">2015-06-04</time>
-    
-  </p>
-</header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Markdown_语法说明_(简体中文版)_/_(点击查看快速入门)"><span class="toc-number">1.</span> <span class="toc-text">Markdown 语法说明 (简体中文版) / (点击查看快速入门)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#overview"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#philosophy"><span class="toc-number">1.1.1.</span> <span class="toc-text">宗旨</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#html"><span class="toc-number">1.1.2.</span> <span class="toc-text">兼容 HTML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#autoescape"><span class="toc-number">1.1.3.</span> <span class="toc-text">特殊字符自动转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#block"><span class="toc-number">1.2.</span> <span class="toc-text">区块元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#p"><span class="toc-number">1.2.1.</span> <span class="toc-text">段落和换行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#header"><span class="toc-number">1.2.2.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#blockquote"><span class="toc-number">1.2.3.</span> <span class="toc-text">区块引用 Blockquotes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-number">1.2.4.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#precode"><span class="toc-number">1.2.5.</span> <span class="toc-text">代码区块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hr"><span class="toc-number">1.2.6.</span> <span class="toc-text">分隔线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#span"><span class="toc-number">1.3.</span> <span class="toc-text">区段元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#link"><span class="toc-number">1.3.1.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#em"><span class="toc-number">1.3.2.</span> <span class="toc-text">强调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-number">1.3.3.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#img"><span class="toc-number">1.3.4.</span> <span class="toc-text">图片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc"><span class="toc-number">1.4.</span> <span class="toc-text">其它</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#autolink"><span class="toc-number">1.4.1.</span> <span class="toc-text">自动链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#backslash"><span class="toc-number">1.4.2.</span> <span class="toc-text">反斜杠</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#acknowledgement"><span class="toc-number">1.5.</span> <span class="toc-text">感谢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#editor"><span class="toc-number">1.6.</span> <span class="toc-text">Markdown 免费编辑器</span></a></li></ol></li></ol>
-		</div>
-		
-		<p><strong>NOTE:</strong> This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document. Please refer to <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown: Syntax</a>.</p>
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Markdown中文版(zz)]]></title>
+    <link href="http://yafengabc.github.io/2015/06/04/syntax/"/>
+    <id>http://yafengabc.github.io/2015/06/04/syntax/</id>
+    <published>2015-06-04T00:23:30.000Z</published>
+    <updated>2015-06-04T14:43:39.740Z</updated>
+    <content type="html"><![CDATA[<p><strong>NOTE:</strong> This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document. Please refer to <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown: Syntax</a>.</p>
 <p><strong>声明：</strong> 这份文档派生(fork)于<a href="http://markdown.tw/" target="_blank" rel="external">繁体中文版</a>，在此基础上进行了繁体转简体工作，并进行了适当的润色。此文档用 Markdown 语法编写，你可以到这里<a href="http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/syntax.md" target="_blank" rel="external">查看它的源文件</a>。「繁体中文版的原始文件可以<a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md" target="_blank" rel="external">查看这里</a> 。」—By @<a href="http://twitter.com/riku" target="_blank" rel="external">riku</a></p>
 <p><strong>注：</strong> 本项目托管于 <a href="http://gitcafe.com/riku/Markdown-Syntax-CN/" target="_blank" rel="external">GitCafe</a>上，请通过”派生”和”合并请求”来帮忙改进本项目。</p>
 <h1 id="Markdown_语法说明_(简体中文版)_/_(点击查看快速入门)">Markdown 语法说明 (简体中文版) / (<a href="./basic.html">点击查看快速入门</a>)</h1><ul>
@@ -596,316 +562,136 @@ _   底线
 <li><a href="http://www.sublimetext.com/2" target="_blank" rel="external">Sublime Text 2</a> + <a href="http://ttscoff.github.com/MarkdownEditing/" target="_blank" rel="external">MarkdownEditing</a> / <a href="http://lucifr.com/2012/07/12/markdownediting-for-sublime-text-2/" target="_blank" rel="external">教程</a></li>
 </ul>
 <p>*** 如有更好的 Markdown 免费编辑器推荐，请到<a href="https://gitcafe.com/riku/Markdown-Syntax-CN/tickets/1" target="_blank" rel="external">这里反馈</a>，谢谢！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>NOTE:</strong> This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document]]>
+    </summary>
+    
+      <category term="Markdown" scheme="http://yafengabc.github.io/tags/Markdown/"/>
+    
+      <category term="hexo" scheme="http://yafengabc.github.io/tags/hexo/"/>
+    
+      <category term="随笔" scheme="http://yafengabc.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
-	</div>
-		<footer class="article-footer clearfix">
-
-  <div class="article-tags">
+  <entry>
+    <title><![CDATA[手机测试发文章]]></title>
+    <link href="http://yafengabc.github.io/2015/06/03/moble-blog/"/>
+    <id>http://yafengabc.github.io/2015/06/03/moble-blog/</id>
+    <published>2015-06-03T03:23:30.000Z</published>
+    <updated>2015-06-03T03:28:05.069Z</updated>
+    <content type="html"><![CDATA[<p>手机也发blog，其实也是ssh到树莓派发的，哈</p>
+<hr>
+<p>Writed by Yafeng</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>手机也发blog，其实也是ssh到树莓派发的，哈</p>
+<hr>
+<p>Writed by Yafeng</p>
+]]>
+    </summary>
+    
+      <category term="hexo" scheme="http://yafengabc.github.io/tags/hexo/"/>
+    
+      <category term="手机" scheme="http://yafengabc.github.io/tags/%E6%89%8B%E6%9C%BA/"/>
+    
+      <category term="随笔" scheme="http://yafengabc.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
-  <span></span> <a href="/tags/Markdown/">Markdown</a><a href="/tags/hexo/">hexo</a>
-  </div>
+  <entry>
+    <title><![CDATA[使用hexo]]></title>
+    <link href="http://yafengabc.github.io/2015/06/03/use-hexo/"/>
+    <id>http://yafengabc.github.io/2015/06/03/use-hexo/</id>
+    <published>2015-06-03T02:20:25.000Z</published>
+    <updated>2015-06-03T02:56:42.022Z</updated>
+    <content type="html"><![CDATA[<p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用git提交算了。<br>最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：<br>把new.js（~/myblog/node_modules/hexo/lib/plugins/console/new.js）最后一句加上：</p>
+<pre><code><span class="tag">spawn</span>(<span class="string">"vim"</span>,[post.path],{<span class="attribute">stdio</span>: [process.stdin, process.stdout, process.stderr]});
+</code></pre><p>就可以了，即改成如下的样子：</p>
+<pre><code><span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
+        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
 
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/随笔/">随笔</a>
-</div>
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yafengabc.github.io/2015/06/04/syntax/" data-title="Markdown中文版(zz) | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2015/06/08/test-md/" title="">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  (no title)</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2015/06/03/moble-blog/"  title="手机测试发文章">
- <strong>NEXT:</strong><br/> 
- <span>手机测试发文章
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-<section class="comment">
-	<div class="ds-thread"></div>
-</section>
-
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Markdown_语法说明_(简体中文版)_/_(点击查看快速入门)"><span class="toc-number">1.</span> <span class="toc-text">Markdown 语法说明 (简体中文版) / (点击查看快速入门)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#overview"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#philosophy"><span class="toc-number">1.1.1.</span> <span class="toc-text">宗旨</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#html"><span class="toc-number">1.1.2.</span> <span class="toc-text">兼容 HTML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#autoescape"><span class="toc-number">1.1.3.</span> <span class="toc-text">特殊字符自动转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#block"><span class="toc-number">1.2.</span> <span class="toc-text">区块元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#p"><span class="toc-number">1.2.1.</span> <span class="toc-text">段落和换行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#header"><span class="toc-number">1.2.2.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#blockquote"><span class="toc-number">1.2.3.</span> <span class="toc-text">区块引用 Blockquotes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-number">1.2.4.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#precode"><span class="toc-number">1.2.5.</span> <span class="toc-text">代码区块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hr"><span class="toc-number">1.2.6.</span> <span class="toc-text">分隔线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#span"><span class="toc-number">1.3.</span> <span class="toc-text">区段元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#link"><span class="toc-number">1.3.1.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#em"><span class="toc-number">1.3.2.</span> <span class="toc-text">强调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-number">1.3.3.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#img"><span class="toc-number">1.3.4.</span> <span class="toc-text">图片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc"><span class="toc-number">1.4.</span> <span class="toc-text">其它</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#autolink"><span class="toc-number">1.4.1.</span> <span class="toc-text">自动链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#backslash"><span class="toc-number">1.4.2.</span> <span class="toc-text">反斜杠</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#acknowledgement"><span class="toc-number">1.5.</span> <span class="toc-text">感谢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#editor"><span class="toc-number">1.6.</span> <span class="toc-text">Markdown 免费编辑器</span></a></li></ol></li></ol>
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
+ <span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
+        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
+        spawn(<span class="string">"vim"</span>,[<span class="keyword">post</span>.path],{stdio: [process.stdin, process.stdout, process.stderr]});
+</code></pre><p>当然，之前别忘了声明一下</p>
+<pre><code><span class="tag">var</span> spawn = <span class="function"><span class="title">require</span><span class="params">(<span class="string">'child_process'</span>)</span></span>.spawn
+</code></pre><p>Writed by Yafeng</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用gi]]>
+    </summary>
+    
+      <category term="hexo" scheme="http://yafengabc.github.io/tags/hexo/"/>
+    
+      <category term="linux" scheme="http://yafengabc.github.io/tags/linux/"/>
+    
+      <category term="linux" scheme="http://yafengabc.github.io/categories/linux/"/>
+    
+  </entry>
   
-<div class="categorieslist">
-	<p class="asidetitle">分类</p>
-		<ul>
-		
-			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
-		
-			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
-		
-		</ul>
-</div>
-
-
+  <entry>
+    <title><![CDATA[第一弹：了解btrfs]]></title>
+    <link href="http://yafengabc.github.io/2015/06/02/draft/use-btrfs/"/>
+    <id>http://yafengabc.github.io/2015/06/02/draft/use-btrfs/</id>
+    <published>2015-06-02T02:15:46.000Z</published>
+    <updated>2015-06-02T09:05:43.696Z</updated>
+    <content type="html"><![CDATA[<p>文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得<br>知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全<br>没必要知道文件系统的存在。</p>
+<p>但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新<br>一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统，linux也在<br>Oracle以及社区的努力下开发了btrfs文件系统。</p>
+<p>这些新型文件系统主要包含以下功能：</p>
+<ul>
+<li>COW机制：<br>COW 即写时复制技术，通俗来讲就是比如某文件存在A这个地方，如果我们对这个文件进行了修改<br>如果没用COW技术，那就直接修改了A处的文件，如果一不小心删了不该删的一段，那基本上没有再<br>找回来的可能了，如果使用了COW技术呢，当我们改写文件时，会保持A处的内容不变，而把变化的<br>部分记录在B处。这样，就很容易实现比如“文件恢复”，“时光机”等功能。</li>
+<li><p>卷管理<br>通常，我们管理硬盘空间，都是以硬盘、分区这种模式来管理的。比如我有2块硬盘，每个硬盘分了<br>四个分区，那我电脑上就一共8个分区，分类存储各种数据，但这样管理问题很多：比如我最大的分<br>区只有100G，我想存一个200G的电影该怎么办？通常的做法，就是调整分区表，做一个大于该电影<br>的分区，但调整分区费时费力，并且容易不慎丢失数据，为了更好的管理海量的空间，各系统都实<br>现了卷管理的方案，比如windows的动态磁盘、linux下的LVM，这两者都是在物理卷（硬盘，分区）<br>与逻辑卷（比如C D E F盘）之间加一个逻辑层，让系统来管理，逻辑卷之间</p>
+</li>
+<li><p>透明压缩</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得<br>知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全<br>没必要知道文件系统的存在。</p>
+<p>但随着Sun公司的ZFS的]]>
+    </summary>
+    
+      <category term="archlinux" scheme="http://yafengabc.github.io/tags/archlinux/"/>
+    
+      <category term="btrfs" scheme="http://yafengabc.github.io/tags/btrfs/"/>
+    
+      <category term="linux" scheme="http://yafengabc.github.io/tags/linux/"/>
+    
+      <category term="linux" scheme="http://yafengabc.github.io/categories/linux/"/>
+    
+  </entry>
   
-  <div class="widget-wrap">
-    </br>
-    <p class="asidetitle">近期文章</p>
-	  <ul class="clearfix">
-        
-          <li>
-            <a href="/2015/06/08/test-md/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2015/06/04/syntax/">Markdown中文版(zz)</a>
-          </li>
-        
-          <li>
-            <a href="/2015/06/03/moble-blog/">手机测试发文章</a>
-          </li>
-        
-          <li>
-            <a href="/2015/06/03/use-hexo/">使用hexo</a>
-          </li>
-        
-          <li>
-            <a href="/2015/06/02/draft/use-btrfs/">第一弹：了解btrfs</a>
-          </li>
-        
-      </ul>
-  </div>
-
-
-
-
+  <entry>
+    <title><![CDATA[你好github，你好hexo]]></title>
+    <link href="http://yafengabc.github.io/2015/06/01/hello-github/"/>
+    <id>http://yafengabc.github.io/2015/06/01/hello-github/</id>
+    <published>2015-05-31T22:31:50.000Z</published>
+    <updated>2015-06-03T02:42:48.259Z</updated>
+    <content type="html"><![CDATA[<p>百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,<br>因为不知道他们什么时候会死掉<br>其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些<br>但现在来看，这种写blog的方式还是有很大的优点的：</p>
+<ul>
+<li>本地有备份，即使github关了，我可以换个地方发</li>
+<li>格式为markdown，比较通用，导入其他blog也简单</li>
+<li>全静态网站，发布只需要一个httpd即可</li>
+<li>可以在vim下书写，ssh git发布，换句话说就是我可以在console下发blog了<br>虽然我不是console控，但是发表能纯console下写作，还是有一定的意义的，<br>比如本文，就是ssh到我的树莓派上写的。</li>
+</ul>
+<p>所以所以，在经过一下午的摸索之后，也就有了这个小站，虽然百度空间上的文章<br>也可以想办法挪过来，想想还是先算了，首先是嫌麻烦，再就是那里我也废弃好久了<br>也算是个新的开始吧。</p>
+<h2 id="好长的hello_world_^_^">好长的hello world ^_^</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<p>百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,<br>因为不知道他们什么时候会死掉<br>其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些<br>但现在来看，这种写blog的方式还是有很大的优点的：</p>
+<ul>
+<li>]]>
+    </summary>
+    
+      <category term="github" scheme="http://yafengabc.github.io/tags/github/"/>
+    
+      <category term="hexo" scheme="http://yafengabc.github.io/tags/hexo/"/>
+    
+      <category term="随笔" scheme="http://yafengabc.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+      <category term="随笔" scheme="http://yafengabc.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/Markdown/" title="Markdown">Markdown<sup>1</sup></a></li>
-		
-			<li><a href="/tags/archlinux/" title="archlinux">archlinux<sup>1</sup></a></li>
-		
-			<li><a href="/tags/btrfs/" title="btrfs">btrfs<sup>1</sup></a></li>
-		
-			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>4</sup></a></li>
-		
-			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
-		
-			<li><a href="/tags/手机/" title="手机">手机<sup>1</sup></a></li>
-		
-			<li><a href="/tags/随笔/" title="随笔">随笔<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  
-  <div class="tagcloudlist">
-    <p class="asidetitle">标签云</p>
-    <div class="tagcloudlist clearfix">
-       <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/archlinux/" style="font-size: 10px;">archlinux</a> <a href="/tags/btrfs/" style="font-size: 10px;">btrfs</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 20px;">hexo</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/手机/" style="font-size: 10px;">手机</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
-    </div>
-  </div>
-
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">6</span></li></ul>
-  </div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
-      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	
-	<div class="social-font clearfix">
-		
-		
-		
-		
-		
-	</div>
-        </br>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
-		
-		<a href="http://yafengabc.github.io" target="_blank" title="Yafeng">Yafeng</a>
-		
-		</p>
-        </br>
-</div>
-</footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"yafengabc"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
-
-
-
-
-
-  </body>
-</html>
+</feed>
