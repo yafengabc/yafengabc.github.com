@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://yafengabc.github.io//"/>
-  <updated>2015-06-09T04:46:11.268Z</updated>
+  <updated>2015-06-09T04:47:45.324Z</updated>
   <id>http://yafengabc.github.io//</id>
   
   <author>
@@ -20,15 +20,14 @@
     <link href="http://yafengabc.github.io/2015/06/08/test-md/"/>
     <id>http://yafengabc.github.io/2015/06/08/test-md/</id>
     <published>2015-06-08T08:20:25.000Z</published>
-    <updated>2015-06-09T04:46:11.268Z</updated>
+    <updated>2015-06-09T04:47:45.324Z</updated>
     <content type="html"><![CDATA[<h3 id="测试代码_C/C++">测试代码 C/C++</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> b=<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">int</span> c=a+b;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>,c);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="测试代码_Python">测试代码 Python</h3><p>Python```</p>
-<pre><code><span class="comment">#import os</span>
+<h3 id="测试代码_Python">测试代码 Python</h3><pre><code class="Python"><span class="comment">#import os</span>
 <span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span>
     print(<span class="string">"hello world"</span>)
 hello()
 os.system(<span class="string">"free -h"</span>)
-</code></pre><p>```    </p>
+</code></pre>
 <h3 id="测试链接">测试链接</h3><p><code>&lt;http://yafengabc.github.io&gt;</code><br><a href="http://yafengabc.github.io">http://yafengabc.github.io</a><br><code>[yafengabc.github.io](http://yafengabc.github.io)</code><br><a href="http://yafengabc.github.io">yafengabc.github.io</a>   </p>
 <h3 id="测试图片">测试图片</h3><p><img src="/image/test-md/arch-linux-logo.png" alt="图片"></p>
 ]]></content>
