@@ -46,7 +46,7 @@ os.system(<span class="string">"free -h"</span>)
     <link href="http://yafengabc.github.io/2015/06/04/syntax/"/>
     <id>http://yafengabc.github.io/2015/06/04/syntax/</id>
     <published>2015-06-04T00:23:30.000Z</published>
-    <updated>2015-06-04T14:43:39.740Z</updated>
+    <updated>2015-06-06T11:22:21.252Z</updated>
     <content type="html"><![CDATA[<p><strong>NOTE:</strong> This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document. Please refer to <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown: Syntax</a>.</p>
 <p><strong>声明：</strong> 这份文档派生(fork)于<a href="http://markdown.tw/" target="_blank" rel="external">繁体中文版</a>，在此基础上进行了繁体转简体工作，并进行了适当的润色。此文档用 Markdown 语法编写，你可以到这里<a href="http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/syntax.md" target="_blank" rel="external">查看它的源文件</a>。「繁体中文版的原始文件可以<a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md" target="_blank" rel="external">查看这里</a> 。」—By @<a href="http://twitter.com/riku" target="_blank" rel="external">riku</a></p>
 <p><strong>注：</strong> 本项目托管于 <a href="http://gitcafe.com/riku/Markdown-Syntax-CN/" target="_blank" rel="external">GitCafe</a>上，请通过”派生”和”合并请求”来帮忙改进本项目。</p>
@@ -574,7 +574,7 @@ _   底线
     <link href="http://yafengabc.github.io/2015/06/03/moble-blog/"/>
     <id>http://yafengabc.github.io/2015/06/03/moble-blog/</id>
     <published>2015-06-03T03:23:30.000Z</published>
-    <updated>2015-06-03T03:28:05.069Z</updated>
+    <updated>2015-06-03T06:01:21.871Z</updated>
     <content type="html"><![CDATA[<p>手机也发blog，其实也是ssh到树莓派发的，哈</p>
 <hr>
 <p>Writed by Yafeng</p>
@@ -599,7 +599,7 @@ _   底线
     <link href="http://yafengabc.github.io/2015/06/03/use-hexo/"/>
     <id>http://yafengabc.github.io/2015/06/03/use-hexo/</id>
     <published>2015-06-03T02:20:25.000Z</published>
-    <updated>2015-06-03T02:56:42.022Z</updated>
+    <updated>2015-06-03T06:01:21.871Z</updated>
     <content type="html"><![CDATA[<p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用git提交算了。<br>最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：<br>把new.js（~/myblog/node_modules/hexo/lib/plugins/console/new.js）最后一句加上：</p>
 <pre><code><span class="tag">spawn</span>(<span class="string">"vim"</span>,[post.path],{<span class="attribute">stdio</span>: [process.stdin, process.stdout, process.stderr]});
 </code></pre><p>就可以了，即改成如下的样子：</p>
@@ -630,7 +630,7 @@ _   底线
     <link href="http://yafengabc.github.io/2015/06/02/draft/use-btrfs/"/>
     <id>http://yafengabc.github.io/2015/06/02/draft/use-btrfs/</id>
     <published>2015-06-02T02:15:46.000Z</published>
-    <updated>2015-06-02T09:05:43.696Z</updated>
+    <updated>2015-06-03T06:01:21.871Z</updated>
     <content type="html"><![CDATA[<p>文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得<br>知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全<br>没必要知道文件系统的存在。</p>
 <p>但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新<br>一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统，linux也在<br>Oracle以及社区的努力下开发了btrfs文件系统。</p>
 <p>这些新型文件系统主要包含以下功能：</p>
@@ -659,10 +659,10 @@ _   底线
   
   <entry>
     <title><![CDATA[你好github，你好hexo]]></title>
-    <link href="http://yafengabc.github.io/2015/05/31/hello-github/"/>
-    <id>http://yafengabc.github.io/2015/05/31/hello-github/</id>
+    <link href="http://yafengabc.github.io/2015/06/01/hello-github/"/>
+    <id>http://yafengabc.github.io/2015/06/01/hello-github/</id>
     <published>2015-05-31T22:31:50.000Z</published>
-    <updated>2015-06-03T02:42:48.259Z</updated>
+    <updated>2015-06-03T06:01:21.871Z</updated>
     <content type="html"><![CDATA[<p>百度空间终于死掉了，也同时导致了不怎么信任这些国内免费的blog了,<br>因为不知道他们什么时候会死掉<br>其实很久以前，就知道github有静态网页托管的服务，只是感觉略微麻烦一些<br>但现在来看，这种写blog的方式还是有很大的优点的：</p>
 <ul>
 <li>本地有备份，即使github关了，我可以换个地方发</li>
