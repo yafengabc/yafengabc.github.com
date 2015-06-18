@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>在C++中使用GMP（一） | Yafeng&#39;s blog</title>
+    <title>在C++中使用GMP（二）：为什么要用C++ | Yafeng&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Yafeng">
     
 
     
-    <meta name="description" content="在C++中使用gmp GMP是一个优秀的大数库，大数，顾名思义就是比较大的数，大到什么程度呢？就是大到编程语言的基本类型无法装得下的数，举个例子：比如计算10的阶乘，我们很容易写出下边的代码：12345678910111213#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int res(1),i(1);    fo">
+    <meta name="description" content="在C++中使用gmp（二）：为什么要用C++上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;gmp.h&amp;gt;int main()&amp;#123;    mpz_t res;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在C++中使用GMP（一）">
-<meta property="og:url" content="http://yafengabc.github.io/2015/06/18/use-gmp-1/index.html">
+<meta property="og:title" content="在C++中使用GMP（二）：为什么要用C++">
+<meta property="og:url" content="http://yafengabc.github.io/2015/06/18/use-gmp-2/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="在C++中使用gmp GMP是一个优秀的大数库，大数，顾名思义就是比较大的数，大到什么程度呢？就是大到编程语言的基本类型无法装得下的数，举个例子：比如计算10的阶乘，我们很容易写出下边的代码：12345678910111213#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int res(1),i(1);    fo">
-<meta property="og:updated_time" content="2015-06-18T16:15:16.531Z">
+<meta property="og:description" content="在C++中使用gmp（二）：为什么要用C++上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;gmp.h&amp;gt;int main()&amp;#123;    mpz_t res;">
+<meta property="og:updated_time" content="2015-06-18T17:36:00.054Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在C++中使用GMP（一）">
-<meta name="twitter:description" content="在C++中使用gmp GMP是一个优秀的大数库，大数，顾名思义就是比较大的数，大到什么程度呢？就是大到编程语言的基本类型无法装得下的数，举个例子：比如计算10的阶乘，我们很容易写出下边的代码：12345678910111213#include &amp;lt;iostream&amp;gt;using namespace std;int main()&amp;#123;    int res(1),i(1);    fo">
+<meta name="twitter:title" content="在C++中使用GMP（二）：为什么要用C++">
+<meta name="twitter:description" content="在C++中使用gmp（二）：为什么要用C++上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;gmp.h&amp;gt;int main()&amp;#123;    mpz_t res;">
 
     
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
@@ -78,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/18/use-gmp-1/" title="在C++中使用GMP（一）" itemprop="url">在C++中使用GMP（一）</a>
+      <a href="/2015/06/18/use-gmp-2/" title="在C++中使用GMP（二）：为什么要用C++" itemprop="url">在C++中使用GMP（二）：为什么要用C++</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yafeng" target="_blank" itemprop="author">Yafeng</a>
 		
   <p class="article-time">
-    <time datetime="2015-06-18T10:09:09.000Z" itemprop="datePublished"> 发表于 2015-06-18</time>
+    <time datetime="2015-06-18T12:09:09.000Z" itemprop="datePublished"> 发表于 2015-06-18</time>
     
   </p>
 </header>
@@ -94,22 +94,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在C++中使用gmp"><span class="toc-number">1.</span> <span class="toc-text">在C++中使用gmp</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在C++中使用gmp（二）：为什么要用C++"><span class="toc-number">1.</span> <span class="toc-text">在C++中使用gmp（二）：为什么要用C++</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="在C++中使用gmp">在C++中使用gmp</h2><p><code> </code>GMP是一个优秀的大数库，大数，顾名思义就是比较大的数，大到什么程度呢？就是大到编程语言的基本类型无法装得下的数，举个例子：<br>比如计算10的阶乘，我们很容易写出下边的代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">res</span><span class="params">(1)</span>,<span class="title">i</span><span class="params">(1)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">10</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        res*=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;res&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>用下边的命令编译并运行：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g++ test.cpp</span><br><span class="line">./a.out</span><br><span class="line"><span class="number">362880</span></span><br></pre></td></tr></table></figure>
-<p>程序运行的很好，我们把10改为100：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">res</span><span class="params">(1)</span>,<span class="title">i</span><span class="params">(1)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">100</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        res*=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;res&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后用同样的方法运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g++ test.cpp</span><br><span class="line">./a.out</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<p>我看到了什么！0！？为什么是0？我们想一下100的阶乘有多大？结果是：<br>933262154439441526816992388562667004907159682643816214685929638952175999932299<br>608941463976156518286253697920827223758251185210916864000000000000000000000000<br>问题大了，就算是long long类型的整形范围也就是：<br>long long的最大值：9223372036854775807<br>long long的最小值：-9223372036854775808<br>还差得远呢！所以为了计算这种大数据，我们需要自己设计各种算法来计算这么大的数据，第一件事当然是存储，怎么存储呢？<br>用数组，用字串！那又怎么计算呢？自己设计数组与数组的乘法……等等，这是不是有点太麻烦啦？有没有简单点的方法呢？当<br>然有！当当当……主角出场：我大GMP来也!懒得打字，容我copy一篇简介：</p>
-<blockquote>
-<p>GMP是The GNU MP Bignum Library，是一个开源的数学运算库，它可以用于任意精度的数学运算，包括有符号整数、有理数和<br>浮点数。它本身并没有精度限制，只取决于机器的硬件情况。</p>
-</blockquote>
-<p>哇，果然是好东西。于是我就搜啊搜的，发现很少有C++风格的代码例子，大部分是C的，没办法，只能硬着头皮肯官方文档了<br>（有人给翻译一下该多好？）。<br>经过一阵子摸索，终于写出了以下代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;gmpxx.h&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function">mpz_class <span class="title">res</span><span class="params">(1)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">i</span><span class="params">(1)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">100</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        res*=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;res&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g++ <span class="built_in">test</span>2.cpp  -lgmp -lgmpxx</span><br><span class="line">./a.out</span><br><span class="line"><span class="number">933262154439441526816992388562667004907159682643816214685929638952175999932299156089414639761565182862536979208272237582511852109168640000000000000000000000</span></span><br></pre></td></tr></table></figure>
-<p>搞定收工！</p>
+		<h2 id="在C++中使用gmp（二）：为什么要用C++">在C++中使用gmp（二）：为什么要用C++</h2><p>上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，<br>我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;gmp.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">mpz_t</span> res;</span><br><span class="line">    res=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">100</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        res*=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>,res);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我把代码写成了C风格，代码看起来没什么问题，但是实际编译却出现了问题：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gcc test.c -lgmp</span><br><span class="line">test.c: In <span class="keyword">function</span> ‘main’:</span><br><span class="line">test.c:<span class="number">7</span>:<span class="number">8</span>: error: assignment to expression with array <span class="built_in">type</span></span><br><span class="line">res=<span class="number">1</span>;</span><br><span class="line">^</span><br><span class="line">test.c:<span class="number">11</span>:<span class="number">12</span>: error: assignment to expression with array <span class="built_in">type</span></span><br><span class="line">res*=i;</span><br><span class="line">^</span><br></pre></td></tr></table></figure></p>
+<p>原来，大数的类型mpz_t不是基本类型，是无法直接用=号赋值的，需要用函数<br>来完成，经过一番改动，最终等效结果如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;gmp.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">mpz_t</span> res;</span><br><span class="line">    mpz_init(res);</span><br><span class="line">    mpz_set_ui(res,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">100</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        mpz_mul_ui(res,res,i);</span><br><span class="line">    &#125;</span><br><span class="line">    gmp_printf(<span class="string">"%Zd"</span>,res);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>所有的赋值，必须用函数，四则运算也必须用函数；</li>
+<li>使用前，要用init函数初始化；</li>
+<li>标准的输入输出函数不能用，要用专用的gmp_开头的函数。</li>
+</ul>
 <hr>
 <p>Writed by Yafeng</p>
   
@@ -134,7 +130,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yafengabc.github.io/2015/06/18/use-gmp-1/" data-title="在C++中使用GMP（一） | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yafengabc.github.io/2015/06/18/use-gmp-2/" data-title="在C++中使用GMP（二）：为什么要用C++ | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,19 +143,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/06/18/use-gmp-2/" title="在C++中使用GMP（二）：为什么要用C++">
-  <strong>上一篇：</strong><br/>
-  <span>
-  在C++中使用GMP（二）：为什么要用C++</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/06/08/test-md/"  title="测试markdown">
+<a href="/2015/06/18/use-gmp-1/"  title="在C++中使用GMP（一）">
  <strong>下一篇：</strong><br/> 
- <span>测试markdown
+ <span>在C++中使用GMP（一）
 </span>
 </a>
 </div>
@@ -168,7 +156,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/06/18/use-gmp-1/" data-title="在C++中使用GMP（一）" data-url="http://yafengabc.github.io/2015/06/18/use-gmp-1/"></div>
+	<div class="ds-thread" data-thread-key="2015/06/18/use-gmp-2/" data-title="在C++中使用GMP（二）：为什么要用C++" data-url="http://yafengabc.github.io/2015/06/18/use-gmp-2/"></div>
 </section>
 
 
@@ -185,7 +173,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在C++中使用gmp"><span class="toc-number">1.</span> <span class="toc-text">在C++中使用gmp</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在C++中使用gmp（二）：为什么要用C++"><span class="toc-number">1.</span> <span class="toc-text">在C++中使用gmp（二）：为什么要用C++</span></a></li></ol>
  
   </div>
 
