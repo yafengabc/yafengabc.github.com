@@ -35,25 +35,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[asdfv]]></title>
-    <link href="http://yafengabc.github.io/2015/07/04/asdfv/"/>
-    <id>http://yafengabc.github.io/2015/07/04/asdfv/</id>
-    <published>2015-07-04T23:37:15.000Z</published>
-    <updated>2015-07-04T23:41:05.000Z</updated>
-    <content type="html"><![CDATA[<p>测试自动生成</p>
-<hr>
-<p>Writed by Yafeng</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>测试自动生成</p>
-<hr>
-<p>Writed by Yafeng</p>
-]]>
-    </summary>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[在C++中使用GMP（二）：为什么要用C++]]></title>
     <link href="http://yafengabc.github.io/2015/06/18/use-gmp-2/"/>
     <id>http://yafengabc.github.io/2015/06/18/use-gmp-2/</id>
