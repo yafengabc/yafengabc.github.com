@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>使用hexo | Yafeng&#39;s blog</title>
+    <title>asdfvddd | Yafeng&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Yafeng">
     
 
     
-    <meta name="description" content="折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexodeployer功能没用成，最后写了一个shell脚本用git提交算了。最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：把new.js（~/myblog/node_">
+    <meta name="description" content="Writed by Yafeng">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用hexo">
-<meta property="og:url" content="http://yafengabc.github.io/2015/06/02/use-hexo/index.html">
+<meta property="og:title" content="asdfvddd">
+<meta property="og:url" content="http://yafengabc.github.io/2015/07/04/asdfvddd/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexodeployer功能没用成，最后写了一个shell脚本用git提交算了。最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：把new.js（~/myblog/node_">
-<meta property="og:updated_time" content="2015-07-04T22:42:26.000Z">
+<meta property="og:description" content="Writed by Yafeng">
+<meta property="og:updated_time" content="2015-07-04T23:52:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用hexo">
-<meta name="twitter:description" content="折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexodeployer功能没用成，最后写了一个shell脚本用git提交算了。最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：把new.js（~/myblog/node_">
+<meta name="twitter:title" content="asdfvddd">
+<meta name="twitter:description" content="Writed by Yafeng">
 
     
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
@@ -78,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/02/use-hexo/" title="使用hexo" itemprop="url">使用hexo</a>
+      <a href="/2015/07/04/asdfvddd/" title="asdfvddd" itemprop="url">asdfvddd</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yafeng" target="_blank" itemprop="author">Yafeng</a>
 		
   <p class="article-time">
-    <time datetime="2015-06-03T02:20:25.000Z" itemprop="datePublished"> 发表于 2015-06-02</time>
+    <time datetime="2015-07-04T23:52:02.000Z" itemprop="datePublished"> 发表于 2015-07-04</time>
     
   </p>
 </header>
@@ -98,33 +98,13 @@
 		
 		</div>
 		
-		<p>折腾了一下午，终于感觉我的blog处于可用状态了。当然遗留问题还是有的，比如，评论还没来得及搞。<br>hexo没有想象中的快，我是在树莓派上运行的，生成一次网站要用10秒钟吧，hexo的发布功能即hexo<br>deployer功能没用成，最后写了一个shell脚本用git提交算了。<br>最后加了一个hexo new xxx后自动调用vim编辑生成的文件的功能，代码很简单：<br>把new.js（~/myblog/node_modules/hexo/lib/plugins/console/new.js）最后一句加上：</p>
-<pre><code><span class="tag">spawn</span>(<span class="string">"vim"</span>,[post.path],{<span class="attribute">stdio</span>: [process.stdin, process.stdout, process.stderr]});
-</code></pre><p>就可以了，即改成如下的样子：</p>
-<pre><code><span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
-        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
-
- <span class="keyword">return</span> this.<span class="keyword">post</span>.create(data, <span class="keyword">args</span>.r || <span class="keyword">args</span>.<span class="keyword">replace</span>).then(function(<span class="keyword">post</span>){
-        self.<span class="keyword">log</span>.info('Created: %s', chalk.magenta(tildify(<span class="keyword">post</span>.path)));
-        spawn(<span class="string">"vim"</span>,[<span class="keyword">post</span>.path],{stdio: [process.stdin, process.stdout, process.stderr]});
-</code></pre><p>当然，之前别忘了声明一下</p>
-<pre><code><span class="tag">var</span> spawn = <span class="function"><span class="title">require</span><span class="params">(<span class="string">'child_process'</span>)</span></span>.spawn
-</code></pre><p>Writed by Yafeng</p>
+		<hr>
+<p>Writed by Yafeng</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/linux/">linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hexo/">hexo</a><a href="/tags/linux/">linux</a>
-  </div>
 
 </div>
 
@@ -132,7 +112,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yafengabc.github.io/2015/06/02/use-hexo/" data-title="使用hexo | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yafengabc.github.io/2015/07/04/asdfvddd/" data-title="asdfvddd | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,19 +125,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/06/02/moble-blog/" title="手机测试发文章">
-  <strong>上一篇：</strong><br/>
-  <span>
-  手机测试发文章</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/06/01/draft/use-btrfs/"  title="第一弹：了解btrfs">
+<a href="/2015/06/18/use-gmp-2/"  title="在C++中使用GMP（二）：为什么要用C++">
  <strong>下一篇：</strong><br/> 
- <span>第一弹：了解btrfs
+ <span>在C++中使用GMP（二）：为什么要用C++
 </span>
 </a>
 </div>
@@ -166,7 +138,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/06/02/use-hexo/" data-title="使用hexo" data-url="http://yafengabc.github.io/2015/06/02/use-hexo/"></div>
+	<div class="ds-thread" data-thread-key="2015/07/04/asdfvddd/" data-title="asdfvddd" data-url="http://yafengabc.github.io/2015/07/04/asdfvddd/"></div>
 </section>
 
 
