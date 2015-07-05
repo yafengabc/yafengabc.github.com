@@ -4,26 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>用VPS自动生成HEXO博客 | Yafeng&#39;s blog</title>
+    <title>test | Yafeng&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Yafeng">
     
 
     
-    <meta name="description" content="hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。
-大体说一下思路：首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新">
+    <meta name="description" content="Writed by Yafeng">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用VPS自动生成HEXO博客">
-<meta property="og:url" content="http://yafengabc.github.io/2015/07/04/use-vps-auto/index.html">
+<meta property="og:title" content="test">
+<meta property="og:url" content="http://yafengabc.github.io/2015/07/04/test/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。
-大体说一下思路：首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新">
-<meta property="og:updated_time" content="2015-07-05T00:19:11.000Z">
+<meta property="og:description" content="Writed by Yafeng">
+<meta property="og:updated_time" content="2015-07-05T00:30:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="用VPS自动生成HEXO博客">
-<meta name="twitter:description" content="hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。
-大体说一下思路：首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新">
+<meta name="twitter:title" content="test">
+<meta name="twitter:description" content="Writed by Yafeng">
 
     
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
@@ -81,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/07/04/use-vps-auto/" title="用VPS自动生成HEXO博客" itemprop="url">用VPS自动生成HEXO博客</a>
+      <a href="/2015/07/04/test/" title="test" itemprop="url">test</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yafeng" target="_blank" itemprop="author">Yafeng</a>
 		
   <p class="article-time">
-    <time datetime="2015-07-05T00:05:29.000Z" itemprop="datePublished"> 发表于 2015-07-04</time>
+    <time datetime="2015-07-05T00:30:09.000Z" itemprop="datePublished"> 发表于 2015-07-04</time>
     
   </p>
 </header>
@@ -101,27 +98,13 @@
 		
 		</div>
 		
-		<p>hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用<br>的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。</p>
-<p>大体说一下思路：<br>首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求<br>然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新的网站后<br>再用git push命令同步到yafengabc.github.io</p>
-<p>service的代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> bottle <span class="keyword">import</span> run,request,post,route</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="decorator">@post('/commit')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"Get some commit from github"</span>)</span><br><span class="line"><span class="comment">#    data=request.body</span></span><br><span class="line"><span class="comment">#    datas=data.read()</span></span><br><span class="line"><span class="comment">#    print(datas)</span></span><br><span class="line">    updateblog()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Complete"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">updateblog</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"::pull the change from github:"</span>)</span><br><span class="line">    os.system(<span class="string">"git add ."</span>)</span><br><span class="line">    os.system(<span class="string">'git commit -m "update"'</span>)</span><br><span class="line">    os.system(<span class="string">"git pull --no-edit"</span>)</span><br><span class="line">    print(<span class="string">"::use hexo g to gen the blog"</span>)</span><br><span class="line">    os.system(<span class="string">"hexo g"</span>)</span><br><span class="line">    print(<span class="string">"::update blog"</span>)</span><br><span class="line">    os.chdir(<span class="string">"public"</span>)</span><br><span class="line">    os.system(<span class="string">"git pull"</span>)</span><br><span class="line">    os.system(<span class="string">"git add ."</span>)</span><br><span class="line">    os.system(<span class="string">"git add --all"</span>)</span><br><span class="line">    os.system(<span class="string">'git commit -m "auto gen"'</span>)</span><br><span class="line">    os.system(<span class="string">"git push"</span>)</span><br><span class="line">    os.chdir(<span class="string">"../"</span>)</span><br><span class="line">    os.system(<span class="string">"cp -a public /myblog/"</span>)</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">run(host=<span class="string">"0.0.0.0"</span>,port=<span class="number">8081</span>)</span><br></pre></td></tr></table></figure>
-<hr>
+		<hr>
 <p>Writed by Yafeng</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/python/">python</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/python-hexo-auto/">python hexo auto</a>
-  </div>
 
 </div>
 
@@ -129,7 +112,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yafengabc.github.io/2015/07/04/use-vps-auto/" data-title="用VPS自动生成HEXO博客 | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yafengabc.github.io/2015/07/04/test/" data-title="test | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -142,19 +125,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/07/04/test/" title="test">
-  <strong>上一篇：</strong><br/>
-  <span>
-  test</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/06/18/use-gmp-2/"  title="在C++中使用GMP（二）：为什么要用C++">
+<a href="/2015/07/04/use-vps-auto/"  title="用VPS自动生成HEXO博客">
  <strong>下一篇：</strong><br/> 
- <span>在C++中使用GMP（二）：为什么要用C++
+ <span>用VPS自动生成HEXO博客
 </span>
 </a>
 </div>
@@ -163,7 +138,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/07/04/use-vps-auto/" data-title="用VPS自动生成HEXO博客" data-url="http://yafengabc.github.io/2015/07/04/use-vps-auto/"></div>
+	<div class="ds-thread" data-thread-key="2015/07/04/test/" data-title="test" data-url="http://yafengabc.github.io/2015/07/04/test/"></div>
 </section>
 
 
