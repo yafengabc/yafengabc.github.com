@@ -4,23 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>在C++中使用GMP（二）：为什么要用C++ | Yafeng&#39;s blog</title>
+    <title>asdfvddd | Yafeng&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Yafeng">
     
 
     
-    <meta name="description" content="在C++中使用gmp（二）：为什么要用C++   上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，  我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;gmp.h&amp;gt;int main()&amp;#123;    mpz_t r">
+    <meta name="description" content="test
+
+Writed by Yafeng">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在C++中使用GMP（二）：为什么要用C++">
-<meta property="og:url" content="http://yafengabc.github.io/2015/06/18/use-gmp-2/index.html">
+<meta property="og:title" content="asdfvddd">
+<meta property="og:url" content="http://yafengabc.github.io/2015/07/04/asdfvddd-1/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="在C++中使用gmp（二）：为什么要用C++   上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，  我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;gmp.h&amp;gt;int main()&amp;#123;    mpz_t r">
-<meta property="og:updated_time" content="2015-07-04T22:42:26.000Z">
+<meta property="og:description" content="test
+
+Writed by Yafeng">
+<meta property="og:updated_time" content="2015-07-05T00:01:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在C++中使用GMP（二）：为什么要用C++">
-<meta name="twitter:description" content="在C++中使用gmp（二）：为什么要用C++   上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，网上的例子多为C风格，  我却倾向于用C++风格，C++风格有什么好处呢？我们看以下代码：123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;gmp.h&amp;gt;int main()&amp;#123;    mpz_t r">
+<meta name="twitter:title" content="asdfvddd">
+<meta name="twitter:description" content="test
+
+Writed by Yafeng">
 
     
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
@@ -78,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/18/use-gmp-2/" title="在C++中使用GMP（二）：为什么要用C++" itemprop="url">在C++中使用GMP（二）：为什么要用C++</a>
+      <a href="/2015/07/04/asdfvddd-1/" title="asdfvddd" itemprop="url">asdfvddd</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yafeng" target="_blank" itemprop="author">Yafeng</a>
 		
   <p class="article-time">
-    <time datetime="2015-06-18T12:09:09.000Z" itemprop="datePublished"> 发表于 2015-06-18</time>
+    <time datetime="2015-07-05T00:00:26.000Z" itemprop="datePublished"> 发表于 2015-07-04</time>
     
   </p>
 </header>
@@ -94,21 +100,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在C++中使用gmp（二）：为什么要用C++"><span class="toc-number">1.</span> <span class="toc-text">在C++中使用gmp（二）：为什么要用C++</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h2 id="在C++中使用gmp（二）：为什么要用C++">在C++中使用gmp（二）：为什么要用C++</h2><p>   上一篇中，写了一个小小的例子，用gmp库写了个100的阶乘，文中我提到，<br>网上的例子多为C风格，  我却倾向于用C++风格，C++风格有什么好处呢？<br>我们看以下代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;gmp.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">mpz_t</span> res;</span><br><span class="line">    res=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">100</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        res*=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>,res);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我把代码写成了C风格，代码看起来没什么问题，但是实际编译却出现了问题：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gcc test.c -lgmp</span><br><span class="line">test.c: In <span class="keyword">function</span> ‘main’:</span><br><span class="line">test.c:<span class="number">7</span>:<span class="number">8</span>: error: assignment to expression with array <span class="built_in">type</span></span><br><span class="line">res=<span class="number">1</span>;</span><br><span class="line">^</span><br><span class="line">test.c:<span class="number">11</span>:<span class="number">12</span>: error: assignment to expression with array <span class="built_in">type</span></span><br><span class="line">res*=i;</span><br><span class="line">^</span><br></pre></td></tr></table></figure></p>
-<p>原来，大数的类型mpz_t不是基本类型，是无法直接用=号赋值的，需要用函数<br>来完成，经过一番改动，最终等效结果如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;gmp.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">mpz_t</span> res;</span><br><span class="line">    mpz_init(res);</span><br><span class="line">    mpz_set_ui(res,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>;i!=<span class="number">100</span>;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        mpz_mul_ui(res,res,i);</span><br><span class="line">    &#125;</span><br><span class="line">    gmp_printf(<span class="string">"%Zd"</span>,res);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>所有的赋值，必须用函数，四则运算也必须用函数；</li>
-<li>使用前，要用init函数初始化；</li>
-<li><p>标准的输入输出函数不能用，要用专用的gmp_开头的函数。</p>
-<p> 这样做还是很麻烦的，不但无法直接打印、赋值，连普通的四则运算<br>都需要调用相关的函数来计算，而C++则直接提供了对象的形式，并对<br>常用的运算符进行了重载，使得我们可以以常规的语法来表达，无疑<br>大大的降低了代码复杂度。</p>
-<p> 我们看到虽然C++语法上相对C有了大量的扩展，使得学习起来<br>似乎“更难”了，但是通过上边的例子可以看出，实际上是简化了使用，<br>提高了编程效率，那些复杂的语法，实际上是在后台默默的工作着，<br>正如上边的两个例子，我们可以不知道这些运算符重载之类的细节，<br>直接把mpz_class类型的对象当普通的像int float之类的常规类型来用<br>实际上是大大的简化了代码。</p>
-</li>
-</ul>
+		<p>test</p>
 <hr>
 <p>Writed by Yafeng</p>
   
@@ -116,16 +112,6 @@
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/C/">C++</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/c/">c++</a><a href="/tags/gmp/">gmp</a><a href="/tags/linux/">linux</a>
-  </div>
 
 </div>
 
@@ -133,7 +119,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yafengabc.github.io/2015/06/18/use-gmp-2/" data-title="在C++中使用GMP（二）：为什么要用C++ | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yafengabc.github.io/2015/07/04/asdfvddd-1/" data-title="asdfvddd | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,19 +132,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/07/04/asdfvddd-1/" title="asdfvddd">
-  <strong>上一篇：</strong><br/>
-  <span>
-  asdfvddd</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/06/18/use-gmp-1/"  title="在C++中使用GMP（一）">
+<a href="/2015/06/18/use-gmp-2/"  title="在C++中使用GMP（二）：为什么要用C++">
  <strong>下一篇：</strong><br/> 
- <span>在C++中使用GMP（一）
+ <span>在C++中使用GMP（二）：为什么要用C++
 </span>
 </a>
 </div>
@@ -167,7 +145,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/06/18/use-gmp-2/" data-title="在C++中使用GMP（二）：为什么要用C++" data-url="http://yafengabc.github.io/2015/06/18/use-gmp-2/"></div>
+	<div class="ds-thread" data-thread-key="2015/07/04/asdfvddd-1/" data-title="asdfvddd" data-url="http://yafengabc.github.io/2015/07/04/asdfvddd-1/"></div>
 </section>
 
 
@@ -184,7 +162,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在C++中使用gmp（二）：为什么要用C++"><span class="toc-number">1.</span> <span class="toc-text">在C++中使用gmp（二）：为什么要用C++</span></a></li></ol>
+ 
  
   </div>
 
