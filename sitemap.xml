@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yafengabc.github.io/2015/07/04/test-rpi/</loc>
+    <lastmod>2015-07-05T00:31:25.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://yafengabc.github.io/2015/07/04/test/</loc>
     <lastmod>2015-07-05T00:30:38.000Z</lastmod>
   </url>
@@ -27,11 +32,6 @@
   </url>
   
   <url>
-    <loc>http://yafengabc.github.io/2015/06/08/test-md/</loc>
-    <lastmod>2015-07-04T22:42:26.000Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://yafengabc.github.io/2015/06/03/syntax/</loc>
     <lastmod>2015-07-04T22:42:26.000Z</lastmod>
   </url>
@@ -48,6 +48,11 @@
   
   <url>
     <loc>http://yafengabc.github.io/2015/06/01/draft/use-btrfs/</loc>
+    <lastmod>2015-07-04T22:42:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yafengabc.github.io/2015/06/08/test-md/</loc>
     <lastmod>2015-07-04T22:42:26.000Z</lastmod>
   </url>
   
