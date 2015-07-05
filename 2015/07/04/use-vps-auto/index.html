@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>第一弹：了解btrfs | Yafeng&#39;s blog</title>
+    <title>用VPS自动生成HEXO博客 | Yafeng&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Yafeng">
     
 
     
-    <meta name="description" content="文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全没必要知道文件系统的存在。
-但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统">
+    <meta name="description" content="hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。
+大体说一下思路：首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一弹：了解btrfs">
-<meta property="og:url" content="http://yafengabc.github.io/2015/06/01/draft/use-btrfs/index.html">
+<meta property="og:title" content="用VPS自动生成HEXO博客">
+<meta property="og:url" content="http://yafengabc.github.io/2015/07/04/use-vps-auto/index.html">
 <meta property="og:site_name" content="Yafeng's blog">
-<meta property="og:description" content="文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全没必要知道文件系统的存在。
-但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统">
-<meta property="og:updated_time" content="2015-07-04T22:42:26.000Z">
+<meta property="og:description" content="hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。
+大体说一下思路：首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新">
+<meta property="og:updated_time" content="2015-07-05T00:19:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第一弹：了解btrfs">
-<meta name="twitter:description" content="文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全没必要知道文件系统的存在。
-但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统">
+<meta name="twitter:title" content="用VPS自动生成HEXO博客">
+<meta name="twitter:description" content="hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。
+大体说一下思路：首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新">
 
     
     <link rel="alternative" href="/atom.xml" title="Yafeng&#39;s blog" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/06/01/draft/use-btrfs/" title="第一弹：了解btrfs" itemprop="url">第一弹：了解btrfs</a>
+      <a href="/2015/07/04/use-vps-auto/" title="用VPS自动生成HEXO博客" itemprop="url">用VPS自动生成HEXO博客</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yafeng" target="_blank" itemprop="author">Yafeng</a>
 		
   <p class="article-time">
-    <time datetime="2015-06-02T02:15:46.000Z" itemprop="datePublished"> 发表于 2015-06-01</time>
+    <time datetime="2015-07-05T00:05:29.000Z" itemprop="datePublished"> 发表于 2015-07-04</time>
     
   </p>
 </header>
@@ -101,16 +101,12 @@
 		
 		</div>
 		
-		<p>文件系统，应该是在后台默默工作的存在，比如很多windows用户，用windows好多年，也不见得<br>知道自己使用的什么文件系统，就算linux用户，一般也就在安装时选择一下就OK了，一般也完全<br>没必要知道文件系统的存在。</p>
-<p>但随着Sun公司的ZFS的发布，引发了文件系统的革命，主流操作系统或移植zfs，或开发自己的新<br>一代的文件系统，比如微软，在新一代的windows server中内置了ReFS文件系统，linux也在<br>Oracle以及社区的努力下开发了btrfs文件系统。</p>
-<p>这些新型文件系统主要包含以下功能：</p>
-<ul>
-<li>COW机制：<br>COW 即写时复制技术，通俗来讲就是比如某文件存在A这个地方，如果我们对这个文件进行了修改<br>如果没用COW技术，那就直接修改了A处的文件，如果一不小心删了不该删的一段，那基本上没有再<br>找回来的可能了，如果使用了COW技术呢，当我们改写文件时，会保持A处的内容不变，而把变化的<br>部分记录在B处。这样，就很容易实现比如“文件恢复”，“时光机”等功能。</li>
-<li><p>卷管理<br>通常，我们管理硬盘空间，都是以硬盘、分区这种模式来管理的。比如我有2块硬盘，每个硬盘分了<br>四个分区，那我电脑上就一共8个分区，分类存储各种数据，但这样管理问题很多：比如我最大的分<br>区只有100G，我想存一个200G的电影该怎么办？通常的做法，就是调整分区表，做一个大于该电影<br>的分区，但调整分区费时费力，并且容易不慎丢失数据，为了更好的管理海量的空间，各系统都实<br>现了卷管理的方案，比如windows的动态磁盘、linux下的LVM，这两者都是在物理卷（硬盘，分区）<br>与逻辑卷（比如C D E F盘）之间加一个逻辑层，让系统来管理，逻辑卷之间</p>
-</li>
-<li><p>透明压缩</p>
-</li>
-</ul>
+		<p>hexo是一个不错的静态博客，但是每次都要手动生成有点太麻烦，也不利于手机书写，正好有个不怎么用<br>的VPS，我写了个小服务，实现了hexo博客的自动生成，提交。</p>
+<p>大体说一下思路：<br>首先。使用了github的Webhooks功能，让他在push 或者commit时向我的VPS发送一个POST请求<br>然后，vps的service接收到该请求后，调用git pull命令同步blog的源代码。用hexo g生成新的网站后<br>再用git push命令同步到yafengabc.github.io</p>
+<p>service的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> bottle <span class="keyword">import</span> run,request,post,route</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="decorator">@post('/commit')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"Get some commit from github"</span>)</span><br><span class="line"><span class="comment">#    data=request.body</span></span><br><span class="line"><span class="comment">#    datas=data.read()</span></span><br><span class="line"><span class="comment">#    print(datas)</span></span><br><span class="line">    updateblog()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Complete"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">updateblog</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"::pull the change from github:"</span>)</span><br><span class="line">    os.system(<span class="string">"git add ."</span>)</span><br><span class="line">    os.system(<span class="string">'git commit -m "update"'</span>)</span><br><span class="line">    os.system(<span class="string">"git pull --no-edit"</span>)</span><br><span class="line">    print(<span class="string">"::use hexo g to gen the blog"</span>)</span><br><span class="line">    os.system(<span class="string">"hexo g"</span>)</span><br><span class="line">    print(<span class="string">"::update blog"</span>)</span><br><span class="line">    os.chdir(<span class="string">"public"</span>)</span><br><span class="line">    os.system(<span class="string">"git pull"</span>)</span><br><span class="line">    os.system(<span class="string">"git add ."</span>)</span><br><span class="line">    os.system(<span class="string">"git add --all"</span>)</span><br><span class="line">    os.system(<span class="string">'git commit -m "auto gen"'</span>)</span><br><span class="line">    os.system(<span class="string">"git push"</span>)</span><br><span class="line">    os.chdir(<span class="string">"../"</span>)</span><br><span class="line">    os.system(<span class="string">"cp -a public /myblog/"</span>)</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">run(host=<span class="string">"0.0.0.0"</span>,port=<span class="number">8081</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p>Writed by Yafeng</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,13 +114,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/linux/">linux</a>
+  <a class="article-category-link" href="/categories/python/">python</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/archlinux/">archlinux</a><a href="/tags/btrfs/">btrfs</a><a href="/tags/linux/">linux</a>
+  <span></span> <a href="/tags/python-hexo-auto/">python hexo auto</a>
   </div>
 
 </div>
@@ -133,7 +129,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yafengabc.github.io/2015/06/01/draft/use-btrfs/" data-title="第一弹：了解btrfs | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yafengabc.github.io/2015/07/04/use-vps-auto/" data-title="用VPS自动生成HEXO博客 | Yafeng&#39;s blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,19 +142,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/06/02/use-hexo/" title="使用hexo">
-  <strong>上一篇：</strong><br/>
-  <span>
-  使用hexo</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/05/31/hello-github/"  title="你好github，你好hexo">
+<a href="/2015/06/18/use-gmp-2/"  title="在C++中使用GMP（二）：为什么要用C++">
  <strong>下一篇：</strong><br/> 
- <span>你好github，你好hexo
+ <span>在C++中使用GMP（二）：为什么要用C++
 </span>
 </a>
 </div>
@@ -167,7 +155,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/06/01/draft/use-btrfs/" data-title="第一弹：了解btrfs" data-url="http://yafengabc.github.io/2015/06/01/draft/use-btrfs/"></div>
+	<div class="ds-thread" data-thread-key="2015/07/04/use-vps-auto/" data-title="用VPS自动生成HEXO博客" data-url="http://yafengabc.github.io/2015/07/04/use-vps-auto/"></div>
 </section>
 
 
