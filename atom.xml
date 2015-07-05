@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://yafengabc.github.io//"/>
-  <updated>2015-07-05T00:19:11.000Z</updated>
+  <updated>2015-07-05T12:16:58.000Z</updated>
   <id>http://yafengabc.github.io//</id>
   
   <author>
@@ -14,6 +14,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[oray-update-script]]></title>
+    <link href="http://yafengabc.github.io/2015/07/05/oray-update-script/"/>
+    <id>http://yafengabc.github.io/2015/07/05/oray-update-script/</id>
+    <published>2015-07-05T12:12:51.000Z</published>
+    <updated>2015-07-05T12:16:58.000Z</updated>
+    <content type="html"><![CDATA[<p>更新花生壳域名脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh -</span></span><br><span class="line">USER=<span class="string">"yourname"</span></span><br><span class="line">PASS=<span class="string">"123456678"</span></span><br><span class="line">DOMAIN=<span class="string">"yafengabc.vicp.net"</span></span><br><span class="line"></span><br><span class="line">URL=<span class="string">"http://<span class="variable">$&#123;USER&#125;</span>:<span class="variable">$&#123;PASS&#125;</span>@ddns.oray.com:80/ph/update?hostname=<span class="variable">$&#123;DOMAIN&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="operator">-f</span> /tmp/ddns ]; <span class="keyword">then</span></span><br><span class="line">    ipstr=`curl http://ddns.oray.com/checkip`</span><br><span class="line">    current_ip=`<span class="built_in">echo</span> <span class="variable">$ipstr</span>|grep -o <span class="string">'[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*'</span>`</span><br><span class="line">    req=`cat /tmp/ddns| grep <span class="string">"<span class="variable">$&#123;current_ip&#125;</span>"</span>`</span><br><span class="line">    <span class="keyword">if</span> [ ! -z <span class="string">"<span class="variable">$&#123;req&#125;</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">        old_ip=`<span class="built_in">echo</span> <span class="variable">$&#123;req&#125;</span>| awk <span class="string">'&#123; print $2&#125;'</span>`</span><br><span class="line">        <span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;old_ip&#125;</span>"</span> = <span class="string">"<span class="variable">$&#123;current_ip&#125;</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">exit</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">wget -q -O /tmp/ddns -q <span class="variable">$&#123;URL&#125;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>Writed by Yafeng</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>更新花生壳域名脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</spa]]>
+    </summary>
+    
+      <category term="openwrt linux 花生壳" scheme="http://yafengabc.github.io/tags/openwrt-linux-%E8%8A%B1%E7%94%9F%E5%A3%B3/"/>
+    
+      <category term="linux" scheme="http://yafengabc.github.io/categories/linux/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[用VPS自动生成HEXO博客]]></title>
