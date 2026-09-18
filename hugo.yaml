@@ -1,0 +1,70 @@
+# 把 USERNAME 换成你的 GitHub 用户名（用户/组织页发布在 https://USERNAME.github.io/）
+baseURL: 'https://USERNAME.github.io/'
+title: 'yafeng 的博客'
+# 语言设为简体中文
+locale: 'zh-cn'
+# 用 git 提交时间作为文章更新时间
+enableGitInfo: true
+
+# 每页文章数
+paginate: 7
+
+# 主题
+theme: 'PaperMod'
+
+# 代码高亮等
+markup:
+  goldmark:
+    renderer:
+      unsafe: true   # 允许在 Markdown 里写原始 HTML
+  highlight:
+    noClasses: false
+    lineNos: false
+
+# PaperMod 参数
+params:
+  # 站点描述（用于 SEO / 分享卡片）
+  description: 'yafeng 的技术博客，记录 Elite Dangerous、Go、工具链与踩坑笔记。'
+  keywords: ['博客', 'Go', 'Elite Dangerous', '技术笔记']
+  author: 'yafeng'
+  # 默认主题：auto 跟随系统，也可填 light / dark
+  defaultTheme: 'auto'
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  # 主页简介（不开启 profileMode 时显示）
+  homeInfoParams:
+    Title: '欢迎来到 yafeng 的博客'
+    Content: >
+      这里主要记录 Elite Dangerous 挂机监控、Go 后端开发、以及一些工具链与部署相关的踩坑笔记。
+      左侧菜单可以浏览文章归档，右上角可切换深色 / 浅色主题。
+  # 社交图标（按需增删，icon 名称见 PaperMod 文档）
+  socialIcons:
+    - name: 'github'
+      url: 'https://github.com/USERNAME'
+    - name: 'rss'
+      url: 'index.xml'
+
+# 顶部 / 侧边菜单
+menu:
+  main:
+    - identifier: 'posts'
+      name: '文章'
+      url: '/posts/'
+      weight: 1
+    - identifier: 'archives'
+      name: '归档'
+      url: '/archives/'
+      weight: 2
+    - identifier: 'tags'
+      name: '标签'
+      url: '/tags/'
+      weight: 3
+    - identifier: 'search'
+      name: '搜索'
+      url: '/search/'
+      weight: 4

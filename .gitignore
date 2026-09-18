@@ -1,0 +1,12 @@
+# Hugo 构建产物
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# 操作系统 / 编辑器
+.DS_Store
+Thumbs.db
+*.swp
+
+# 本地依赖缓存（如启用 go modules）
+.hugo_cache/
