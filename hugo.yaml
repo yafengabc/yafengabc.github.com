@@ -12,6 +12,13 @@ paginate: 7
 # 主题
 theme: 'PaperMod'
 
+# 让首页额外输出 JSON，供 PaperMod 站内搜索使用
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
 # 代码高亮等
 markup:
   goldmark:
