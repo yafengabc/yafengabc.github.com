@@ -10,3 +10,8 @@ Thumbs.db
 
 # 本地依赖缓存（如启用 go modules）
 .hugo_cache/
+
+# 本地工具配置 / 凭据（含 gh token，切勿提交）
+.config/
+# 本地项目记忆（WorkBuddy）
+.workbuddy/
