@@ -1,5 +1,5 @@
 # 把 USERNAME 换成你的 GitHub 用户名（用户/组织页发布在 https://USERNAME.github.io/）
-baseURL: 'https://USERNAME.github.io/'
+baseURL: 'https://yafengabc.github.io/'
 title: 'yafeng 的博客'
 # 语言设为简体中文
 locale: 'zh-cn'
@@ -52,7 +52,7 @@ params:
   # 社交图标（按需增删，icon 名称见 PaperMod 文档）
   socialIcons:
     - name: 'github'
-      url: 'https://github.com/USERNAME'
+      url: 'https://github.com/yafengabc'
     - name: 'rss'
       url: 'index.xml'
 
