@@ -1,0 +1,139 @@
+---
+title: "MicroPython入坑记(四)利用MQTT实现0编程远程控制（下）（用安卓手机）"
+date: 2018-04-01T01:02:00+08:00
+categories: ["嵌入式"]
+tags: [MicroPython, ESP8266, MQTT, 物联网]
+original: "https://www.cnblogs.com/yafengabc/p/8685028.html"
+aliases: ["/cnblogs/p8685028/"]
+weight: 160
+draft: false
+---
+
+先介绍下这个APP（ioT MQTT Panel）怎么用：
+
+安装我就不怎么说了，安装完打开软件是这个样子的：
+
+![](images/760932-20180331234155208-1533200159.png)
+
+提示没有连接，点那个红色按钮创建一个连接：
+
+![](images/760932-20180331234526992-1949032129.png)
+
+前两项都是随便填的，值得注意的的是那个Broker Web/IP Address，这个最好自己架个服务器，而不是用我填的这个测试用服务器，当然这里做个例子，先用这个凑数了，填完后点那个CREATE：
+
+![](images/760932-20180331234853454-782806010.png)
+
+可以看到名为”测试连接“的项目建成了。然后点近去：
+
+![](images/760932-20180331235155380-420719471.png)![](images/760932-20180331235515557-1507141470.png)
+
+![](images/760932-20180331235832669-1298014073.png)
+
+![](images/760932-20180401000504626-1973198684.png)![](images/760932-20180401000602815-754776337.png)
+
+这理解释下：Topic可以理解为一个通道，比如开关，按下后会往ledctl这个通道里发ledon这个信息，再按一下会往ledctl通道里发ledoff这个信息，最终界面如下：
+
+![](images/760932-20180401001009427-1005044462.png)
+
+下面，我们在MicroPython里边编写一点程序，用来接收这个界面发出的消息：
+
+首先，下载micropython的MQTT库：
+
+https://github.com/micropython/micropython-lib
+
+下找到：umqtt.simple
+
+这个目录下有几个例子，以及一个umqtt的目录(里边的simple.py就是库了)
+
+![](images/760932-20180401001945268-878039878.png)
+
+吧simple.py库拷进ESP8266：
+
+然后新建一个ledctl.py内容如下：
+
+```python
+import time
+from simple import MQTTClient
+
+def sub_cb(topic, msg):   #回调函数，收到服务器消息后会调用这个函数
+    print(topic, msg)
+
+c = MQTTClient("umqtt_client", "test.mosquitto.org") #建立一个MQTT客户端
+c.set_callback(sub_cb) #设置回调函数
+c.connect() #建立连接
+c.subscribe(b"ledctl") #监控ledctl这个通道，接收控制命令
+while True:
+    c.check_msg()
+    time.sleep(1)
+```
+
+![](images/760932-20180401003501704-1254139217.png)
+
+然后点手机上的开关，在终端会收到如下信息：
+
+![](images/760932-20180401003701289-342439674.png)
+
+好了，我们的ESP8266收到了手机发来的消息！
+
+然后改写代码控制LED（我的板子上的LED为GPIO2）
+
+```python
+import time
+from simple import MQTTClient
+from machine import Pin
+
+led=Pin(2,Pin.OUT)
+
+def sub_cb(topic, msg):
+    print(topic, msg)
+    if topic==b'ledctl':
+        if msg==b'ledon':
+            led.off() #因为实际IO为0ff时灯是亮的
+        if msg==b'ledoff':
+            led.on()
+
+c = MQTTClient("umqtt_client", "test.mosquitto.org")
+c.set_callback(sub_cb)
+c.connect()
+c.subscribe(b"ledctl")
+while True:
+    c.check_msg()
+    time.sleep(1)
+```
+
+运行代码，发现手机可以正常控制灯的亮灭了
+
+再写代码让第二个LED控件显示LED的状态：
+
+```python
+import time
+from simple import MQTTClient
+from machine import Pin
+
+led=Pin(2,Pin.OUT)
+
+def sub_cb(topic, msg):
+    print(topic, msg)
+    if topic==b'ledctl':
+        if msg==b'ledon':
+            led.off()
+        if msg==b'ledoff':
+            led.on()
+
+c = MQTTClient("umqtt_client", "test.mosquitto.org")
+c.set_callback(sub_cb)
+c.connect()
+c.subscribe(b"ledctl")
+while True:
+    c.check_msg()
+    if led.value()==1:
+        c.publish('ledstatus','ledoff')
+    if led.value()==0:
+        c.publish('ledstatus','ledon')
+    time.sleep(1)
+```
+
+![](images/760932-20180401010141642-53127237.jpg)
+
+![](images/760932-20180401010202083-929533815.jpg)
+
