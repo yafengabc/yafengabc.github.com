@@ -1,0 +1,142 @@
+---
+title: "RP2040踩坑记 USB CDC串口无法下载程序(驱动)+不发送数据（DTR）"
+date: 2024-11-28T00:05:00+08:00
+categories: ['归档']
+tags: [RP2040, USB-CDC, 串口, DTR, PlatformIO]
+original: "https://www.cnblogs.com/yafengabc/p/18573354.html"
+draft: false
+---
+
+这几天买个两块INA226自己搞了个简易功率计（C表），如下图：
+
+![](images/760932-20241127225859091-2128743660.jpg)
+
+当时画板子就考虑兼容的板子多一点，支持Mini跟Super Mini类型的板子，一块搞了一个ESP32 C3（左），当时看RP2040-Zero便宜，就手贱又买了片RP2040-zero（右）。
+
+一开始RP2040是刷Micropython用的，测试很成功，功率计能正常读到电压电流。后来嫌micropython慢，所以打算换到Arduino平台重写一下，这一换不打紧，踩了两个大坑。
+
+我用的IDE是VScode+PlatformIO插件，支持巨量的板子，并且C++补全（Arduino）做的非常好，强烈吐血推荐：
+
+![](images/760932-20241127230721468-1183163536.png)
+
+看里边也有RP2040的支持，新建一个，从串口调起，下边代码：
+
+```
+#include <Arduino.h>
+
+void setup()
+{
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+}
+
+void loop()
+{
+  // put your main code here, to run repeatedly:
+  Serial.println("Hello im from RP2040");
+  sleep_ms(1000);
+}
+```
+
+这算是Arduino的Hello world了，没理由跑不起来……
+
+然后……
+
+编译成功，下载失败……
+
+看了看Arduino生成的文件，有uf2，那就好说了，按住BOOT->按住RESET->松开RESET->松开BOOT，U盘出来了。把uf2丢进去，板子重启了，这时候出现一个串口，用串口助手连上去，咦？啥都没有？
+
+这就抽象了……难道……USB串口不是默认的Serial，是Serial1或者Serial2？然后去翻官方文档：
+
+```
+Arduino-Pico 核心使用 USB ACM-CDC 模型实现基于软件的串行 USB 端口，以支持各种各样的操作系统。
+
+Serial是 USB 串行端口，虽然Serial.begin()允许指定波特率，但由于它是基于 USB 的，因此会忽略该速率。（还请注意，此 USBSerial端口负责在上传过程中重置 RP2040，遵循 Arduino 标准 1200bps = 重置为引导加载程序）。
+
+RP2040 提供两个基于硬件的 UART，具有可配置引脚选择。
+
+Serial1是UART0，且Serial2是UART1。
+```
+
+这这这这……没错啊，就是默认的Serial……
+
+然后去Google上一顿搜索，还别说，面向google编程是对的，真有人提这事，我看讨论的还挺激烈，有人说有问题，有人说没问题……罢了罢了，我自己试，不是有人说Putty连上去没问题么，我就用Putty……
+
+咦？果然没问题（内流满面）……，我不死心，又打开串口助手，等等……居然能收到了，这个……
+
+我Reset了板子，又收不到了……我……
+
+在我翻了无数个英文帖子后，终于有人说了，这个串口需要DTR=1才能输出……说实话，我第一次见这样的串口……
+
+我打开C#，插入一个串口控件，看属性：
+
+![](images/760932-20241127232437701-161347461.png)
+
+有个DtrEnable，难道是这个？写几句代码试试：
+
+```
+        void Btn_OpenClick(object sender, EventArgs e)
+        {
+            if (!serialPort1.IsOpen)
+            {
+                label1.Text+="Port not opened try open!\n";
+                serialPort1.Open();
+                if (serialPort1.IsOpen)
+                    label1.Text+="Port is opened!\n";
+                else
+                    label1.Text+="Port is open failure!\n";
+            }
+            else
+            {
+                label1.Text+="Port already opened try to close\n";
+                serialPort1.Close();
+                label1.Text+="Port closed\n";
+            }
+        }
+        
+
+        void Check_dtrClick(object sender, EventArgs e)
+        {
+            
+            serialPort1.DtrEnable=!serialPort1.DtrEnable;
+            if (serialPort1.DtrEnable)
+                label1.Text+="DTR Enabled\n";
+            else
+                label1.Text+="DTR Disabled\n";
+        }
+        
+        void Timer1Tick(object sender, EventArgs e)
+        {
+            if (serialPort1.IsOpen)
+            {
+                if(serialPort1.BytesToRead>0)
+                {
+                    label1.Text+=serialPort1.ReadLine();
+                }
+            }
+        }
+```
+
+运行结果如下：
+
+![](images/760932-20241127232718138-1903648038.png)
+
+果然啊，只有DTRenabled以后才能收到数据……Disabled就停了……
+
+等等，这么明显的问题官方会不知道？然后搜手册，我看到这个：
+
+```csharp
+RP2040 特定的 SerialUSB 方法
+void Serial.ignoreFlowControl（bool 忽略）
+在某些情况下，目标应用程序不会断言 DTR 虚拟线，从而阻止写入操作成功。
+
+因此，SerialUSB::ignoreFlowControl() 方法禁用连接的状态验证，使得程序能够在端口上写入，即使数据可能丢失。
+```
+
+……但是，貌似PlatfromIO带的Arduino-Core貌似比较旧，没这个函数。
+
+总之算是解决了。顺便也通过一个帖子解决了没法下载的问题，原来是我装的驱动不对，在Boot模式，这个板子会出现一个RP2 Boot的设备，当时我给他装的是CDC驱动（Zadig装的），改成WInUSB就行了。
+
+![](images/760932-20241128000313702-781640405.png)
+
+话说回来，这个RP2040下载真是快，可能也跟固件小有关，这个hello world只有100多K，总之，比ESP32下载快多了（虽然不公平）。
