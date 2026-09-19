@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="818" viewBox="0 0 960 818" style="max-width:100%;height:auto" font-family="system-ui,-apple-system,'Segoe UI','Microsoft YaHei','PingFang SC','Noto Sans CJK SC',sans-serif">
+<rect x="0" y="0" width="960" height="818" fill="#ffffff"/>
+<text x="28" y="34" font-size="20" font-weight="700" fill="#1a1a1a">GC 基准（去掉 boehm）：其余 6 个实现对比</text>
+<text x="28" y="56" font-size="13" fill="#666666">boehm 在 strBuild20k 上高达 3,312 ms，留在图里会把其余柱子压成一条线；本图剔除 boehm，单位 ms</text>
+<rect x="28" y="72" width="13" height="13" rx="2" fill="#0076A8"/>
+<text x="46" y="83" font-size="13" fill="#333">Go GC</text>
+<rect x="113" y="72" width="13" height="13" rx="2" fill="#E8A200"/>
+<text x="131" y="83" font-size="13" fill="#333">refc</text>
+<rect x="189" y="72" width="13" height="13" rx="2" fill="#26A65B"/>
+<text x="207" y="83" font-size="13" fill="#333">mark&amp;sweep</text>
+<rect x="315" y="72" width="13" height="13" rx="2" fill="#D64541"/>
+<text x="333" y="83" font-size="13" fill="#333">arc</text>
+<rect x="384" y="72" width="13" height="13" rx="2" fill="#5C6BC0"/>
+<text x="402" y="83" font-size="13" fill="#333">orc</text>
+<rect x="453" y="72" width="13" height="13" rx="2" fill="#8E44AD"/>
+<text x="471" y="83" font-size="13" fill="#333">atomicArc</text>
+<line x1="168.0" y1="96" x2="168.0" y2="762.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="168.0" y="780" font-size="11.5" fill="#888888" text-anchor="middle">0</text>
+<line x1="401.3" y1="96" x2="401.3" y2="762.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="401.3" y="780" font-size="11.5" fill="#888888" text-anchor="middle">200</text>
+<line x1="634.7" y1="96" x2="634.7" y2="762.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="634.7" y="780" font-size="11.5" fill="#888888" text-anchor="middle">400</text>
+<line x1="868.0" y1="96" x2="868.0" y2="762.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="868.0" y="780" font-size="11.5" fill="#888888" text-anchor="middle">600</text>
+<text x="868.0" y="800" font-size="12" fill="#666666" text-anchor="end">耗时 ms（线性轴）— 越小越快</text>
+<rect x="168.0" y="96.0" width="3.5" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="176.5" y="103.0" font-size="11.5" fill="#333">3</text>
+<rect x="168.0" y="109.0" width="83.5" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="256.5" y="116.0" font-size="11.5" fill="#333">72</text>
+<rect x="168.0" y="122.0" width="69.8" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="242.8" y="129.0" font-size="11.5" fill="#333">60</text>
+<rect x="168.0" y="135.0" width="132.1" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="305.1" y="142.0" font-size="11.5" fill="#333">113</text>
+<rect x="168.0" y="148.0" width="144.7" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="317.7" y="155.0" font-size="11.5" fill="#333">124</text>
+<rect x="168.0" y="161.0" width="132.3" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="305.3" y="168.0" font-size="11.5" fill="#333">113</text>
+<text x="154" y="139.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">allocSmall3M</text>
+<rect x="168.0" y="194.0" width="113.8" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="286.8" y="201.0" font-size="11.5" fill="#333">98</text>
+<rect x="168.0" y="207.0" width="39.0" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="212.0" y="214.0" font-size="11.5" fill="#333">33</text>
+<rect x="168.0" y="220.0" width="154.7" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="327.7" y="227.0" font-size="11.5" fill="#333">133</text>
+<rect x="168.0" y="233.0" width="21.6" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="194.6" y="240.0" font-size="11.5" fill="#333">18</text>
+<rect x="168.0" y="246.0" width="21.3" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="194.3" y="253.0" font-size="11.5" fill="#333">18</text>
+<rect x="168.0" y="259.0" width="21.9" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="194.9" y="266.0" font-size="11.5" fill="#333">19</text>
+<text x="154" y="237.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">allocBig1500</text>
+<line x1="168" y1="184.0" x2="868.0" y2="184.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="292.0" width="126.9" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="299.9" y="299.0" font-size="11.5" fill="#333">109</text>
+<rect x="168.0" y="305.0" width="171.6" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="344.6" y="312.0" font-size="11.5" fill="#333">147</text>
+<rect x="168.0" y="318.0" width="99.4" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="272.4" y="325.0" font-size="11.5" fill="#333">85</text>
+<rect x="168.0" y="331.0" width="226.3" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="399.3" y="338.0" font-size="11.5" fill="#333">194</text>
+<rect x="168.0" y="344.0" width="234.4" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="407.4" y="351.0" font-size="11.5" fill="#333">201</text>
+<rect x="168.0" y="357.0" width="229.6" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="402.6" y="364.0" font-size="11.5" fill="#333">197</text>
+<text x="154" y="335.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">churn4M</text>
+<line x1="168" y1="282.0" x2="868.0" y2="282.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="390.0" width="608.3" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="781.3" y="397.0" font-size="11.5" fill="#333">521</text>
+<rect x="168.0" y="403.0" width="700.0" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="873.0" y="410.0" font-size="11.5" fill="#333">709</text>
+<rect x="168.0" y="416.0" width="658.8" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="831.8" y="423.0" font-size="11.5" fill="#333">565</text>
+<rect x="168.0" y="429.0" width="700.0" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="873.0" y="436.0" font-size="11.5" fill="#333">633</text>
+<rect x="168.0" y="442.0" width="700.0" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="873.0" y="449.0" font-size="11.5" fill="#333">688</text>
+<rect x="168.0" y="455.0" width="700.0" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="873.0" y="462.0" font-size="11.5" fill="#333">648</text>
+<text x="154" y="433.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">treeBuild200</text>
+<line x1="168" y1="380.0" x2="868.0" y2="380.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="488.0" width="16.6" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="189.6" y="495.0" font-size="11.5" fill="#333">14</text>
+<rect x="168.0" y="501.0" width="18.2" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="191.2" y="508.0" font-size="11.5" fill="#333">16</text>
+<rect x="168.0" y="514.0" width="14.7" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="187.7" y="521.0" font-size="11.5" fill="#333">13</text>
+<rect x="168.0" y="527.0" width="14.2" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="187.2" y="534.0" font-size="11.5" fill="#333">12</text>
+<rect x="168.0" y="540.0" width="54.1" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="227.1" y="547.0" font-size="11.5" fill="#333">46</text>
+<rect x="168.0" y="553.0" width="19.4" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="192.4" y="560.0" font-size="11.5" fill="#333">17</text>
+<text x="154" y="531.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">cycleRefs300</text>
+<line x1="168" y1="478.0" x2="868.0" y2="478.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="586.0" width="136.9" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="309.9" y="593.0" font-size="11.5" fill="#333">117</text>
+<rect x="168.0" y="599.0" width="46.1" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="219.1" y="606.0" font-size="11.5" fill="#333">40</text>
+<rect x="168.0" y="612.0" width="276.7" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="449.7" y="619.0" font-size="11.5" fill="#333">237</text>
+<rect x="168.0" y="625.0" width="36.9" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="209.9" y="632.0" font-size="11.5" fill="#333">32</text>
+<rect x="168.0" y="638.0" width="37.6" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="210.6" y="645.0" font-size="11.5" fill="#333">32</text>
+<rect x="168.0" y="651.0" width="38.2" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="211.2" y="658.0" font-size="11.5" fill="#333">33</text>
+<text x="154" y="629.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">strBuild20k</text>
+<line x1="168" y1="576.0" x2="868.0" y2="576.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="684.0" width="119.7" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="292.7" y="691.0" font-size="11.5" fill="#333">103</text>
+<rect x="168.0" y="697.0" width="117.5" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="290.5" y="704.0" font-size="11.5" fill="#333">101</text>
+<rect x="168.0" y="710.0" width="115.5" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="288.5" y="717.0" font-size="11.5" fill="#333">99</text>
+<rect x="168.0" y="723.0" width="221.3" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="394.3" y="730.0" font-size="11.5" fill="#333">190</text>
+<rect x="168.0" y="736.0" width="222.4" height="11" rx="2" fill="#5C6BC0" opacity="0.92"/>
+<text x="395.4" y="743.0" font-size="11.5" fill="#333">191</text>
+<rect x="168.0" y="749.0" width="225.2" height="11" rx="2" fill="#8E44AD" opacity="0.92"/>
+<text x="398.2" y="756.0" font-size="11.5" fill="#333">193</text>
+<text x="154" y="727.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">seqGrowth10M</text>
+<line x1="168" y1="674.0" x2="868.0" y2="674.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="168.0" y1="96" x2="168.0" y2="762.0" stroke="#cccccc" stroke-width="1.5"/>
+</svg>

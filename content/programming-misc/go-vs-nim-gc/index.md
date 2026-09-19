@@ -29,6 +29,10 @@ description: "同一份 Nim 代码分别以 refc / mark&sweep / arc / orc / boeh
 
 ![GC 基准对比](charts/gc-bars.svg "GC 基准：Nim 6 种内存管理模式 vs Go GC，7 项负载耗时，单位 ms，越小越快")
 
+boehm 在 `strBuild20k` 上高达 3312 ms，一根柱子就把其余 48 根压成了紧贴轴线的短线。剔除 boehm 再画一张，其余 6 个实现之间的差异才看得清：
+
+![GC 基准对比（去掉 boehm）](charts/gc-bars-noboehm.svg "GC 基准（去掉 boehm）：其余 6 个实现对比，单位 ms，越小越快")
+
 | 基准 | Go | refc | mark&sweep | arc | orc | boehm | atomicArc |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | allocSmall3M（300 万小对象） | **3.0** | 71.6 | 59.8 | 113.2 | 124.0 | 81.5 | 113.4 |

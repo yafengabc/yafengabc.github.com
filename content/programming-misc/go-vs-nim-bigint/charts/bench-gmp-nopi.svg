@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" style="max-width:100%;height:auto" font-family="system-ui,-apple-system,'Segoe UI','Microsoft YaHei','PingFang SC','Noto Sans CJK SC',sans-serif">
+<rect x="0" y="0" width="960" height="420" fill="#ffffff"/>
+<text x="28" y="34" font-size="20" font-weight="700" fill="#1a1a1a">GMP 四端大数对比（去掉百万位 π）</text>
+<text x="28" y="56" font-size="13" fill="#666666">π 一项高达 8,104 ms，留在图里会把其余四项压成短线；本图剔除 π，单位 ms</text>
+<rect x="28" y="72" width="13" height="13" rx="2" fill="#0076A8"/>
+<text x="46" y="83" font-size="13" fill="#333">Go math/big</text>
+<rect x="162" y="72" width="13" height="13" rx="2" fill="#E8A200"/>
+<text x="180" y="83" font-size="13" fill="#333">Go+GMP (cgo)</text>
+<rect x="304" y="72" width="13" height="13" rx="2" fill="#26A65B"/>
+<text x="322" y="83" font-size="13" fill="#333">Nim+GMP (FFI)</text>
+<rect x="455" y="72" width="13" height="13" rx="2" fill="#D64541"/>
+<text x="473" y="83" font-size="13" fill="#333">C+GMP (原生)</text>
+<line x1="168.0" y1="96" x2="168.0" y2="364.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="168.0" y="382" font-size="11.5" fill="#888888" text-anchor="middle">0</text>
+<line x1="401.3" y1="96" x2="401.3" y2="364.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="401.3" y="382" font-size="11.5" fill="#888888" text-anchor="middle">200</text>
+<line x1="634.7" y1="96" x2="634.7" y2="364.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="634.7" y="382" font-size="11.5" fill="#888888" text-anchor="middle">400</text>
+<line x1="868.0" y1="96" x2="868.0" y2="364.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="868.0" y="382" font-size="11.5" fill="#888888" text-anchor="middle">600</text>
+<text x="868.0" y="402" font-size="12" fill="#666666" text-anchor="end">耗时 ms（线性轴）— 越小越快</text>
+<rect x="168.0" y="96.0" width="700.0" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="873.0" y="103.0" font-size="11.5" fill="#333">732</text>
+<rect x="168.0" y="109.0" width="700.0" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="873.0" y="116.0" font-size="11.5" fill="#333">751</text>
+<rect x="168.0" y="122.0" width="700.0" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="873.0" y="129.0" font-size="11.5" fill="#333">683</text>
+<rect x="168.0" y="135.0" width="700.0" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="873.0" y="142.0" font-size="11.5" fill="#333">679</text>
+<text x="154" y="126.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">fact100k</text>
+<rect x="168.0" y="168.0" width="582.0" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="755.0" y="175.0" font-size="11.5" fill="#333">499</text>
+<rect x="168.0" y="181.0" width="601.3" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="774.3" y="188.0" font-size="11.5" fill="#333">515</text>
+<rect x="168.0" y="194.0" width="514.2" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="687.2" y="201.0" font-size="11.5" fill="#333">441</text>
+<rect x="168.0" y="207.0" width="521.7" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="694.7" y="214.0" font-size="11.5" fill="#333">447</text>
+<text x="154" y="198.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">fibBig500k</text>
+<line x1="168" y1="158.0" x2="868.0" y2="158.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="240.0" width="186.6" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="359.6" y="247.0" font-size="11.5" fill="#333">160</text>
+<rect x="168.0" y="253.0" width="348.4" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="521.4" y="260.0" font-size="11.5" fill="#333">299</text>
+<rect x="168.0" y="266.0" width="345.4" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="518.4" y="273.0" font-size="11.5" fill="#333">296</text>
+<rect x="168.0" y="279.0" width="356.7" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="529.7" y="286.0" font-size="11.5" fill="#333">306</text>
+<text x="154" y="270.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">mulBig50M</text>
+<line x1="168" y1="230.0" x2="868.0" y2="230.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="168.0" y="312.0" width="67.0" height="11" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="240.0" y="319.0" font-size="11.5" fill="#333">57</text>
+<rect x="168.0" y="325.0" width="42.5" height="11" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="215.5" y="332.0" font-size="11.5" fill="#333">36</text>
+<rect x="168.0" y="338.0" width="42.1" height="11" rx="2" fill="#26A65B" opacity="0.92"/>
+<text x="215.1" y="345.0" font-size="11.5" fill="#333">36</text>
+<rect x="168.0" y="351.0" width="42.4" height="11" rx="2" fill="#D64541" opacity="0.92"/>
+<text x="215.4" y="358.0" font-size="11.5" fill="#333">36</text>
+<text x="154" y="342.5" font-size="13" font-weight="600" fill="#333" text-anchor="end">modpow8192</text>
+<line x1="168" y1="302.0" x2="868.0" y2="302.0" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="168.0" y1="96" x2="168.0" y2="364.0" stroke="#cccccc" stroke-width="1.5"/>
+</svg>

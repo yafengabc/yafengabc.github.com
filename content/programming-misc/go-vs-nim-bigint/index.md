@@ -66,6 +66,10 @@ description: "Go math/big 四项全胜、Nim 生态库最多落后 210 倍、自
 
 ![GMP 四端大数对比](charts/bench-gmp.svg "GMP 四端大数与百万位 π 对比：Go math/big / Go+cgo / Nim+FFI / C 原生，单位 ms，越小越快")
 
+百万位 π 一项就是 8104 ms，一根柱子把其余四项压成了短线。剔除 π 单独看前四项，四处差异才看得清：
+
+![GMP 四端大数对比（去掉 π）](charts/bench-gmp-nopi.svg "GMP 四端大数对比（去掉百万位 π）：fact100k / fibBig500k / mulBig50M / modpow8192，单位 ms，越小越快")
+
 四条结论，越往后越反直觉：
 
 **1. Nim FFI 开销 ≈ 0~3.5%**
