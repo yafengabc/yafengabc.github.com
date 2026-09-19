@@ -10,6 +10,10 @@ paginate: 10
 # 主题
 theme: 'relearn'
 
+# 永久链接配置：移除posts层级，文章直接放在根目录
+permalinks:
+  posts: /:slug/
+
 # 代码高亮 / 允许 Markdown 内嵌原始 HTML
 markup:
   goldmark:
@@ -57,7 +61,7 @@ params:
 menu:
   shortcuts:
     - name: '文章'
-      url: '/posts/'
+      url: '/'
       weight: 1
     - name: '标签'
       url: '/tags/'
