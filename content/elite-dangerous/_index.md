@@ -9,4 +9,4 @@ categories: ["游戏教程", "Elite Dangerous"]
 
 ---
 
-{{< children-list >}}
+{{% children %}}
