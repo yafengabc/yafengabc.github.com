@@ -9,8 +9,4 @@ categories: ["游戏教程", "Elite Dangerous"]
 
 ---
 
-{{ range sort (where .Site.RegularPages "Section" "posts/elite-dangerous") "Weight" "asc" }}
-{{ if not .IsHome }}
-- [{{ .Title }}]({{ .RelPermalink }})
-{{ end }}
-{{ end }}
+{{< children >}}
