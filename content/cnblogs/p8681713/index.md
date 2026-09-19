@@ -25,7 +25,7 @@ windows用户的话，推荐一个软件：uPyLoader界面如下
 
 测试代码么，先来个循环：
 
-```
+```python
 import time
 import micropython
 def loop1():

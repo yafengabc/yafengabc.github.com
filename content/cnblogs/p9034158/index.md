@@ -13,7 +13,7 @@ draft: false
 
 测试代码有两个，一个是一个大循环，一个是递归计算斐波那契数列，例子比较简单，代码如下：
 
-```
+```python
 try:
     import utime as time
 except:
@@ -48,7 +48,7 @@ The 40th fibric is: 102334155
 fibn time: 48.39746880531311
 ```
 
-```
+```bash
 [yafeng@ArchV ~]$ micropython micromark.py
 bigloop time: 51.92846608161926
 The 40th fibric is: 102334155
@@ -59,7 +59,7 @@ fibn time: 65.70703196525574
 可以看到，效率基本是一样的，循环micropython稍快一点，递归cpython稍快一点，顺便贴一下pypy pypy3的结果：
 ```
 
-```
+```bash
 [yafeng@ArchV ~]$ pypy micromark.py
 ('bigloop time:', 1.7053859233856201)
 ('The 40th fibric is:', 102334155)
@@ -76,7 +76,7 @@ fibn time: 7.820451974868774
 
 @micropython.native
 
-```
+```bash
 [yafeng@ArchV ~]$ micropython micromark.py
 bigloop time: 23.538330078125
 The 40th fibric is: 102334155
@@ -92,7 +92,7 @@ fibn time: 24.39595413208008
 
 其中fib部分由于返回值类型不固定viper失败，所以改成了如下方式：
 
-```
+```python
 @micropython.viper
 def num(x):
     return x

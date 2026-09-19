@@ -21,7 +21,7 @@ draft: false
 
 看里边也有RP2040的支持，新建一个，从串口调起，下边代码：
 
-```
+```cpp
 #include <Arduino.h>
 
 void setup()
@@ -74,7 +74,7 @@ Serial1是UART0，且Serial2是UART1。
 
 有个DtrEnable，难道是这个？写几句代码试试：
 
-```
+```csharp
         void Btn_OpenClick(object sender, EventArgs e)
         {
             if (!serialPort1.IsOpen)

@@ -11,7 +11,7 @@ GPIO库的核心功能，当然就是操作GPIO了，GPIO就是“通用输入/�
 
 先看代码：
 
-```
+```python
 import wiringpi2 as gpio
 from wiringpi2 import GPIO
 
@@ -61,7 +61,7 @@ wiringpi对树莓派2的GPIO定义如下：
 
 下边代码访问的同一个针脚：
 
-```
+```python
 view plaincopy to clipboardprint?
 # GPIO port numbers  
 import wiringpi2 as wiringpi  
@@ -85,7 +85,7 @@ wiringpi.pinMode(37, 0) # sets P1 pin 37 to input
 
 另外，还有另一种操作GPIO的方法：
 
-```
+```python
 from wiringpi2 import GPIO
 gpio=GPIO()  #新建GPIO对象，默认为pin模式，可以加参数切换为别的模式
 gpio.pinMode(25,GPIO.OUTPUT) #把GPIO25设为OUTPUT

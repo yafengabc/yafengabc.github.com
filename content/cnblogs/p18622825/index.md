@@ -11,7 +11,7 @@ draft: false
 
 ![](images/760932-20241222231623866-1184698134.jpg)
 
-```
+```python
 >>> i2c.readfrom_mem(64,1,2).hex()
 '005a'
 >>> int(0x5a)
@@ -30,7 +30,7 @@ draft: false
 
 电阻换成100欧
 
-```
+```python
 >>> i2c.readfrom_mem(64,1,2).hex()
 '01ba'
 >>> int(0x1ba)
@@ -45,7 +45,7 @@ draft: false
 
 继续改变电阻，为200欧
 
-```
+```python
 >>> i2c.readfrom_mem(64,1,2).hex()
 '00dd'
 >>> int(0xdd)
@@ -56,7 +56,7 @@ draft: false
 
 改编为50欧：
 
-```
+```python
 >>> i2c.readfrom_mem(64,1,2).hex()
 '0367'
 >>> int(0x367)
@@ -69,7 +69,7 @@ draft: false
 
 所以程序如下：
 
-```
+```python
 import micropython
 
 i2c = I2C(0, scl=Pin(8), sda=Pin(9), freq=1000000)

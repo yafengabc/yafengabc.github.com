@@ -13,26 +13,26 @@ draft: false
 
 我用的Archlinux，python3，安装命令为：
 
-```
+```bash
 pacman -S python-pip
 ```
 
 如果用python2，安装命令为：
 
-```
+```bash
 pacman -S python2-pip
 ```
 
 Raspbian下则为：
 
-```
+```bash
 apt-get install python3-pip
 apt-get install python-pip
 ```
 
 安装完后，就可以用pip install来安装python库了。为避免繁琐，我下边的命令都以pip命令安装，Archlinux下默认为python3的pip3，如果使用个python2则用pip2来代替pip，debian下pip默认为pip2，若使用python3，则使用pip3来代替。
 
-```
+```bash
 pip install wiringpi2
 ```
 

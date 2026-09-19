@@ -19,7 +19,7 @@ delay() #毫秒延时。
 
 python相对于C，一个很大的问题就是执行速度慢，所以指令执行速度不可忽视，我们可以用micos函数来检测指令执行时间，用来避免实际使用中遇到的坑，请看以下代码：
 
-```
+```python
 import wiringpi2 as gpio
 
 for i in range(5):
@@ -30,7 +30,7 @@ for i in range(5):
 
 连续调用两次micros，然后打印出差值，运行结果如下：
 
-```
+```bash
 [root@RasPi ~/testcode]# python testus.py
 12
 4
@@ -41,7 +41,7 @@ for i in range(5):
 
 我们看到第一次的结果明显比以后的结果要大，多了接近10微秒，一般的程序来说，这无关紧要，要是要求更高，可以把代码改成这个样子:
 
-```
+```python
 import wiringpi2 as gpio
 
 for i in range(5):
@@ -53,7 +53,7 @@ for i in range(5):
 
 运行结果如下：
 
-```
+```bash
 [root@RasPi ~/testcode]# python testus.py
 3
 3
@@ -64,7 +64,7 @@ for i in range(5):
 
 基本一致了再看以下代码：
 
-```
+```python
 import wiringpi2 as gpio
 
 for i in range(5):
@@ -77,7 +77,7 @@ for i in range(5):
 
 延时10us，结果如下：
 
-```
+```bash
 [root@RasPi ~/testcode]# python testus.py
 21
 21
@@ -88,7 +88,7 @@ for i in range(5):
 
 减去两次调用micros()之间的5us左右的延时，实际延时10us会有5us左右的延时。
 
-```
+```python
 import wiringpi2 as gpio
 
 for i in range(5):
@@ -102,7 +102,7 @@ for i in range(5):
 
 结果：
 
-```
+```bash
 [root@RasPi ~/testcode]# python testus.py
 59
 69

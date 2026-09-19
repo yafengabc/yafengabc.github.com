@@ -49,7 +49,7 @@ https://github.com/micropython/micropython-lib
 
 然后新建一个ledctl.py内容如下：
 
-```
+```python
 import time
 from simple import MQTTClient
 
@@ -75,7 +75,7 @@ while True:
 
 然后改写代码控制LED（我的板子上的LED为GPIO2）
 
-```
+```python
 import time
 from simple import MQTTClient
 from machine import Pin
@@ -103,7 +103,7 @@ while True:
 
 再写代码让第二个LED控件显示LED的状态：
 
-```
+```python
 import time
 from simple import MQTTClient
 from machine import Pin

@@ -9,7 +9,7 @@ draft: false
 
 ESP8266 Arduino C编程
 
-```
+```cpp
 void setup(){
   pinMode(13, OUTPUT);
 }
@@ -41,7 +41,7 @@ void loop(){
 
 下边是Micropython的：
 
-```
+```python
 import machine
 
 pin13 = machine.Pin(13, machine.Pin.OUT)

@@ -37,7 +37,7 @@ python也可以有3种安装方式，
 
 因为我系统下已经安装了python3 64bit，并且安装了大量的包，所以装完msys2以后，直接安装mingw-w64-x86\_64-gcc就可以在pyhon3中使用这个编译器了。
 
-```
+```bash
 pacman -S mingw-w64-x86_64-gcc
 ```
 
@@ -45,7 +45,7 @@ pacman -S mingw-w64-x86_64-gcc
 
 根据传送门的教程：在python安装目录`C:\Program Files\Python\Lib\distutils`中新建`distutils.cfg`文件，内容如下：
 
-```
+```ini
 [build]
 compiler=mingw32
 
@@ -61,7 +61,7 @@ compiler=mingw32
 
 进入python安装目录`C:\Program Files\Python\Lib\distutils`中，修改`cygwinccompiler.py`文件，添加以下内容到`get_msvcr()`函数（用于解决`ValueError: Unknown MS Compiler version 1900错误`）。
 
-```
+```python
 elif msc_ver == '1900':
     # Visual Studio 2015 / Visual C++ 14.0
     # "msvcr140.dll no longer exists"
@@ -105,7 +105,7 @@ dlltool -D vcruntime140.dll -d vcruntime140.def -l libvcruntime140.a
 
 另外，gendef需要安装mingw-w64-x86\_64-tools-git
 
-```
+```bash
 pacman -S mingw-w64-x86_64-tools-git
 ```
 
@@ -113,7 +113,7 @@ pacman -S mingw-w64-x86_64-tools-git
 
 另外，在我这编译cython时会出现一些编译错误，经过网上搜索，加了-DMS\_WIN64选项，问题全部解决
 
-```
+```python
         self.set_executables(compiler='gcc -O -Wall -DMS_WIN64',
                              compiler_so='gcc -mdll -O -Wall -DMS_WIN64',
                              compiler_cxx='g++ -O -Wall',
@@ -130,7 +130,7 @@ pacman -S mingw-w64-x86_64-tools-git
 
 以上内容在
 
-```
+```bash
 gcc -v
 Using built-in specs.
 COLLECT_GCC=E:\linux\mingw64\bin\gcc.exe
@@ -145,7 +145,7 @@ python 3.7.3/3.7.4环境下通过
 
 另外，cython还支持把python文件编译成一个独立的exe文件， 也需要加两个特殊的选项：
 
-```
+```bash
 cython --embed fibonacci.py
 gcc fibonacci.c "-ID:\\Program Files\\Python37\\include\\" "-LD:\\Program Files\\Python37\\libs" -lpython37 -municode -DMS_WIN64 -o fib.exe
 ```

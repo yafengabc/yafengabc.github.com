@@ -11,7 +11,7 @@ draft: false
 
 测试代码如下：
 
-```
+```csharp
             byte result;
             
             while(true)
@@ -35,7 +35,7 @@ draft: false
 
 现在接收速率是47KByte/s，3167帧/s，传输速率是427743bps，做到了实时接收，如果加一句显示的代码：
 
-```
+```csharp
                 while(serial.IsOpen && serial.BytesToRead>=0)
                 {
                     byte_to_read=serial.BytesToRead;
@@ -57,7 +57,7 @@ draft: false
 
 改成如下代码：
 
-```
+```csharp
             byte[] toview = new byte[256];
             while(true)
             {

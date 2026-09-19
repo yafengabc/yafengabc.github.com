@@ -7,7 +7,7 @@ original: "https://www.cnblogs.com/yafengabc/p/5096184.html"
 draft: false
 ---
 
-```
+```python
 import wiringpi2 as gpio
 owpin=8     #第8脚为1-wire脚
 def getval(owpin):

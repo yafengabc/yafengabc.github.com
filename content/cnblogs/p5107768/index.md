@@ -19,7 +19,7 @@ wiringpi2显然也把i2c驱动带给了Python，手头上正巧有一个DS3231�
 
 然后重启，重启完成后，运行
 
-```
+```bash
 modprobe i2c-dev
 ```
 
@@ -27,7 +27,7 @@ modprobe i2c-dev
 
 安装i2c-tools，Archlinux下为：
 
-```
+```bash
 pacman –S i2c-tools
 ```
 
@@ -77,7 +77,7 @@ wiringPiI2CWriteReg8()
 
 可以看到，我们读出来了秒，我们把程序写进文件，一秒钟读一次：
 
-```
+```python
 import wiringpi2 as wpi
 
 ds=wpi.wiringPiI2CSetup(0x68)
@@ -93,7 +93,7 @@ while True:
 
 原来，这个RTC时钟读出来的是BCD码，比如9以后就是16，16的二进制为0001（1） 0000（0），4位一组，就是10，我编写了个小函数，把BCD码转换成10进制输出：
 
-```
+```python
 import wiringpi2 as wpi
 
 def b2s(bcd):

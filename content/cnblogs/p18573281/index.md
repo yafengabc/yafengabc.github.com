@@ -83,7 +83,7 @@ INA226买的时候，注意那个采样电阻，上边两个板子一个是R100�
 
 刷完后，先测试I2C通不通：
 
-```
+```python
 >>> from machine import Pin, I2C
 >>> i2c = I2C(0, scl=Pin(8), sda=Pin(9), freq=1000000)
 >>> i2c.scan()
@@ -92,7 +92,7 @@ INA226买的时候，注意那个采样电阻，上边两个板子一个是R100�
 
 很顺利，直接搜到一个地址是64的设备。然后读一下寄存器：
 
-```
+```python
 >>> i2c.readfrom_mem(64,0x0,2).hex()
 '4007'
 >>> i2c.readfrom_mem(64,0x1,2).hex()
@@ -103,7 +103,7 @@ INA226买的时候，注意那个采样电阻，上边两个板子一个是R100�
 
 都正常，很好。插上一个5V电源，从INA226的datasheet了解到，电压是1.25mv为单位，代码如下：
 
-```
+```python
 >>> i2c.readfrom_mem(64,0x2,2).hex()
 '0fde'
 >>> int(0xfde)*1.25/1000

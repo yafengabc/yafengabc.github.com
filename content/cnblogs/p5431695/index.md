@@ -35,7 +35,7 @@ C10K问题的解决，涌现出一大批新框架，或者新语言，那么问�
 
 先来宇宙最快的GO的测试：
 
-```
+```go
 package main
 
 import (
@@ -74,7 +74,7 @@ Shortest transaction:           0.00
 
 再看NodeJS的例子：
 
-```
+```javascript
 var http = require("http");
 http.createServer(function(request, response) {
     response.writeHead(200, {"Content-Type": "text/plain"});
@@ -108,7 +108,7 @@ Shortest transaction:           0.00
 
 gevent代码如下：
 
-```
+```python
 #!/usr/bin/python
 from gevent import pywsgi
 
@@ -125,7 +125,7 @@ server.serve_forever()
 
 tornado的代码如下：
 
-```
+```python
 from tornado import httpserver
 from tornado import ioloop
 def handle_request(request):
@@ -180,7 +180,7 @@ python2：9.05秒，python3：8.6秒，pypy：5.95秒
 
 go+martini
 
-```
+```go
 package main
 
 import "github.com/codegangsta/martini"
@@ -215,7 +215,7 @@ Shortest transaction:           0.00
 
 nodejs+express：
 
-```
+```javascript
 var express = require('express')
 var app = express()
  
@@ -246,7 +246,7 @@ Shortest transaction:           0.01
 
 python gevent+bottle：
 
-```
+```python
 from gevent import monkey
 monkey.patch_all()
 from bottle import run,get
@@ -263,7 +263,7 @@ run(server='gevent')
 
 python tornado：
 
-```
+```python
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web

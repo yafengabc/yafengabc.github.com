@@ -11,19 +11,19 @@ draft: false
 
 其实各种刷ESP8266/ESP32的软件都可以搞（比如刷NodeMCU的软件），不过我这还是出问题了：刷完后无限输出乱码。然后参照Micropython官方的教程，用esptool先清除所有的FLASH，然后重新刷入，正常运行：
 
-```
+```bash
 pip install esptool 安装esptool（当然，电脑上要先装好python）
 ```
 
-```
+```bash
 esptool.py --port /dev/ttyUSB0 erase_flash 擦除所有的flash，如果是windows系统，则改为具体的COM口，比如我的电脑是COM4：
 ```
 
-```
+```bash
 esptool.py --port COM4 erase_flash刷入固件这个命令比较长，可以不熟悉命令行的可以用其他GUI软件代替：
 ```
 
-```
+```bash
 esptool.py --port COM4 --baud 460800 write_flash --flash_size=detect 0 esp8266.bin（这个改为具体固件文件名）
 ```
 

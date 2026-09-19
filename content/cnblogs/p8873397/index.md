@@ -13,7 +13,7 @@ Raspbian上的Rpi.GPIO库是可以在普通用户下控制树莓派的GPIO的，
 
 这个脚本是这样的：
 
-```
+```python
 import grp
 import subprocess
 
@@ -44,13 +44,13 @@ if __name__ == '__main__':
 
 首先，建一个gpio组：
 
-```
+```bash
 groupadd -f -r gpio
 ```
 
 然后把当前用户（我的用户是yafeng）加入到gpio组
 
-```
+```bash
  gpasswd -a yafeng gpio
 ```
 

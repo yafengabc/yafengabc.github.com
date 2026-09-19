@@ -17,7 +17,7 @@ draft: false
 
 先贴最终的源代码：
 
-```
+```python
 #!/usr/bin/env python3
 from bottle import get,post,run,request,template
 
@@ -55,7 +55,7 @@ run(host="0.0.0.0")
 
 这个文件的源代码如下：
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,7 +106,7 @@ run(host="0.0.0.0")
 
 这个内容有点多，不过很简单，就是引用了jquery bootstrap这两个前端框架，加了5个按钮(<body></body>之间的代码)。当然我用了bootstrap内置的上下左右停止这几个图标，这5个按钮的id分辨定义成up，down，left，right，stop，然后写了如下的关键代码：
 
-```
+```javascript
 $(function(){
             $("button").click(function(){
                 $.post("/cmd",this.id,function(data,status){});

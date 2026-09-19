@@ -83,7 +83,7 @@ Python递归算法计算斐波那契数列的40位：3.9W
 
 计算40位斐波那契数时间为：
 
-```
+```bash
 [yafeng@archlinux fibn]$ python fib.py
 102334155
 151.38735151290894
@@ -99,7 +99,7 @@ python递归计算斐波那契数列，功耗3.4W
 
 多线程计算圆周率：4.5-4.7W，不稳定，也有时候会蹦到4.0
 
-```
+```bash
 [alarm@alarmpi pimark]$ python test.py
 ::Testing gcc installed
 ::>GCC installed
@@ -122,7 +122,7 @@ python递归计算斐波那契数列，功耗3.4W
 
 python递归速度有点让我不相信自己的眼睛了：
 
-```
+```bash
 [alarm@alarmpi fibn]$ python fib.py
 102334155
 554.3715827465057
