@@ -19,9 +19,6 @@ markup:
   goldmark:
     renderer:
       unsafe: true
-    parser:
-      attribute:
-        block: true
   highlight:
     noClasses: false
     lineNos: false
