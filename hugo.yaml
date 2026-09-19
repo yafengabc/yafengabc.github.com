@@ -1,107 +1,67 @@
-# 把 USERNAME 换成你的 GitHub 用户名（用户/组织页发布在 https://USERNAME.github.io/）
+# yafeng 的博客 —— 使用 Hugo Relearn 主题
 baseURL: 'https://yafengabc.github.io/'
 title: 'yafeng 的博客'
 # 语言设为简体中文
 locale: 'zh-cn'
 # 用 git 提交时间作为文章更新时间
 enableGitInfo: true
-
-# 每页文章数
-paginate: 7
+paginate: 10
 
 # 主题
-theme: 'hugo-theme-stack'
+theme: 'relearn'
 
-# 让首页额外输出 JSON，供站内搜索使用
-outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON
-
-# 代码高亮等
+# 代码高亮 / 允许 Markdown 内嵌原始 HTML
 markup:
   goldmark:
     renderer:
-      unsafe: true   # 允许在 Markdown 里写原始 HTML
+      unsafe: true
   highlight:
     noClasses: false
     lineNos: false
 
-# Stack 主题参数
+# Relearn 主题参数
 params:
-  # 站点描述（用于 SEO / 分享卡片）
-  description: 'yafeng 的技术博客，记录 Elite Dangerous 挂机监控、Go 后端开发、以及一些工具链与部署相关的踩坑笔记。'
-  keywords: ['博客', 'Go', 'Elite Dangerous', '技术笔记']
-  author: 'yafeng'
-  # 默认主题：auto 跟随系统，也可填 light / dark
-  defaultTheme: 'auto'
-  colorScheme:
-    toggle: true
-    default: 'auto'
-  # 侧边栏配置
-  sidebar:
-    emoji: '✦'
-    subtitle: '记录技术与生活的点滴'
-    avatar: ''
-  # 文章配置
-  article:
-    headingAnchor: false
-    math: false
-    toc: true
-    readingTime: true
-    list:
-      showTags: true
-    license:
-      enabled: true
-      default: 'Licensed under CC BY-NC-SA 4.0'
-  # 小部件配置
-  widgets:
-    homepage:
-      - { type: 'search' }
-      - { type: 'archives', params: { limit: 5 } }
-      - { type: 'categories', params: { limit: 10 } }
-      - { type: 'tag-cloud', params: { limit: 10 } }
-    page:
-      - { type: 'toc' }
-  # 社交图标
+  author:
+    name: 'yafeng'
+  # 侧边栏 / 顶栏标题
+  linkTitle: 'yafeng 的博客'
+  # 颜色变体（含自动深/浅色切换）
+  themeVariant:
+    - { identifier: 'relearn-auto', name: '自动', auto: ['relearn-light', 'relearn-dark'] }
+    - { identifier: 'relearn-light', name: '浅色' }
+    - { identifier: 'relearn-dark', name: '深色' }
+  # 搜索（Relearn 内置 lunr 搜索）
+  search:
+    disable: ''
+  # 侧边栏菜单排序与折叠
+  ordersectionsby: 'weight'
+  collapsibleMenu: true
+  showVisitedLinks: false
+  disableLandingPageButton: true
+  # 侧边栏快捷方式区不显示英文标题
+  disableShortcutsTitle: true
+  # 内容显示
+  highlightWrap: true
+  dateFormat: ':date_long'
+  titleSeparator: '::'
+  # 社交链接（显示在页脚）
   social:
-    - identifier: 'github'
-      name: 'GitHub'
+    - name: 'GitHub'
       url: 'https://github.com/yafengabc'
-      params:
-        icon: 'brand-github'
-    - identifier: 'rss'
-      name: 'RSS'
-      url: 'index.xml'
-      params:
-        icon: 'rss'
+      icon: 'github'
+  # 页脚
+  footer:
+    content: '© 2026 yafeng · 保留所有权利'
 
-# 顶部菜单
+# 侧边栏快捷方式（指向博客常用页面）
 menu:
-  main:
-    - identifier: 'posts'
-      name: '文章'
+  shortcuts:
+    - name: '文章'
       url: '/posts/'
       weight: 1
-    - identifier: 'archives'
-      name: '归档'
-      url: '/archives/'
-      weight: 2
-    - identifier: 'tags'
-      name: '标签'
+    - name: '标签'
       url: '/tags/'
+      weight: 2
+    - name: '归档'
+      url: '/archives/'
       weight: 3
-    - identifier: 'search'
-      name: '搜索'
-      url: '/search/'
-      weight: 4
-
-# 图片处理配置
-imageProcessing:
-  autoOrient: true
-  content:
-    widths: [800, 1600, 2400]
-    enabled: true
-  thumbnail:
-    enabled: true
