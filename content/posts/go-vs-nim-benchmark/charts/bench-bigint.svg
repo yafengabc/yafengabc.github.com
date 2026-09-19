@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" font-family="'Segoe UI','Microsoft YaHei','PingFang SC',sans-serif">
+<text x="90" y="30" font-size="21" font-weight="700" fill="#1a1a1a">大数 4 项：Go math/big vs Nim bigints vs Nim 自研库（ms，对数轴）</text>
+<text x="90" y="52" font-size="13" fill="#666">校验和一致，7 次采样取中位数；Go modpow2048 采样常为 0ms（&lt;0.5）</text>
+<rect x="90" y="60" width="14" height="14" rx="2" fill="#0076A8"/>
+<text x="109" y="72" font-size="13" fill="#333">Go math/big</text>
+<rect x="260.29999999999995" y="60" width="14" height="14" rx="2" fill="#E8A200"/>
+<text x="279.29999999999995" y="72" font-size="13" fill="#333">Nim bigints</text>
+<rect x="430.5999999999999" y="60" width="14" height="14" rx="2" fill="#7B61C2"/>
+<text x="449.5999999999999" y="72" font-size="13" fill="#333">Nim 自研库</text>
+<line x1="90" y1="474.0" x2="930" y2="474.0" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="478.0" font-size="12" fill="#888" text-anchor="end">0.1</text>
+<line x1="90" y1="374.5" x2="930" y2="374.5" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="378.5" font-size="12" fill="#888" text-anchor="end">1</text>
+<line x1="90" y1="275.0" x2="930" y2="275.0" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="279.0" font-size="12" fill="#888" text-anchor="end">10.0</text>
+<line x1="90" y1="175.5" x2="930" y2="175.5" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="179.5" font-size="12" fill="#888" text-anchor="end">100</text>
+<line x1="90" y1="76.0" x2="930" y2="76.0" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="80.0" font-size="12" fill="#888" text-anchor="end">1,000 ms</text>
+<rect x="90" y="76" width="840" height="398" fill="none" stroke="#ddd" stroke-width="1"/>
+<text x="195.0" y="494" font-size="13" fill="#333" text-anchor="middle">fact10k
+(10000!)</text>
+<rect x="119.4" y="284.7" width="43.3" height="189.3" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="141.1" y="278.7" font-size="11.5" fill="#333" text-anchor="middle">7.997</text>
+<rect x="169.8" y="259.3" width="43.3" height="214.7" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="191.5" y="253.3" font-size="11.5" fill="#333" text-anchor="middle">14.4</text>
+<rect x="220.2" y="200.7" width="43.3" height="273.3" rx="2" fill="#7B61C2" opacity="0.92"/>
+<text x="241.9" y="194.7" font-size="11.5" fill="#333" text-anchor="middle">55.8</text>
+<text x="405.0" y="494" font-size="13" fill="#333" text-anchor="middle">fibBig100k</text>
+<rect x="329.4" y="229.7" width="43.3" height="244.3" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="351.1" y="223.7" font-size="11.5" fill="#333" text-anchor="middle">28.5</text>
+<rect x="379.8" y="174.6" width="43.3" height="299.4" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="401.5" y="168.6" font-size="11.5" fill="#333" text-anchor="middle">102</text>
+<rect x="430.2" y="173.3" width="43.3" height="300.7" rx="2" fill="#7B61C2" opacity="0.92"/>
+<text x="451.9" y="167.3" font-size="11.5" fill="#333" text-anchor="middle">105</text>
+<text x="615.0" y="494" font-size="13" fill="#333" text-anchor="middle">mulBig500k</text>
+<rect x="539.4" y="374.5" width="43.3" height="99.5" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="561.1" y="368.5" font-size="11.5" fill="#333" text-anchor="middle">0.999</text>
+<rect x="589.8" y="143.4" width="43.3" height="330.6" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="611.5" y="137.4" font-size="11.5" fill="#333" text-anchor="middle">210</text>
+<rect x="640.2" y="218.0" width="43.3" height="256.0" rx="2" fill="#7B61C2" opacity="0.92"/>
+<text x="661.9" y="212.0" font-size="11.5" fill="#333" text-anchor="middle">37.4</text>
+<text x="825.0" y="494" font-size="13" fill="#333" text-anchor="middle">modpow2048</text>
+<rect x="749.4" y="426.5" width="43.3" height="47.5" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="771.1" y="420.5" font-size="11.5" fill="#333" text-anchor="middle">&lt;0.5</text>
+<rect x="799.8" y="236.1" width="43.3" height="237.9" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="821.5" y="230.1" font-size="11.5" fill="#333" text-anchor="middle">24.6</text>
+<rect x="850.2" y="403.1" width="43.3" height="70.9" rx="2" fill="#7B61C2" opacity="0.92"/>
+<text x="871.9" y="397.1" font-size="11.5" fill="#333" text-anchor="middle">0.516</text>
+</svg>
