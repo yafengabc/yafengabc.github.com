@@ -9,7 +9,7 @@
   --MENU-HOME-LINK-color: rgba( 45, 54, 63, 1 ); /* home button color if configured */
   --MENU-HOME-LINK-HOVER-color: rgba( 0, 0, 0, 1 ); /* hovered home button color if configured */
   --MENU-HOME-TOP-SEPARATOR-color: var( --MENU-HEADER-BORDER-color ); /* separator color between menu search box and home menu */
-  --MENU-SECTIONS-BG-color: rgba( 255, 255, 255, 1 ); /* background of the menu (white sidebar) */
+  --MENU-SECTIONS-BG-color: rgba( 245, 247, 250, 1 ); /* background of the menu (light gray sidebar) */
   --MENU-SECTIONS-ACTIVE-BG-color: rgba( 235, 244, 252, 1 ); /* background color of the active menu section (light blue) */
   --MENU-SECTIONS-LINK-color: rgba( 50, 50, 50, 1 ); /* link color of menu topics (dark on white) */
   --MENU-SECTIONS-LINK-HOVER-color: rgba( 28, 144, 243, 1 ); /* hovered link color of menu topics (blue) */
@@ -33,4 +33,9 @@
   --BOX-CAPTION-color: rgba( 255, 255, 255, 1 ); /* text color of colored box titles */
   --BOX-BG-color: rgba( 255, 255, 255, .833 ); /* background color of colored boxes */
   --BOX-TEXT-color: rgba( 16, 16, 16, 1 ); /* text color of colored box content */
+}
+
+/* separate the sidebar from the content with a subtle right border */
+#R-sidebar {
+  border-right: 1px solid rgba( 222, 226, 232, 1 );
 }
