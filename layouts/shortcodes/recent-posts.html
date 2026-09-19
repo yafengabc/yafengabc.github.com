@@ -16,7 +16,7 @@
   </style>
   <h2>最近文章</h2>
   <ul>
-    {{ range first 10 (sort (sort (where .Site.RegularPages "Section" "posts") "Weight" "asc") "Date" "desc") }}
+    {{ range first 10 (sort (where .Site.RegularPages "Section" "!=" "elite-dangerous") "Date" "desc") }}
     <li>
       <a href="{{ .RelPermalink }}">{{ .Title }}</a>
       <span class="recent-date">{{ .Date.Format "2006-01-02" }}</span>
@@ -24,5 +24,5 @@
     </li>
     {{ end }}
   </ul>
-  <p><a href="/posts/">查看全部文章 →</a></p>
+  <p><a href="/">查看全部文章 →</a></p>
 </section>
