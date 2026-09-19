@@ -1,0 +1,28 @@
+{{/* 首页「最近文章 + 摘要」列表。在 content/_index.md 中用 {{< recent-posts >}} 调用。 */}}
+<section class="recent-posts">
+  <style>
+    .recent-posts { margin-top: 2rem; }
+    .recent-posts > h2 { margin: 1.5rem 0 .75rem; }
+    .recent-posts ul { list-style: none; padding: 0; margin: 0; }
+    .recent-posts li {
+      margin: 0 0 1.25rem;
+      padding: 0 0 1.25rem;
+      border-bottom: 1px solid var(--MAIN-BORDER-color, rgba(128,128,128,.2));
+    }
+    .recent-posts li:last-child { border-bottom: none; padding-bottom: 0; }
+    .recent-posts li > a { font-size: 1.1rem; font-weight: 600; }
+    .recent-posts .recent-date { display: block; font-size: .8rem; opacity: .6; margin: .25rem 0; }
+    .recent-posts li p { margin: .4rem 0 0; line-height: 1.6; }
+  </style>
+  <h2>最近文章</h2>
+  <ul>
+    {{ range first 10 (sort (sort (where .Site.RegularPages "Section" "posts") "Weight" "asc") "Date" "desc") }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <span class="recent-date">{{ .Date.Format "2006-01-02" }}</span>
+      <p>{{ .Summary | plainify | truncate 120 }}</p>
+    </li>
+    {{ end }}
+  </ul>
+  <p><a href="/posts/">查看全部文章 →</a></p>
+</section>

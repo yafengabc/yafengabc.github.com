@@ -16,3 +16,5 @@ description: yafeng 的技术博客，记录 Elite Dangerous 挂机监控、Go �
 - [📚 文章列表](/posts/)
 - [🏷️ 标签](/tags/)
 - [🗂️ 归档](/archives/)
+
+{{< recent-posts >}}
