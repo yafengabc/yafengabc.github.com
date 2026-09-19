@@ -1,4 +1,4 @@
-{{- $colors := slice "#85B7EB" "#9FE1CB" "#FAC775" "#F0997B" "#7F77DD" "#D4537E" "#5DCAA5" }}
+{{- $colors := slice "#2A9D8F" "#E9C46A" "#F4A261" "#E76F51" "#264653" "#2A7D8F" "#8D99AE" }}
 {{- $index := mod (add (.Date.Unix) (.WordCount)) (len $colors) }}
 {{- $vibrant := index $colors $index }}
 {{- $darkMuted := replace $vibrant "#" "#33" }}
