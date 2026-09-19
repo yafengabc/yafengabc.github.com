@@ -5,7 +5,9 @@ title: 'yafeng 的博客'
 locale: 'zh-cn'
 # 用 git 提交时间作为文章更新时间
 enableGitInfo: true
-paginate: 10
+# 每页文章数（Hugo ≥0.128 的配置项）
+pagination:
+  pagerSize: 10
 
 # 主题
 theme: 'relearn'
