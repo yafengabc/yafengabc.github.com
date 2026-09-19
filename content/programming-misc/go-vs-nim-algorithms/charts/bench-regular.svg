@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" font-family="'Segoe UI','Microsoft YaHei','PingFang SC',sans-serif">
+<text x="90" y="30" font-size="21" font-weight="700" fill="#1a1a1a">常规 6 项算法：Go vs Nim（线性轴，中位数 ms，越小越快）</text>
+<text x="90" y="52" font-size="13" fill="#666">同一算法逻辑两端一致，7 次采样取中位数，单线程</text>
+<rect x="90" y="60" width="14" height="14" rx="2" fill="#0076A8"/><text x="109" y="72" font-size="13" fill="#333">Go</text><rect x="157" y="60" width="14" height="14" rx="2" fill="#E8A200"/><text x="176" y="72" font-size="13" fill="#333">Nim</text>
+<line x1="90" y1="474.0" x2="930" y2="474.0" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="478.0" font-size="12" fill="#888" text-anchor="end">0</text>
+<line x1="90" y1="397.2" x2="930" y2="397.2" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="401.2" font-size="12" fill="#888" text-anchor="end">100 ms</text>
+<line x1="90" y1="320.4" x2="930" y2="320.4" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="324.4" font-size="12" fill="#888" text-anchor="end">200 ms</text>
+<line x1="90" y1="243.6" x2="930" y2="243.6" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="247.6" font-size="12" fill="#888" text-anchor="end">300 ms</text>
+<line x1="90" y1="166.8" x2="930" y2="166.8" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="170.8" font-size="12" fill="#888" text-anchor="end">400 ms</text>
+<line x1="90" y1="90.0" x2="930" y2="90.0" stroke="#e5e5e5" stroke-width="1"/>
+<text x="80" y="94.0" font-size="12" fill="#888" text-anchor="end">500 ms</text>
+<rect x="90" y="90" width="840" height="384" fill="none" stroke="#ddd" stroke-width="1"/>
+<text x="160" y="494" font-size="13" fill="#333" text-anchor="middle">fib32</text>
+<rect x="135.5" y="467.0" width="49.0" height="7.0" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="160.0" y="463.0" font-size="11" fill="#333" text-anchor="middle">9.2</text>
+<rect x="135.5" y="440.0" width="49.0" height="34.0" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="160.0" y="436.0" font-size="11" fill="#333" text-anchor="middle">44.3</text>
+<text x="300" y="494" font-size="13" fill="#333" text-anchor="middle">sieve50M</text>
+<rect x="275.5" y="129.9" width="49.0" height="344.1" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="300.0" y="125.9" font-size="11" fill="#333" text-anchor="middle">448</text>
+<rect x="275.5" y="176.8" width="49.0" height="297.2" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="300.0" y="172.8" font-size="11" fill="#333" text-anchor="middle">387</text>
+<text x="440" y="494" font-size="13" fill="#333" text-anchor="middle">quicksort2M</text>
+<rect x="415.5" y="355.6" width="49.0" height="118.4" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="440.0" y="351.6" font-size="11" fill="#333" text-anchor="middle">154</text>
+<rect x="415.5" y="346.6" width="49.0" height="127.4" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="440.0" y="342.6" font-size="11" fill="#333" text-anchor="middle">166</text>
+<text x="580" y="494" font-size="13" fill="#333" text-anchor="middle">matmul512</text>
+<rect x="555.5" y="379.9" width="49.0" height="94.1" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="580.0" y="375.9" font-size="11" fill="#333" text-anchor="middle">123</text>
+<rect x="555.5" y="399.0" width="49.0" height="75.0" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="580.0" y="395.0" font-size="11" fill="#333" text-anchor="middle">97.7</text>
+<text x="720" y="494" font-size="13" fill="#333" text-anchor="middle">fnv64MB</text>
+<rect x="695.5" y="402.6" width="49.0" height="71.4" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="720.0" y="398.6" font-size="11" fill="#333" text-anchor="middle">93.0</text>
+<rect x="695.5" y="429.6" width="49.0" height="44.4" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="720.0" y="425.6" font-size="11" fill="#333" text-anchor="middle">57.9</text>
+<text x="860" y="494" font-size="13" fill="#333" text-anchor="middle">alloc2M</text>
+<rect x="835.5" y="456.6" width="49.0" height="17.4" rx="2" fill="#0076A8" opacity="0.92"/>
+<text x="860.0" y="452.6" font-size="11" fill="#333" text-anchor="middle">22.6</text>
+<rect x="835.5" y="422.6" width="49.0" height="51.4" rx="2" fill="#E8A200" opacity="0.92"/>
+<text x="860.0" y="418.6" font-size="11" fill="#333" text-anchor="middle">66.9</text>
+</svg>
