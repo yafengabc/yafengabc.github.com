@@ -1,0 +1,47 @@
+{{/* 归档页：按发布年份分组列出全部文章（年份倒序，同年按日期倒序）。
+   在 content/archives/_index.md 中用 {{< archives-list >}} 调用。 */}}
+<section class="archives-list">
+  <style>
+    .archives-list { margin-top: 1.5rem; }
+    .archives-list h2.archive-year {
+      font-size: 1.25rem;
+      margin: 2rem 0 .75rem;
+      padding-bottom: .35rem;
+      border-bottom: 1px solid var(--MAIN-BORDER-color, rgba(128,128,128,.2));
+    }
+    .archives-list h2.archive-year:first-child { margin-top: 0; }
+    .archives-list ul { list-style: none; padding: 0; margin: 0; }
+    .archives-list li {
+      margin: 0 0 .55rem;
+      display: flex;
+      align-items: baseline;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .archives-list li > a { font-weight: 500; }
+    .archives-list .archive-date {
+      font-size: .8rem;
+      opacity: .6;
+      white-space: nowrap;
+    }
+  </style>
+  {{- /* 只收录有真实日期的文章：Relearn 内置的搜索页等无日期页面（年份 0001）会被排除 */ -}}
+  {{- $pages := slice -}}
+  {{- range where .Site.RegularPages "Kind" "page" -}}
+    {{- if gt .Date.Year 1 -}}
+      {{- $pages = $pages | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $groups := sort ($pages.GroupByDate "2006") ".Key" "desc" -}}
+  {{- range $groups }}
+  <h2 class="archive-year">{{ .Key }} 年（{{ len .Pages }} 篇）</h2>
+  <ul>
+    {{- range sort .Pages "Date" "desc" }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <span class="archive-date">{{ .Date.Format "2006-01-02" }}</span>
+    </li>
+    {{- end }}
+  </ul>
+  {{- end }}
+</section>
