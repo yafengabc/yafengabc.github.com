@@ -10,9 +10,9 @@ enableGitInfo: true
 paginate: 7
 
 # 主题
-theme: 'PaperMod'
+theme: 'hugo-theme-stack'
 
-# 让首页额外输出 JSON，供 PaperMod 站内搜索使用
+# 让首页额外输出 JSON，供站内搜索使用
 outputs:
   home:
     - HTML
@@ -28,35 +28,56 @@ markup:
     noClasses: false
     lineNos: false
 
-# PaperMod 参数
+# Stack 主题参数
 params:
   # 站点描述（用于 SEO / 分享卡片）
-  description: 'yafeng 的技术博客，记录 Elite Dangerous、Go、工具链与踩坑笔记。'
+  description: 'yafeng 的技术博客，记录 Elite Dangerous 挂机监控、Go 后端开发、以及一些工具链与部署相关的踩坑笔记。'
   keywords: ['博客', 'Go', 'Elite Dangerous', '技术笔记']
   author: 'yafeng'
   # 默认主题：auto 跟随系统，也可填 light / dark
   defaultTheme: 'auto'
-  ShowReadingTime: true
-  ShowShareButtons: true
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
-  ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
-  # 主页简介（不开启 profileMode 时显示）
-  homeInfoParams:
-    Title: '欢迎来到 yafeng 的博客'
-    Content: >
-      这里主要记录 Elite Dangerous 挂机监控、Go 后端开发、以及一些工具链与部署相关的踩坑笔记。
-      左侧菜单可以浏览文章归档，右上角可切换深色 / 浅色主题。
-  # 社交图标（按需增删，icon 名称见 PaperMod 文档）
-  socialIcons:
-    - name: 'github'
+  colorScheme:
+    toggle: true
+    default: 'auto'
+  # 侧边栏配置
+  sidebar:
+    emoji: '✦'
+    subtitle: '记录技术与生活的点滴'
+    avatar: ''
+  # 文章配置
+  article:
+    headingAnchor: false
+    math: false
+    toc: true
+    readingTime: true
+    list:
+      showTags: true
+    license:
+      enabled: true
+      default: 'Licensed under CC BY-NC-SA 4.0'
+  # 小部件配置
+  widgets:
+    homepage:
+      - { type: 'search' }
+      - { type: 'archives', params: { limit: 5 } }
+      - { type: 'categories', params: { limit: 10 } }
+      - { type: 'tag-cloud', params: { limit: 10 } }
+    page:
+      - { type: 'toc' }
+  # 社交图标
+  social:
+    - identifier: 'github'
+      name: 'GitHub'
       url: 'https://github.com/yafengabc'
-    - name: 'rss'
+      params:
+        icon: 'brand-github'
+    - identifier: 'rss'
+      name: 'RSS'
       url: 'index.xml'
+      params:
+        icon: 'rss'
 
-# 顶部 / 侧边菜单
+# 顶部菜单
 menu:
   main:
     - identifier: 'posts'
@@ -75,3 +96,12 @@ menu:
       name: '搜索'
       url: '/search/'
       weight: 4
+
+# 图片处理配置
+imageProcessing:
+  autoOrient: true
+  content:
+    widths: [800, 1600, 2400]
+    enabled: true
+  thumbnail:
+    enabled: true

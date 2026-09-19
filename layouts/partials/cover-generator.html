@@ -1,0 +1,8 @@
+{{- $colors := slice "#85B7EB" "#9FE1CB" "#FAC775" "#F0997B" "#7F77DD" "#D4537E" "#5DCAA5" }}
+{{- $index := mod (add (.Date.Unix) (.WordCount)) (len $colors) }}
+{{- $vibrant := index $colors $index }}
+{{- $darkMuted := replace $vibrant "#" "#33" }}
+{{- $gradient := printf "linear-gradient(0deg, %s80 0%%, %sC0 100%%)" $darkMuted $vibrant }}
+<div class="article-image" style="background: {{ $gradient }}; height: var(--article-image-height); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: 500; padding: 0 1rem; text-align: center;">
+  {{- .Title | truncate 20 "…" -}}
+</div>
