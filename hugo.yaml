@@ -25,11 +25,11 @@ params:
     name: 'yafeng'
   # 侧边栏 / 顶栏标题
   linkTitle: 'yafeng 的博客'
-  # 颜色变体（含自动深/浅色切换）
+  # 颜色变体（默认蓝白；右侧切换器可改中性暗色 / 浅绿）
   themeVariant:
-    - { identifier: 'relearn-auto', name: '自动', auto: ['relearn-light', 'relearn-dark'] }
-    - { identifier: 'relearn-light', name: '浅色' }
-    - { identifier: 'relearn-dark', name: '深色' }
+    - { identifier: 'blue', name: '蓝白' }
+    - { identifier: 'zen-dark', name: '暗色' }
+    - { identifier: 'relearn-light', name: '浅绿' }
   # 搜索（Relearn 内置 lunr 搜索）
   search:
     disable: ''
