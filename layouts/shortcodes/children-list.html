@@ -1,0 +1,19 @@
+{{/* 专栏章节列表：在专栏目录 _index.md 中用 {{< children-list >}} 调用，按 weight 升序列出全部章节 */}}
+<section class="children-list">
+  <style>
+    .children-list { margin-top: 1.5rem; }
+    .children-list ul { list-style: none; padding: 0; margin: 0; }
+    .children-list li {
+      margin: 0 0 .6rem;
+      padding: 0 0 .6rem;
+      border-bottom: 1px solid var(--MAIN-BORDER-color, rgba(128,128,128,.2));
+    }
+    .children-list li:last-child { border-bottom: none; padding-bottom: 0; }
+    .children-list li > a { font-size: 1.05rem; font-weight: 600; }
+  </style>
+  <ul>
+    {{- range sort .Page.RegularPages "Weight" "asc" }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</section>
