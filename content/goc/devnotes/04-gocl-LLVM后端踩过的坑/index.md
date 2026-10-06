@@ -49,7 +49,9 @@ gocl 不链接 libLLVM，而是运行时用 `syscall.LazyProc` 动态加载。�
 
 `LLVMCreateTargetMachine` 在 LLVM 23 还是 **9 个参数**（末尾多了 `ThreadCount`），按文档的 8 参数传会读到垃圾。
 
-### 坑 4：`LLVMRunPasses` 调不动——无 cgo 方案的真正技术死点
+### 坑 4：`LLVMRunPasses` 调不动——无 cgo 方案的真正技术死点（**已解决**，见本节开头补记）
+
+> **补记（2026-10-07）**：本条当时判断为「限制不是 bug」，**后来被推翻并修好了**。当时卡在 `LLVMStringRef` 这个16 字节聚合按值传（MSVC x64 下等于间接传指针，实际调用形态是 5 个指针参数），Go 变参 `LazyProc.Call` 表达不了「聚合按值传」这条 ABI 规则。修法很轻：**改用 `const char*` 传管线字符串**，4 个参数全是 `uintptr` 指针，ABI 墙直接消失。commit `1ba351a` 已接入，`src/gocl/llvm.go` 现有 `runPasses.Call(mod, passC.ptr(), tm, optv)`。**下面的原始记录保留作为当时判断的依据。**
 
 `LLVMStringRef` 是 16 字节聚合，MSVC x64 ABI 下按值传递等于间接传指针，实际调用形态是 **5 个指针参数**。4 参 / 5 参 / 直接传 `StringRef` 结构体，全都崩。
 
@@ -58,6 +60,8 @@ Go 的 `LazyProc.Call` 是变参 uintptr 调用，**无法表达"聚合按值传
 结论是这是**限制不是 bug**：长期只能拿到 TargetMachine 的 `CodeGenOptLevel`，拿不到中端优化管线（GVN / LICM / 向量化）。所有优化必须靠 `irPasses()` 返回的管线字符串。手工拼栈传参可行，但风险过高，没做。
 
 > 附带：必须用 `LazyProc.Call` 而不是 `syscall.SyscallN`，因为后者要传裸 `uintptr`，读回还得转 `unsafe.Pointer`，而 **CI 有 `go vet` 的 unsafeptr 门禁**，必然红。
+>
+> **现状**：`irPasses()` 不再是「唯一」优化途径，而是**通过 `LLVMRunPasses` 真正跑起来了**。`LLVMCodeGenOptLevel` 只管机器码生成强度（传给 `LLVMCreateTargetMachine`），中端 IR 优化由 `irPasses(opt)` 的管线字符串 + `runIRPasses` 负责，两者是分开的。
 
 ### 坑 5：libLLVM.dll 依赖 libzstd.dll，且文件名大小写敏感
 
@@ -628,12 +632,12 @@ Go 坑：**`filepath.Join(dir, "..")` 会 Clean 掉 `..` 直接返回父目录**
 按"能不能靠现有手段做"分三类：
 
 **能力缺口**
-- `gocl -target linux` 报"LLVM 后端尚未实现 ELF 对象"；
+- ~~`gocl -target linux` 报"LLVM 后端尚未实现 ELF 对象"~~（**已解决**：commit `7f22b64`「feat(gocl): Linux ELF 后端 —— SysV va_list ABI + ELF 目标输出」落地，已在 alpine 真机跑通并与 Windows 输出一致）；
 - 位域 / `_BitInt` / 内联汇编仍走原生路径（`llvmEligible` 排除）；
 - goclib 缺 Nim 运行时函数，完整 `bench.nim` 暂不可编。
 
 **工具链限制**
-- `LLVMRunPasses` 调不动 → 无中端优化（GVN/LICM/向量化），只能用管线字符串；
+- ~~`LLVMRunPasses` 调不动 → 无中端优化，只能用管线字符串~~（**已解决**：改用 `const char*` 传管线，commit `1ba351a` 已接入 `runIRPasses`，GVN/LICM/向量化随 `default<O?>` 管线可用——与上面的 ELF 是两件独立的事）；
 - MinGW 静态链接 libLLVM 的 C++ 全局构造顺序不可控；
 - Win64 上 `va_list` 按值传给 `printf_lite_with`（应为 `va_list*`），多层转发可能暴露。
 
