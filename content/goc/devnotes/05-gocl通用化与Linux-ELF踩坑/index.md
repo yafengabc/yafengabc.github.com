@@ -1,12 +1,12 @@
 ---
-title: "开发笔记：gocl（LLVM 后端）填坑全记录"
-menuTitle: "gocl LLVM 开发坑"
+title: "开发笔记：gocl 通用化与 Linux ELF 填坑"
+menuTitle: "gocl 通用化与 Linux ELF 踩坑"
 date: 2026-10-07T03:00:00+08:00
 draft: false
-weight: 4
-tags: ["goc", "gocl", "LLVM", "codegen", "syscall", "bugfix", "开发笔记"]
+weight: 5
+tags: ["goc", "gocl", "LLVM", "codegen", "syscall", "Linux", "bugfix", "开发笔记"]
 categories: ["编程开发", "goc", "开发笔记"]
-description: "汇总 gocl（LLVM IR 后端）从「编译 goclib 都编不过」「链接 Linux syscall 桩」「Linux ELF 运行期段错误」「codegen 编得过但算错」「printf 特化链接」「跨平台一致性」的一整轮填坑。每个坑都给出现象、根因、修复与验证，并附验证基础设施的坑与经验教训。"
+description: "记录 gocl 从「连 goclib 都编不过」到「ls 在 Windows PE 与 Linux ELF 输出逐字节一致」这一轮的 13 个坑：__goc__ 宏未注册、陈旧构建产物遮蔽、链接期 syscall 桩第 4 参须走 r10、__goclib_brk identity 宏导致 malloc 段错误、整数提升缺失、switch break 跳错层、member 数组不衰变、exprType 库函数类型缺失、printf 单字符折成 fputc 链接失败，以及跨平台一致性与验证基础设施的坑。"
 ---
 
 > 这是一篇**开发笔记**，不是教程。记录的是 gocl（LLVM IR 后端）这一轮从「连 goclib 都编不过」到「`ls` 在 Windows PE 与 Linux ELF 输出逐字节一致」之间踩过的所有坑。教程正文里不写这些。
