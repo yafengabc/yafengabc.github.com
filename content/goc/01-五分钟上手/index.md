@@ -70,11 +70,26 @@ hello, world
 其它几种用法：
 
 ```bash
-./bin/goc.exe -c src/examples/hello.c                 # 只编译，产出可执行文件
+./bin/goc.exe -c src/examples/hello.c                 # 只编译，产出 hello.o（可重定位目标文件）
 ./bin/goc.exe -S src/examples/hello.c                 # 只输出汇编（hello.asm）
 ./bin/goc.exe -E src/examples/hello.c                 # 只预处理，输出到 stdout
 ./bin/goc.exe -c -o bin/goc-out src/examples/hello.c  # 产物集中到目录
 ./bin/goc.exe a.c b.c -o app.exe                      # 多个 .c 编成一个可执行
+./bin/goc.exe a.o b.o -o app.exe                      # 链接多个目标文件
+```
+
+`-c` 是 gcc 的意思：**只编译，不链接**，产出真正可重定位的目标文件（PE 目标下是 COFF，Linux 目标下是 ELF64）。所以完整的两步构建和 gcc 一样：
+
+```bash
+./bin/goc.exe -c a.c                            # a.o
+./bin/goc.exe -c b.c    # b.o
+./bin/goc.exe a.o b.o -o app.exe                      # 链接
+```
+
+也可以混着来——命令行里只要出现一个 `.o`，整个命令就走链接阶段，`.c` 会先被编译成临时的 `.o` 再一起链接：
+
+```bash
+./bin/goc.exe -c a.c && ./bin/goc.exe a.o b.c -o app.exe
 ```
 
 `-S` 出来的汇编值得看一眼，它带个自明的头：
