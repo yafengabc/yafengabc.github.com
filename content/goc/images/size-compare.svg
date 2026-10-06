@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="340" viewBox="0 0 680 340" font-family="ui-sans-serif, system-ui, 'Segoe UI', sans-serif">
+  <rect width="680" height="340" fill="#ffffff"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#1a1a1a">Hello, world! 三方产物体积对比</text>
+  <text x="20" y="48" font-size="11" fill="#666">字节，越小越好 · 实测于 2026-10-06</text>
+
+  <!-- gridlines:每 4096 一格，40KB = 38989 -->
+  <g stroke="#e8e8e8" stroke-width="1">
+    <line x1="150" y1="70" x2="640" y2="70"/><line x1="150" y1="110" x2="640" y2="110"/>
+    <line x1="150" y1="150" x2="640" y2="150"/><line x1="150" y1="190" x2="640" y2="190"/>
+    <line x1="150" y1="230" x2="640" y2="230"/><line x1="150" y1="270" x2="640" y2="270"/>
+  </g>
+  <g font-size="10" fill="#999" text-anchor="end">
+    <text x="145" y="74">40960</text><text x="145" y="114">32768</text>
+    <text x="145" y="154">24576</text><text x="145" y="194">16384</text>
+    <text x="145" y="234">8192</text><text x="145" y="274">0</text>
+  </g>
+
+  <!-- scale: 40960 px -> 490px  => 1px = 83.6 bytes -->
+  <!-- goc print 2048 => 24.5px ; gocl print 1536 => 18.4px-->
+  <!-- printf: goc 6656=>79.6, gocl 4096=>49, gcc 38989=>466 -->
+
+  <!-- row1: goc print -->
+  <text x="20" y="84" font-size="11" fill="#333">print(Hello)</text>
+  <text x="20" y="96" font-size="9" fill="#888">goc 自研后端</text>
+  <rect x="150" y="74" width="24.5" height="13" fill="#2b6cb0"/>
+  <text x="180" y="84" font-size="10" fill="#555">2048</text>
+
+  <text x="20" y="124" font-size="11" fill="#333">print(Hello)</text>
+  <text x="20" y="136" font-size="9" fill="#888">gocl LLVM 后端</text>
+  <rect x="150" y="114" width="18.4" height="13" fill="#38a169"/>
+  <text x="174" y="124" font-size="10" fill="#555">1536</text>
+
+  <!-- row: printf -->
+  <text x="20" y="164" font-size="11" fill="#333">printf(Hello)</text>
+  <text x="20" y="176" font-size="9" fill="#888">goc 自研后端</text>
+  <rect x="150" y="154" width="79.6" height="13" fill="#2b6cb0"/>
+  <text x="235" y="164" font-size="10" fill="#555">6656</text>
+
+  <text x="20" y="204" font-size="11" fill="#333">printf(Hello)</text>
+  <text x="20" y="216" font-size="9" fill="#888">gocl LLVM 后端</text>
+  <rect x="150" y="194" width="49" height="13" fill="#38a169"/>
+  <text x="205" y="204" font-size="10" fill="#555">4096</text>
+
+  <text x="20" y="244" font-size="11" fill="#333">printf(Hello)</text>
+  <text x="20" y="256" font-size="9" fill="#888">gcc -O2 + msvcrt</text>
+  <rect x="150" y="234" width="466" height="13" fill="#718096"/>
+  <text x="620" y="244" font-size="10" fill="#555" text-anchor="end">38989</text>
+
+  <text x="20" y="284" font-size="11" fill="#333">puts(Hello)</text>
+  <text x="20" y="296" font-size="9" fill="#888">goc 自研后端</text>
+  <rect x="150" y="274" width="92" height="13" fill="#2b6cb0"/>
+  <text x="248" y="284" font-size="10" fill="#555">7680</text>
+
+  <line x1="150" y1="70" x2="150" y2="287" stroke="#333" stroke-width="1"/>
+  <text x="20" y="320" font-size="10" fill="#888">goc 全部不依赖 msvcrt；gcc 那一行的体积几乎全是 CRT 启动代码与 printf 家族</text>
+</svg>
