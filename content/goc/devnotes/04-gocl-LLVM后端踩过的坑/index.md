@@ -41,9 +41,11 @@ gocl 不链接 libLLVM，而是运行时用 `syscall.LazyProc` 动态加载。�
 
 ### 坑 3：返回指针的函数不能判 `rc != 0`
 
-`LLVMCreateTargetMachine`、`LLVMCreateMemoryBufferWithContentsOfFile` 明明返回非空，却被自己的错误检查报成"失败"。
+`LLVMCreateTargetMachine`、`LLVMCreateMemoryBufferWithMemoryRangeCopy` 明明返回非空，却被自己的错误检查报成"失败"。
 
-这些函数返回的就是指针本身，非 0 即成功，没有状态码语义。按状态码判必然误报。**判指针非空。**
+这些函数返回的就是指针本身，非 0 即成功，没有状态码语义。按状态码判必然误报。**判指针非空**（`llvm.go:331` `if tm == 0`、`llvm.go:346` `if buf == 0`）。
+
+> 顺带纠一个写文时的笔误：这里原本写的是 `LLVMCreateMemoryBufferWithContentsOfFile`——那个函数在本项目里从未绑定过（全仓库 grep 零命中）。真正的调用点是 `LLVMCreateMemoryBufferWithMemoryRangeCopy`（绑定在 `llvm.go:61`，唯一调用点 `llvm.go:343-348`）。记下来是因为这类"名字看着合理"的错最难自己发现。
 
 同类还有 `CPU` / `Features` 参数：**必须传空字符串，传 NULL 会让整个编译器段错误**。LLVM 23 不做 null 检查，直接解引用。同一个函数，ctypes 传空 bytes 能过、传 `0` 就崩——这个差异极难猜。
 
@@ -65,13 +67,23 @@ Go 的 `LazyProc.Call` 是变参 uintptr 调用，**无法表达"聚合按值传
 
 ### 坑 5：libLLVM.dll 依赖 libzstd.dll，且文件名大小写敏感
 
-`LoadLibrary` 失败。`libLLVM.dll`（不是 `libllvm.dll`）依赖 `libzstd.dll`，得从 `D:/msys/ucrt64/bin/` 复制一份到 `bin/`。
+`LoadLibrary` 失败。这条坑要分成两半讲，因为**当初以为有效的那个修法后来被自己的排查记录推翻了**——这正是"修好了"和"绕过了症状"的区别。
 
-### 坑 6：静态链接 libLLVM 省 29MB，但运行时崩
+**第一半：库名只认三个拼法。** `llvm.go:127` 的查找表就是 `{"libLLVM.dll", "LLVM.dll", "libLLVM-9.dll"}` 三个，加上 `GOC_LLVM_DLL` 环境变量优先（`llvm.go:121`）。所以 `libllvm.dll` 小写根本不会被尝试——Windows 的文件系统不区分大小写，但 `LoadLibrary` 的**参数**区分。
+
+**第二半（真正卡住的地方）：把依赖全拷到 exe 同目录，无效。** 最初以为 `libLLVM.dll` 依赖 `libzstd.dll`，那就把它拷到 `bin/`。实测：把 6 个 MSYS2 依赖全部拷到 exe 同目录，逐个 `LoadLibrary` 全部成功，仍然返回 127。原因是 `libLLVM.dll` 有 21 个直接依赖，失败在**二层的传递依赖**上——直接依赖都加载成功了，加载器再去解析它们的依赖时找不到某个 dll，整条链失败。
+
+**最终解法是绕开环境**：`GOC_LLVM_DLL` 指向 MSYS2 的完整环境 `D:/msys64/ucrt64/bin/libLLVM-22.dll`（注意是 `msys64`，不是曾经写错的 `msys`）。让 DLL 待在它自己的依赖旁边，比手工复制依赖树可靠得多。
+
+> 这条坑的教训比结论有用：**"多拷几个 dll 到 exe 旁边"是个看起来很专业的动作，它确实能让 `LoadLibrary` 单点成功，但并不保证整条传递依赖链成立**。判断依据应该是失败码：127 是"某个依赖找不到"，而不是"你自己那个 dll 有问题"。
+
+### 坑 6：静态链接 libLLVM 省 29MB，但运行时崩（**路线已放弃**）
+
+下表记录的是 2026-10-04 一时的中间态，**现已不是现状**，保留是因为它解释了后面几个决策的动机：
 
 | 方案 | 大小 | 说明 |
 | --- | --- | --- |
-| 动态（现状） | gocl.exe 3.2MB + libLLVM-23.dll 109.8MB | **128.4 MB**，两个文件 |
+| 动态（当时） | gocl.exe 3.2MB + libLLVM-23.dll 109.8MB | **128.4 MB**，两个文件 |
 | 静态单个 exe | **99.2 MB** | 一个文件，省 29MB / −23% |
 
 静态版在 `LLVMInitializeX86Target()` 之后段错误。
@@ -80,11 +92,15 @@ Go 的 `LazyProc.Call` 是变参 uintptr 调用，**无法表达"聚合按值传
 
 **判断**：这是工具链限制不是代码 bug。真要攻，方向是 MinGW 的 `.ctors` 排序（`-Wl,--sort-section=name`），或者改用 clang/lld 构建 LLVM（它们的 `.CRT$XCU` 优先级支持完整，很可能直接能跑）。
 
+**后来怎么样了**：这条路线**已经放弃**，`build.sh` 与 `tools/` 下没有任何静态链接 libLLVM 的痕迹（grep `static` / `libLLVMTargetX86` / `start-group` 零命中）。现行方案是动态加载 + 组件裁剪：`LLVM_DYLIB_COMPONENTS` 把 libLLVM 从109.8MB 裁到约 22MB。上面那个"动态 = 109.8MB"的基线早已不存在——省体积的动机换了个实现，而"静态链接省 29MB"这个数字在今天没有参考价值。
+
 顺带记一个容易漏的清单：静态链接需要的系统库里有 **`ole32`**（CoTaskMem/CoInitialize）、`oleaut32`、`ntdll`（`RtlGetLastNtStatus`）、`uuid`（`CLSID_FileOperation` / `FOLDERID_*` GUID），漏了都是链接期才报。
 
 ### 坑 7：LLVM 23 的 C API 导出面残缺（66/78 可用）
 
-缺的必须绕：`LLVMBuildLoad` / `LLVMGetConstInt` → 用**带显式类型的版本** `LLVMBuildLoad2` / `LLVMBinaryOperator`；`LLVMCreateTarget` 是 C++ 符号未导出 → 用 `LLVMGetTargetFromTriple`；`LLVMGetNumFunctions` / `LLVMGetFunction` / `LLVMGetTargetMachine` 根本不存在 → 遍历或换别的办法。
+真正仍然成立的缺口：`bind()`（`llvm.go:148-174`）只绑定 24 个符号，`LLVMCreateTarget` 是 C++ 符号未导出 → 改用 `LLVMGetTargetFromTriple`（`llvm.go:294`）；`LLVMGetNumFunctions` / `LLVMGetFunction` / `LLVMGetTargetMachine` 不存在。
+
+> 需要从原文里划掉的一半：`LLVMBuildLoad` → `LLVMBuildLoad2`、`LLVMGetConstInt` → `LLVMBinaryOperator` 这两条**与本项目无关**——gocl 的 IR 前端是**生成文本 IR** 再交给 `LLVMParseIRInContext`（`llvm.go:164`、`llvm.go:351`）解析，从不建 IRBuilder，所以这批 builder API 缺不缺根本影响不到我们。那是早期尝试用 builder API 时的记录，架构改成文本 IR 后就作废了。**教训**：记"某个 API 缺失"之前先确认自己有没有在用它。
 
 **换 LLVM 22 救不了变参**：22 同样不接受 `vaarg` 指令关键字（两版报同一个 `expected instruction opcode`）。22 只多一个 `LLVMWriteBitcodeToFile`，价值有限。
 
@@ -167,15 +183,27 @@ union 类似的错：把"最宽成员宽度"当追加 padding，`union U{char*p;
 
 只读取变参的程序崩，不读变参的正常。
 
-根因是 **va_list 模型不匹配**。goc 的 `va_list` 是 `char*`，原生后端按"8 字节平坦游标"走；LLVM 侧 `llvm.va_start` intrinsic 填的却是 **Win64 四字段结构**（`gp_offset` / `fp_offset` / `overflow_arg_area` / `reg_save_area`），游标推进本该由 `vaarg` 指令负责。最初把 `va_arg` 也按平坦游标写，与 `va_start` 建的结构完全对不上。
+根因是 **va_list 模型不匹配**，但**模型冲突发生在 Linux，不是 Win64**——这一点原文写反了，也是理解整章的前提。
 
-而 **LLVM 23 已不接受 `vaarg` 指令关键字**（`ExpandVariadics` pass 只做展开），`@llvm.va_arg(ptr, [i32, i8*])` intrinsic 也被拒。clang 同样是前端自行展开 → 只能按 Win64 ABI 在前端展开。
+两个目标的 `va_start` 行为完全不同（`expression.go:90-94` 的注释就是权威说明）：
+
+- **Windows x64**：`llvm.va_start` 写入的就是**一个 8 字节指针**，指向调用方的寄存器保存区，每个变参占一个 8 字节槽（先通用寄存器，过后是栈上）。读一个参数就是"读游标 → 取值 → 游标 += 8"。**和 goc 的 `char*` 平坦游标完全一致，本来就不冲突**。
+- **x86-64 SysV（Linux）**：`va_list` 是 `struct __va_list_tag[1]`，含 `gp_offset` / `fp_offset` / `overflow_arg_area` / `reg_save_area` 四个字段（`expression.go:96-101`）。如果按 Win64 的平坦游标去读 `gp_offset`，等于把"下一个通用寄存器槽的偏移"当成指针本身——Linux 上每个消费变参的调用都会崩。
+
+最初把 `va_arg` 按平坦游标写，在 Win64 上其实是对的、在 Linux 上全错；两边共用一套前端展开代码，就必须在 `e.c.linux` 上分叉（`expression.go:127-129`：`if e.c.linux { return e.vaArgSysV(ap, lty, ty) }`）。
+
+而 **LLVM 23 已不接受 `vaarg` 指令关键字**（`ExpandVariadics` pass 只做展开），`@llvm.va_arg(ptr, [i32, i8*])` intrinsic 也被拒。clang 同样是前端自行展开 → 只能按目标 ABI 在前端展开。
+
+Win64 崩溃的实际修复是 `5bbde19`（"LLVM Win64 chkstk stub contract + strLit NUL + **vaArg flat cursor**"）——把 Win64 明确走平坦游标，而不是反过来去迁就一个错误的模型。
 
 ### 坑 20：`va_list` 局部量必须给 24 字节存储
 
-`llvm.va_start` 写的是 Win64 四字段结构，goc 的 `char*` typedef 只有 8 字节 → 踩坏后面三个槽。
+`va_list` 的存储被统一加宽到 24 字节（`function.go:314` `const vaListTy = "[3 x i64]"`，`function.go:398` `alloca [3 x i64]`）。**但两条目标的理由不同**：
 
-第一版就栽在一致性上：`va_start` 写 `%t11`、实参求值读 `%t10`，而 `%t10` **从未写过**。修法是新增 `vaListSlot` / `vaSlots` / `paramNames` 三个字段，保证 `va_start`、每个 `va_arg`、`va_end`、以及**把 ap 传给别的函数**时都落在同一个槽。
+- **SysV**：`llvm.va_start` 真的写四字段结构，24 字节是必需的。
+- **Win64**：intrinsic 只写 8 字节，加宽是**防御性的**——`function.go:308-311` 的原话是"这个槽仍然加宽到 24 字节，这样 intrinsic 永远不会覆盖掉紧随其后的三个局部量，**无论未来的目标往里写什么**"。Win64 上 `vaListSlot` 对参数甚至直接 `slotFor(uid, "ptr")` 返回 8 字节槽（`function.go:351-356`，`if !e.c.linux { return slot }`）。
+
+第一版就栽在一致性上：`va_start` 写 `%t11`、实参求值读 `%t10`，而 `%t10` **从未写过**。修法是新增 `vaListSlot` / `vaSlots` / `paramNames` 三个字段，保证 `va_start`、每个 `va_arg`、`va_end`、`va_copy`、以及**把 ap 传给别的函数**时都落在同一个槽（`va_start`/`va_arg`/`va_end`/`va_copy` 的调用点：`call.go:137,145,149-170,166-167,205,360`）。
 
 ### 坑 21：无优化管线时 Win64 变参丢浮点实参
 
@@ -187,9 +215,16 @@ Win64 要求浮点实参**同时**进 XMM 与整数寄存器，无管线版本�
 
 顺带修了个映射错误：`-O1` 原本映射到 `LLVMOptLess`，**比不带旗标的 `LLVMOptDefault` 还低**，等于"要求优化反而更慢"。
 
-### 坑 22：Win64 上 `va_list` 按值传是潜在隐患
+### 坑 22：跨平台 `va_list` 传递：Win64 按值传正确，SysV 必须按引用（**已按架构拆开**）
 
-goclib 的 `printf_lite_with(..., va_list ap)` 是按值传，Win64 ABI 要求 `va_list*`。当前用例已过（`va2` 跨函数传通过），但多层嵌套转发可能暴露。**已知限制，不是 bug**。
+原文这条写的是"Win64 ABI 要求 `va_list*`，属已知限制"。**结论是反的，而且限制已经消除。**
+
+- **Windows x64**：`va_list` 就是 `char *`，参数里装的就是游标本身，按值传**正是 ABI 要求**。`function.go:330-332` 的原话："`va_listSlot` 绑出来的槽已经是 8 字节宽、已经装了正确的值，**所以它的地址就是答案**"。`valist.go:11-13` 补充："在 Windows x64 上这个歧义无害——`va_list` 的值**就是**游标指针，正好等于读一个 `char *` 会得到的东西。"
+- **x86-64 SysV（Linux）**：`va_list` 是 `struct __va_list_tag[1]`，**数组类型**，作为参数会衰变成指向 tag 的指针，且这 24 字节住在**调用者**的栈帧里。`function.go:334-341` 明确了这一点，修法是先 `load ptr` 取出指针（`function.go:357-362`），写回也落进调用者的 tag。
+
+所以 goclib 的 `printf_lite_with(..., va_list ap)` 按值传这个签名（`stdio.c:526`）**在两个目标上都是对的**，不需要改 C 代码。要改的是后端：Win64 分支直接返回已含正确游标的槽地址，Linux 分支才做 `load ptr`。跨函数传递的两条路径都覆盖了——直接调用 `call.go:205`，间接调用 `call.go:358-362`（同样只在 Linux 下走 `vaListSlot`）。来源 commit 是 `7f22b64`「feat(gocl): Linux ELF 后端 —— SysV va_list ABI + ELF 目标输出」。
+
+> 附带一个当时没做的：`va_copy`（C99 7.16.1.1）现在也实现了（`call.go:149-170`）——它让`va_list` 能独立复制、先量长度再输出而不消耗原件。`stdarg.h:37-41` 在 Win64 下把它定义成指针赋值 `((dest) = (src))`，在 Linux 下**故意不定义**，让 codegen 落到 target-aware 的 `llvm.va_copy` intrinsic。
 
 ## 四、COFF / PE：读错不报错的重灾区
 
@@ -213,12 +248,15 @@ COFF 的 8 字节 name 字段，**首 4 字节非 0 就是内联文本**，**首
 
 ### 坑 26：重定位语义换算（goa fixup ↔ COFF）
 
-- COFF `REL32`：`S + A - P`，**P = 字段开头** → goa `ripAdj = -4`
-- COFF `ADDR32NB`：**P = 所在段的开头** → `ripAdj = -(off+4)`
+原文这两条 `ripAdj` 数值都是错的（写成了 `ripAdj = -4` / `-(off+4)`），而且"不需要改 `applyFixup`"这句也不对——**实际改了**，新增了 `Absolute` 字段。以 `coffmerge.go` 为准：
 
-两类都能用现有 `Fixup` 结构表达，不需要改 `applyFixup`。
+- **COFF `REL32`** → `Fixup{Sect, Off, Sym, Addend}`，`RipAdjust` **保持 0**（`coffmerge.go:606-648`）。为什么不需要那个 -4：微软 PE 规范把 `P` 定义为**字段开头**，而硬件执行完指令后的 RIP 是**字段末尾**，差 4 字节。goa 的公式本就以字段末尾为基准，所以`RipAdjust = 0` 正好对上 CPU 实际算的 `S - P`（`coffmerge.go:607-613` 的注释把这段推导写全了）。
+- **COFF `ADDR32NB`** → `Fixup{..., Absolute: true}`（`coffmerge.go:679-682`），`RipAdjust` 同样是 0。因为它要的是目标的**绝对 RVA**，`P` 直接消掉，根本不是相对算法。这个 `Absolute` 是新字段（`image.go:83-85`），并且**`applyFixup` 为它加了独立分支**（`fixup.go:33-47`：`addr := uint64(target + f.Addend)` 直接写绝对 RVA）。
+- **第三种类型**：还有 `ADDR64`（`relAMD64Addr64 = 0x0001`，`coffmerge.go:47`、`683-691`），走 `Absolute + Wide + Virtual`，`fixup.go:38-42` 为它加上 `ImageBase`——因为首选基址 `0x140000000` 在 4GB 以上，32 位字段会截断。所以链接器实际支持 3 种重定位，不是坑 32 说的 2 种（那是实测那个对象的结论）。
 
 另外重定位 offset 是**"COFF 段内偏移"**，必须加上该段在 goa 段内的 `baseOf`，否则所有补丁提前几十字节、**污染的是无关代码而不是报错**。
+
+> 原文这三条与坑 27 自相矛盾：坑 27 写的是"故只需 addend = 字段值、**ripAdj 保持 0**"，那个是对的。已按源码统一，`RipAdjust` 这个字段本来就不是为 COFF REL32 建的——`git log -S"RipAdjust" -- src/gocld/` 只有 `fbc0b42`、`7f22b64`、`407154c` 三次，都不是 COFF 路径。
 
 ### 坑 27：COFF REL32 分支没读 addend —— 控制台输出全哑、文件写正常
 
@@ -250,11 +288,25 @@ goa 的 fixup 公式是 `CPU目标 = symRVA + addend + trailing − ripAdj`，�
 
 典型的"不报错的静默错位"。
 
-### 坑 29：`.pdata` / `.xdata` 必须是独立段，不能并进 merged blob
+### 坑 29：`.pdata` / `.xdata` 曾合并进 merged blob，现改为**合并但不映射**（**方案已反转**）
 
-unwind 表项存的是"**相对自己段起点的 RVA**"，搬进共享 blob 会让每一条都失效。
+坑因是对的：unwind 表项存的是"**相对自己段起点的 RVA**"，搬进共享 blob 会让每一条都失效。
 
-修法：`planUnwindSections` / `unwindSectionOut` / `imageEndOf`；异常目录（data directory index 3）写 `pdataRVA / pdataSize`；`Fixup` 加 `absolute` 字段（`ADDR32NB` 要写绝对 RVA，不能走"target − 字段位置"的相对算法）。
+**第一版修法**：`planUnwindSections`（`pe.go:70`）/ `unwindSectionOut`（`pe.go:101`）/ `imageEndOf`（`pe.go:50`）规划独立段，异常目录（data directory index 3）写 `pdataRVA / pdataSize`（`pe.go:512-518`），`Fixup` 加 `absolute` 字段（`ADDR32NB` 要写绝对 RVA，不能走"target − 字段位置"的相对算法）。这些函数和字段今天都还在。
+
+**但这个方案已经被推翻。** 现在 `coffmerge.go:279-281` 给这两个段打了 `Unmapped = true`：
+
+```go
+if name == ".xdata" || name == ".pdata" {
+    gs.Unmapped = true
+}
+```
+
+而 `pe.go:78-83` 把 Unmapped 段置 nil → `planUnwindSections` 不给它们分配地址 → `img.PdataSize` 停在 0 → `pe.go:512` 的 `if img.PdataSize > 0` 不成立，**异常目录压根不写**。注意 `coffmerge.go:275-278` 仍会合并它们的符号并应用重定位，只是字节不进镜像。
+
+**为什么反悔**（`coff.go:26-34` 的原话）：表很小（每个函数 12 字节 `.pdata` + 约 11 字节 `.xdata`），但 PE 的一个段在文件里要占 `FileAlignment` 的整数倍，而 **512 是 Windows 接受的最小值**——三个函数就是 1024 字节，只为存72 字节的表。`image.go:46-52` 补上了代价："崩溃的程序无法事后回溯"。
+
+> 所以这条坑现在是一条**"优化掉的正确性"**：功能（异常回溯）确实丢了，换来的是每段至少 512 字节的文件对齐开销。和坑 37 是同一个commit（`af2f695`）的两面——那边省的是没用的段，这边省的是 unwind 表。
 
 ### 坑 30：Win64 没有数据重定位，必须走 `.refptr` 槽
 
@@ -273,10 +325,11 @@ Win64 COFF 引用未定义数据必须走 `.rdata$.refptr.<name>` **八字节槽
 ### 坑 31：其他静默坑
 
 - **导入名必须带 `.dll` 后缀**：同一 DLL 出现两个描述符（`kernel32` 和 `kernel32.dll`），loader 精确匹配找不到 `kernel32` → `0xC0000139`（`STATUS_ENTRYPOINT_NOT_FOUND`），**进程第一条指令都跑不到且零诊断**。
-- **`__main` 是 LLVM 的 CRT 初始化桩**：对象里**每个函数**都引用它，不映射就链接失败。合成一个内容为 `ret` 的 anchor 符号。
-- **`ADDR32NB` 的 addend 要从被修补的那个段读**，不是从目标段读。
-- **整个程序只能有一个 `Image`**：对象里的 `main` 在第一个 Image，桩的 `call main` fixup 在第二个，**永不相遇** → `undefined symbol referenced: main`。
-- **`.refptr` 修复时的变量遮蔽**：`if i := strings.LastIndex(...)` 里的 `i` 是**字节偏移**，同函数里 `baseOf[i+1]` 越界 → `index out of range [7] with length 5`（读起来像越界，实际是用了错的那个 `i`）。
+- **`__main` 是 LLVM 的 CRT 初始化桩**：对象里**带全局构造函数的模块中每个函数**都引用它（不是无条件——`coffmerge.go:126-129` 的注释限定了这个条件），不映射就链接失败。合成一个内容为 `ret` 的 anchor 符号（`coffmerge.go:139-146` 追加 `0xC3` 并登记 `coffNoOpAnchor` = `__goc_coff_anchor`）。
+- **`ADDR32NB` 的 addend 要从被修补的那个段读**，不是从目标段读（`coffmerge.go:670-678`："从目标段的同一偏移读出来的是那里的任意字节"）。
+- **整个程序只能有一个 `Image`**：对象里的 `main` 在第一个 Image，桩的 `call main` fixup 在第二个，**永不相遇** → `undefined symbol referenced: main`（ELF 侧报错串在 `elf.go:133`，COFF 侧在 `coffmerge.go:708`）。
+- **`.refptr` 修复时的变量遮蔽**：`if i := strings.LastIndex(...)` 里的 `i` 是**字节偏移**，同函数里 `baseOf[i+1]` 越界 → `index out of range [7] with length 5`（读起来像越界，实际是用了错的那个 `i`）。已修，`coffmerge.go:296` 用独立的 `k` 变量。
+- **`___chkstk_ms` 栈探针**（三下划线）是 gocl 自己合成的（`coffmerge.go:161-191`）。前两版helper 都以 `STATUS_STACK_OVERFLOW (0xC00000FD)` 收场：读 `rcx`（调用者从不设置，按垃圾尺寸探测栈）或自己减页（双重分配）。现版用 **r11/r10** 作游标，探测块是 **18 字节**，且必须精确推进游标——`coffmerge.go:175-179` 的注释说得很直白："游标若不是恰好前进追加的字节数，从 COFF 对象合并进来的每个符号都会提前落位"，入口桩调`main`时会跳到函数前的对齐字节上立刻 fault。这和坑 28 是同一个"静默错位"的家族。
 
 ### 坑 32：COFF 对象的真实结构（实测数字，可作基线）
 
@@ -285,11 +338,15 @@ Win64 COFF 引用未定义数据必须走 `.rdata$.refptr.<name>` **八字节槽
 - **`@feat.00`**：`sec = -1` = absolute，安全 cookie 表
 - **COMDAT**：`.pdata` 带 aux `comdat 0`，链接时要去重
 
+> "只有 2 种"是**那个被测对象**的结论，不是链接器的上限——链接器实际接受 **3 种**（多一个 `ADDR64`，见坑 26）。这一节的权威出处是 `src/gocld/coff.go:13-24` 的文件头注释，它开头就写着 "measured on LLVM 23.1.2, **not guessed**"，逐条列出了 6 个段、2 类重定位、undefined 符号、每份 unwind 贡献一个 COMDAT 组、`@feat.00`。读这份注释比读实测数字可靠——它是把测量结论固化在代码里的。
+
+> **bigobj：这条基线没覆盖到的最大变体**。`coff.go:200-225` + `:271-291`：`SizeOfOptionalHeader == 0x20` 表示 **bigobj**，符号记录宽度是 **20 而非 18**，布局为 `[4]flags [8]name [4]value [2]section [2]type [4]class+naux`，而且 `StorageClass` 与 `NumberOfAuxSymbols` **挤在同一个 4 字节字段里**（`cls = src[rec+18]; nAux = int(src[rec+19])`）。为什么必须从头部判断而不能猜，`coff.go:208-212` 说得很准："按 18 字节读一个 bigobj 表会产出看起来合理的垃圾，**而不是一个错误"——静默失败，正是本节标题说的那种坑。而 **LLVM 对 Windows 目标默认就发 bigobj**（`coff.go:201-203`），所以这不是罕见路径。坑 24 只讲了 aux 要占位，没提记录宽度本身会变，两条应该合看。
+
 ## 五、体积：必须落到段表 + 对齐上量
 
 ### 坑 33：无条件发射全部 380 个 goclib 函数 → exe 100k+
 
-原生后端靠 `c.need` 不动点只发可达的十几个，IR 前端没有这层。修法是加 `llvmRoots(prog, lib, linux)` 做不动点可达性游走。
+原生后端靠 `c.need` 不动点只发可达的十几个，IR 前端没有这层。修法是加 `llvmRoots(prog, lib, linux)` 做不动点可达性游走（定义在 `translate.go:297`；注意签名今天已经是**四个**参数 `llvmRoots(prog, lib, linux, tr)`，`translate.go:214`，多出来的 `tr` 是为了把 05 里那张 `UserDefines` 表传进同一个特化判定，见坑 36）。
 
 实测（`-dump-ir` 数 `^define`）：
 
@@ -328,7 +385,11 @@ Win64 COFF 引用未定义数据必须走 `.rdata$.refptr.<name>` **八字节槽
 
 对照实验很能说明问题：绕开 printf 用 `puts` 时 LLVM 侧是 6144 < goa 后端 7680 ——**膨胀完全来自 printf 链，与 LLVM 后端无关**。
 
-修法：特化判定抽到 `src/printfspec.go`，用 `printfQueries` 参数化两个查询（程序是否自定义该名 / 有同名函数指针变量），两个后端共用。**hello world 16896 → 5632 字节**（比 goa 后端 6656 还小 15%）。
+修法：特化判定抽到 **`src/common/printfspec.go`**（原文写 `src/printfspec.go` 有误——它在新建的 `common` module 内，`src/common/go.mod`，module 名 `goc/common`），用 `PrintfQueries` 参数化两个查询（`UserDefines` 程序是否自定义该名 / `ShadowedByVar` 有同名函数指针变量），两个后端共用同一函数：`src/gocl/call.go:108` 与 `src/goc/codegen.go:10039`。
+
+**hello world 16896 → 5632 字节**（比 goa 后端 6656 还小 15%）。> 这个 5632是当时 `printf("%d")` 那一档的数，也是坑 37/38 那两项对齐修复**之前**的中间态。今天实测 `printf("hello, world\n")` gocl 是 **4096 B**（goa 6656 B）——又小了 27%，靠的正是后面那两条段对齐修复。
+
+这里还有一个比代码更值得记的契约（`printfspec.go:22-33` 的注释）：两个谓词**只能问用户的声明，绝不能问运行时自己的副本**，否则每个库函数看起来都被遮蔽。也正因如此 shadow 判定最初查错了对象（查 `funcDefs` 而不是用户的 `userDefs`）。而"必须在编译期决定"也是硬约束（`printfspec.go:44-49`）："运行期试一下 lite、失败再退回 vfmt 的探测会让 vfmt 始终可达，什么都裁不掉"——这就是坑 36 那条铁律的机制，不是风格偏好。
 
 ### 坑 36：【铁律】可达性裁剪必须走同一个特化判定，否则互相抵消
 
@@ -443,11 +504,19 @@ goa 原本只吃 Intel/NASM 语法，而 LLVM 的 AsmPrinter 输出 AT&T/GAS，�
 
 结果：**72 样本解析 72/72、链接 72/72**（此前 4/72）。
 
+> 72 这个数字要看清楚：**样本是生成物，不在仓库里**。`src/goa/testdata/att/` 今天只有 4 个 `.s`（`intprint.s`、`longmin.s`、`print_thin.s`、`variadic.s`），`att_e2e_test.go:31` 会全量 glob 并在空集时 `t.Skip("no AT&T samples -- run: bash tools/gen-att-samples.sh")`。72 样本由 `tools/gen-att-samples.sh` 从 `examples/*.c` 生成，一次性测量后没有提交。复现：`bash tools/gen-att-samples.sh`。
+>
+> 另：`attSplitSymDiff`（`attdirective.go:588`）实际用 `LastIndex` 从右扫，而不是简单的首次出现——为了不让前导 `-`（负常数）被误当分隔符，再用 `isSymName(lhs) && isSymName(rhs)` 双侧校验。比"减号不出现"这个理由更稳。
+
 ### 坑 48：跳转表的验证方法（关键）
 
 合成 6 路 switch，链成 PE 后用 `tools/peun.py` 在 Unicorn 里**真跑**，每个 case 累加不同权重、退出码即总和。
 
-**这一条必需**——表项算错时字节仍合法、镜像仍能加载，**只有真正执行才暴露**（跳进无关代码或 trap）。而且 `peun.py` 对 LLVM 产物**不可用**（恒在 rip=入口报 unmapped access，栈模拟不建映射），但在 AT&T 这条链路上它是必需的。
+**这一条必需**——表项算错时字节仍合法、镜像仍能加载，**只有真正执行才暴露**（跳进无关代码或 trap）。测试在 `src/goa/att_jumptable_test.go:27` 仍在跑（`runPEUnderUnicorn`，`att_jumptable_test.go:100`），退出码比对在 `:102`。
+
+> 更正一处原文的归因：这里曾写"`peun.py` 对 LLVM 产物**不可用**（栈模拟不建映射）"。源码不支持这个说法——`tools/peun.py:137-138` 明确**建了栈映射**（`mem_map(STACK_TOP - STACK_SIZE, ...)`），全文也没有任何区分"LLVM 产物/ goa 产物"的分支。前半段（6路 switch + 真跑 + 退出码即总和 + "只有真执行才暴露"）完全成立且有测试在跑；后半句那个归因请忽略。
+>
+> 另一条读源码才发现的细节：`ExitProcess` 在 Unicorn 里取的是 **RCX** 不是 RAX（`att_jumptable_test.go:79`）。比对退出码时用错寄存器会得出"表算错了"的假结论。
 
 ### 坑 49：AT&T 路径的四个静默 bug
 
@@ -458,9 +527,11 @@ goa 原本只吃 Intel/NASM 语法，而 LLVM 的 AsmPrinter 输出 AT&T/GAS，�
 
 ### 坑 50：两份实现只会互相遮蔽
 
-为 `___chkstk_ms` 新建了 `src/goa/winstack.go`，后来发现 **`coffmerge.go:122` 早已正确实现**，且**带 16 字节对齐填充**（缺了对齐会让 COFF 合并进来的符号落位偏移，入口桩调 main 会跳到函数前的对齐字节上立刻 fault）。删掉重复实现后实测 8192 字节栈帧的函数 rc=0。
+为 `___chkstk_ms` 新建了 `src/goa/winstack.go`，后来发现 **`coffmerge.go` 早已正确实现**，且**带 16 字节对齐填充**（缺了对齐会让 COFF 合并进来的符号落位偏移，入口桩调 main 会跳到函数前的对齐字节上立刻 fault）。删掉重复实现后实测 8192 字节栈帧的函数 rc=0。
 
 **教训：加"发射某符号"的代码前，先 grep 同名符号的其它发射点。**
+
+（原文写的行号 `coffmerge.go:122` 是写文时的旧值，后续 commit 让文件增长了；当前实现是 **`coffmerge.go:161-191`**，删除 `winstack.go` 的 commit 是 `9621d75`。`winstack.go` 今天确已不存在。顺带当前实现用 **r11/r10** 作游标而非 rcx、探测块 **18 字节**——细节见坑 31 最后一条。）
 
 > 顺带一个测试方法上的要点：`att_test.go` 用**字节级等价对照**——同程序分别用两种语法写，要求 `.text` 完全相同，且 **Intel 一侧手写而非从前端导出**，否则测试是同义反复。
 
@@ -468,7 +539,9 @@ goa 原本只吃 Intel/NASM 语法，而 LLVM 的 AsmPrinter 输出 AT&T/GAS，�
 
 这是最近才修的一个，值得单开一节——因为**它是我判断错了一次的方向**。
 
-### 坑 51：Nim 生成的 fib 递归在 LLVM 后端静默无输出
+> **时态说明**：坑 51 和坑 52 描述的是**修复前**的现象，两者都已由提交 `28a8d72`（2026-10-07 02:08，「gocl: 支持线程局部存储（`_Thread_local`/`__thread`）」）修好，`bench/nim/BENCHMARK.md:5` 现在记的是 gocl **5/5** 内核与 gcc 逐位一致，并写明"此前 fib 失败，根因是 gocl 的 TLS 支持缺失，已修；**与递归无关**"。下面保留原始排查过程，因为它本身是有价值的记录。
+
+### 坑 51：Nim 生成的 fib 递归在 LLVM 后端静默无输出（**修复前的现象**）
 
 gocl 跑 Nim 生成的 C 递归（fib）**静默无输出**，goc 正确输出 `fib 317811`。
 
@@ -491,12 +564,12 @@ gocl 跑 Nim 生成的 C 递归（fib）**静默无输出**，goc 正确输出 `
 
 **所以根因是 gocl 缺 TLS 支持，与递归无关。**
 
-### 坑 52：为什么 gocl 的 TLS 是坏的
+### 坑 52：为什么 gocl 的 TLS 是坏的（**修复前的两层原因**）
 
 两层原因叠加：
 
-1. **IR 侧**：把 TLS 全局当普通 `extern` 全局（`noteExternGlobal`），LLVM 于是生成 `load @G_x`——**直接读静态模板地址，完全绕过 Windows `gs:0x58` / Linux `fs` 的 per-thread 机制**；
-2. **链接侧**：`linkData` 里 TLS 全局被 `continue` **跳过了**，所以 `Data.TLSVars` 是空的 → 链接器根本没铺 `.tls` 段、没建 TLS 目录、没定义 `G_goc_tls_index`。
+1. **IR 侧**：把 TLS 全局当普通 `extern` 全局（`noteExternGlobal`），LLVM 于是生成 `load @G_x`——**直接读静态模板地址，完全绕过 Windows `gs:0x58` / Linux `fs` 的 per-thread 机制**。现在 `translate.go:174-177` 在 `noteExternGlobal` **之前**就`continue` 掉 TLS 全局（注释："绝不作为直接全局，所以这里不声明 IR 符号"），运行时全局同样处理（`translate.go:504-507`）。
+2. **链接侧**：`linkData` 里 TLS 全局被 `continue` **跳过了**，所以 `Data.TLSVars` 是空的 → 链接器根本没铺 `.tls` 段、没建 TLS 目录、没定义 `G_goc_tls_index`。现在 `gocl/cmd/gocl/main.go:239` 已填上：`TLSVars: gocl.ComputeTLSLayout(prog, common.Store(cfg.Linux), cfg.Linux)`。
 
 ### 坑 53：修法——复用原生后端已有的设施，不新造一套
 
@@ -504,23 +577,45 @@ gocl 跑 Nim 生成的 C 递归（fib）**静默无输出**，goc 正确输出 `
 
 具体四处：
 
-1. `translate.go` 新增 `ComputeTLSLayout`，按原生 `tlsPlace` 规则（**8 字节对齐** + `link.TLSAlignedSize` 槽宽）给每个 TLS 全局分配偏移；
-2. `linkData` 用**同一个函数**填 `Data.TLSVars`；
-3. 访问 TLS 全局改经 helper `__goc_tls_slot(off)` 取 per-thread 地址，不再 `load @G_x`；
-4. `emit.go` 在有 TLS 变量时把 `__goc_tls_slot` 汇编进入口桩：
-   - Windows：`mov ecx,[rip+G_goc_tls_index]` → `mov rax,gs:[rax+0x58]` → `mov rax,[rax+rcx*8]` → `lea`
-   - Linux：`lea [rip+__tls_start]` + off
+1. `translate.go:531` 新增 `ComputeTLSLayout`，按原生 `tlsPlace` 规则（**8 字节对齐**（`translate.go:544` `off = (off+7) &^ 7`）+ `link.TLSAlignedSize` 槽宽）给每个 TLS 全局分配偏移，并用 `seen` map 保证同名（用户程序与 C 运行时可能都有）只分配一次（`:534-537`、`:543-545`）；
+2. `linkData` 用**同一个函数**填 `Data.TLSVars`（`gocl/cmd/gocl/main.go:239`）；
+3. 访问 TLS 全局改经 helper `__goc_tls_slot(off)` 取 per-thread 地址，不再 `load @G_x`（`expression.go:475` 发调用，`module.go:188` 声明 `declare ptr @__goc_tls_slot(i64)`，lvalue 侧 `call.go:22`）；
+4. `common/link/emit.go:182-207` 在有 TLS 变量时把 `__goc_tls_slot` 汇编进入口桩。
 
-两个必须注意的点：
+**第4 步的两条真实序列**（原文写错了寄存器，以 `emit.go:189-205` 为准）：
+
+```
+; Windows x64 —— 索引用 edx，TEB 指针取到 rcx，末步是 add 不是 lea
+mov rax, rcx                    ; 取传入的偏移（Win64 第二参在 rcx）
+mov edx, [rip+G_goc_tls_index]  ; 模块 TLS 索引
+xor ecx, ecx
+mov rcx, gs:[rcx+0x58]          ; TEB.ThreadLocalStoragePointer
+mov rcx, [rcx+rdx*8]            ; 按索引取槽
+add rax, rcx
+ret
+
+; Linux x86-64 —— 不是裸 lea
+mov rax, rdi                    ; 取传入的偏移
+lea rdx, [rip+__tls_start]
+add rax, rdx
+ret
+```
+
+三个必须注意的点：
 
 - **`noteExternGlobal` 是陷阱**：把 TLS 声明成 extern 全局就直接退化成"读模板地址"，必须跳过；
-- **IR 访问偏移与链接器 `.tls` 布局必须用同一个函数算**，否则逐条错位。
+- **IR 访问偏移与链接器 `.tls` 布局必须用同一个函数算**，否则逐条错位。实际有**三个**消费点共用它，不止原文说的两个：IR 访问（`translate.go` 记 `tlsOffsets`）、链接布局（`main.go:239`）、emit 符号解析（`module.go:73-77` 定义 `tlsOffsets`，`module.go:737` 注释"这个偏移正是 `ComputeTLSLayout` 分配的"）；
+- **`__goc_tls_slot` 是双后端共用定义，不是 gocl 专属**。它住在共享的 `common/link/emit.go:179-181`，注释说明："原生后端不调用它，但多一个未使用的定义不花什么代价，而且让两个桩保持完全一致。"
 
-结果：8 文件 +181/−27。验证 `readtls` / `fibtls` / 多类型混合 + 写入回读 / 取地址写回四类用例在 gocl 下全对，goc 同用例无回归，Nim 五个内核 gocl 从 4/5 变 **5/5**。
+结果：8 文件 +181/−27（与提交 `28a8d72` 的 `git show --stat` 精确一致，8 个文件也完全对得上）。Nim 五个内核 gocl 从 4/5 变 **5/5**，且提交信息自证"asm.go 的改动仅为 gofmt 对齐（`git diff -w` 为空）"、"gocregress 476 ok / 30 fail，失败集合与修复前逐条相同"（那 30 个 fail 是本机Windows 跑不了的 Linux 腿既有问题，不是 TLS 引入的）。
+
+> 一个遗留：`readtls` / `fibtls` / 多类型混合 / 取地址写回这四类回归用例，`grep -rl` 全仓库只命中 `BENCHMARK.md` 一处，源码树里既没有对应的 `.c` 用例也没有 Go 测试（`gocl/link_e2e_test.go` 只有 3 个测试，无 TLS 相关）。仓库里唯一的 TLS C 用例是 `src/examples/tls_basic.c`。这批用例要么当时是临时文件，要么已删除——**这是一个真实的覆盖缺口**，值得补进 `tests/`。
 
 ## 八、Nim 生成的 C
 
 ### 坑 54：`NIM_STRLIT_FLAG` 被静态初始化器折成 0
+
+这个坑的修复比原文列的更宽：`foldCastInt`（`common/link/global.go:329-355`）除了 `_Bool` / `_BitInt` 截断，还处理**指针等非整数目标**——`default: return v, true`，注释是"为指针和其他非整数目标保留位模式，这样 `(void*)0` 空指针还是 0"。`t == nil` 时返回 `(0, false)`（`:330-332`），这是整个 folder 唯一会"放弃"的情形。`truncInt`（`:360-369`）对 `width <= 0 || width >= 8` 直接透传。这一层也印证了"与后端无关（两后端共享 `common/link`）"——`global.go:240-243` 的注释直接点名 `NIM_STRLIT_FLAG`："`((NU)(1) << 62)` … 折不出来，它的静态初始化器被发射成 0，这破坏了 Nim 的每一次 float→string 转换"。
 
 Nim 的字符串字面量标志是 `NIM_STRLIT_FLAG = ((NU)(1) << 62)`，写成
 ```c
@@ -532,7 +627,7 @@ static const struct{ NI cap; ... } TM = { 0 | NIM_STRLIT_FLAG, "" };
 
 根因：`foldConstInit` 不处理 `CastExpr` → 这个常量表达式折不出来 → 静态初始化器被写成 0 → `setLengthStrV2` 误判需要重新分配。
 
-修法：加 `CastExpr` / `CondExpr` / 一元 `!` / `_Bool`·`_BitInt` 截断（新增 `foldCastInt` / `truncInt`）。
+修法：加 `CastExpr`（`global.go:234`）/ `CondExpr`（`:230-233`）/ 一元 `!` / `_Bool`·`_BitInt` 截断，新增 `foldCastInt`（`:329`）/ `truncInt`（`:360`）。
 
 > 这条与后端无关（两后端共享 `common/link`），但它揭示了一类问题：**前端常量的折叠能力决定了 C 库能不能用**，而不是"编译器支持不支持这个语言特性"。
 
@@ -540,7 +635,9 @@ static const struct{ NI cap; ... } TM = { 0 | NIM_STRLIT_FLAG, "" };
 
 完整 `bench.nim`（含 `std/strutils`）拉进 `resize__system_u3063`、`eqdestroy___system_u3728` 等 Nim 运行时函数，goclib 尚未实现 → 暂不可编。
 
-**这是运行时覆盖率的事，与后端无关**，所以基准改用 5 个自包含内核（sieve / fib / intloop / strbuild / float）。
+**这是运行时覆盖率的事，与后端无关**，所以基准改用 5 个内核（sieve / fib / intloop / strbuild / float）。
+
+> 更正"自包含"这个说法：那 5 个 `.nim` 文件**今天仍然写着 `import std/strutils`**（`bench/nim/k_sieve.nim:15`、`k_fib.nim:15`、`k_intloop.nim:15`、`k_strbuild.nim:15`、`k_float.nim:15` 全都还在）。它们能编过纯粹是因为源码里没实际调用 strutils 的过程，编译器因而没拉进 `resize`/`eqdestroy` 那批运行时符号——是**依赖分析兜住了**，不是 import 被删了。严格更干净的做法是把这几行多余的 import 删掉，防止将来误用。`bench/nim/BENCHMARK.md:26` 那句"完整 `bench.nim` 目前不能直接编"仍然准确。
 
 ## 九、架构与工程坑
 
@@ -586,19 +683,25 @@ Go 坑：**`filepath.Join(dir, "..")` 会 Clean 掉 `..` 直接返回父目录**
 
 ### 坑 61：CI 连红三次 —— 本地全绿 ≠ CI 绿
 
-`src/goa/llvm.go` 整个文件用 `syscall.LazyDLL`（Windows-only）**却没有 `//go:build windows`**，Linux 上 `go vet` 报 10 处 undefined。连续三次 push 全红，同一个原因。不是新引入的，是**目录重组让依赖图变化后暴露**。
+当时是 `src/goa/llvm.go`（Windows-only 的 `syscall.LazyDLL` 绑定）整个文件用 `syscall.LazyDLL` 却**没有 `//go:build windows`**，Linux 上 `go vet` 报 10 处 undefined。连续三次 push 全红，同一个原因。不是新引入的，是**目录重组让依赖图变化后暴露**。
 
 修法不是给整个绑定加标签（那会让所有提到 `goa.OpenLLVM` 的调用方都编不过），而是拆三文件：
 
 - `llvmapi.go`（无约束）：`ErrNoLLVM` + 档位常量——**错误与档位是调用方要能说出名字的东西，必须跨平台可用**；
 - `llvm.go`（`//go:build windows`）：整个绑定；
-- `llvm_stub.go`（`//go:build !windows`）：同名导出的桩。
+- `llvm_stub.go`（`//go:build !windows`）：同名导出的桩，返回 `errUnsupportedPlatform`。
 
-**不能用 `ErrNoLLVM`** —— 那说的是"库没装"，而这平台上装了也没用。
+**不能用 `ErrNoLLVM`** —— 那说的是"库没装"，而这平台上装了也没用。`llvm_stub.go:21-23` 的注释把这层区别写明了："它不是 `ErrNoLLVM`：后者说的是库缺失，而在这个平台上装什么都没用。"
+
+对应提交：加约束是 `94a76f2`「给 LLVM 绑定加构建约束：CI 的 Linux 腿连着红三次」；随后 `407154c`「把 LLVM 绑定搬进 gocl，并抽出 gocld 链接器」把三个文件整体从 `src/goa/` 搬到 `src/gocl/`（因为 LLVM 后端已成为独立编译器）。所以**原文引用的文件路径今天已不存在**——`src/goa/` 下现在没有任何 `llvm*.go`。
 
 另一个教训：**加约束要连测试一起加**，否则 Linux vet 会在 `undefined: llvmAPI` 上再红一次。
 
 铁律：改完必须双平台验（逐 module `go vet ./... && GOOS=linux go vet ./...`）；**推送后要 `gh run list` 看结果**，不能推完就当完事。
+
+> **同一类教训的新成员（本次核实发现）**：当年"双平台验"的教训如今又有新成员没被 CI 覆盖。仓库现有 **8 个 `go.mod`**（`src/common`、`src/frontend`、`src/goa`、`src/goc`、`src/gocl`、`src/gocld`、`src`、`tools`），而 `.github/workflows/ci.yml:29-34` 只 vet 了 6 个——**缺 `src/common` 和 `src/gocl`**。也就是说本篇 05 里修的那批 `src/common/printfspec.go` 改动，目前不在 CI 的 vet 范围内。
+>
+> 同类还有两个 CI 结构性细节值得记：`ci.yml:22-25` 的 gofmt 检查刻意不用 `.`（因为 `.gitignore` 排除了本地 `scratch/`，`gofmt -l .` 会把不入库的目录也判红，而这种红"无法从 commit 里修"）；`ci.yml:42-46` 的 `msgboxcheck` 改为**交叉编译而非跳过**，因为裸 `go build` 会因 build constraints 排除全部 Go 文件而报 `build constraints exclude all Go files`，曾"静默把整个 Linux job 拉下来"——与本坑"Linux vet 再红一次"同型。
 
 ### 坑 62：rebase 的四条铁律
 
@@ -620,8 +723,8 @@ Go 坑：**`filepath.Join(dir, "..")` 会 Clean 掉 `..` 直接返回父目录**
 - **Git Bash 直接跑 PE 会误报崩溃**：`./x.exe` 报 `Segmentation fault`，但 `cmd //c "x.exe"` 退出码正确。**验证 PE 必须走 cmd。**
 - **同秒内批量"编译 + 运行"多个程序会假失败**：libLLVM.dll **并发加载竞争**。每之间 `sleep 0.2~0.3s`。
 - **只看顶层 `--- FAIL` 行会误判成"全红"**：e2e 实际 9/10 通过。
-- **`bin/goc` 遮蔽 `bin/goc.exe`**：`bin/` 里一个陈旧的无扩展名文件，PATH 优先选它 → 所有"改了源码没生效"的假象都源于此。**goc 项目一律用绝对路径 `bin/goc.exe`。**
-- **`go build` 缓存不刷新 `//go:embed`**：新增 `src/goclib/*.h` 后产物 embed 仍是旧头。症状是 `skipping unavailable system header`。修法：`touch src/headers.go`。
+- **`bin/goc` 遮蔽 `bin/goc.exe`**：`bin/` 里一个陈旧的无扩展名文件，PATH 优先选它 → 所有"改了源码没生效"的假象都源于此。**goc 项目一律用绝对路径 `bin/goc.exe`。**> **这条今天依然成立，尚未清理**：`bin/goc`（4020224 B，10-06 07:48）与 `bin/goc.exe`（4210688 B，10-07 02:18）并存，`file` 确认两者都是 PE32+ 可执行文件，无扩展名的那个更旧。
+- **`go build` 缓存不刷新 `//go:embed`**：新增头文件后产物 embed 仍是旧头。症状是 `skipping unavailable system header`。> **这条今天只属于 standalone 构建**：`src/goc/headers.go` 现在**不含任何 `go:embed`**（全文是注释，描述"运行时从磁盘读"），`src/common/source.go:15` 还留着迁移痕迹："goc 过去把整个 C 库塞在可执行文件里"。普通 `goc`/`gocl` 现在运行时读磁盘（`FindRoot()`，`source.go:166`），**新增头文件不需要 `touch` 了**。今天唯一的 `//go:embed goclib/*` 在 `src/main.go:46`，属于 `goc-standalone`（`src/main.go:43-46` 注释说明 `src/goc/cmd/` 下需要 embed 才能拿到 `goclib/`）。所以遇到 `skipping unavailable system header` 时，先查 `GOCLIB_PATH` / 库查找路径，而不是 `touch src/goc/headers.go`。
 - **批量 sed 改路径后必须 grep 目标串确认为 0**：某次 8 处漏改，全表现为"某腿 FAIL"而非编译错误；其中 `./cmd/goa` 被误改成 `./goa`，而 goa module 的主包目录就叫 `cmd/goa`，**与 cmd/goc 不是一回事**。
 - **`go mod tidy` 联网超时；本地 replace 的 module 也要 go.sum 条目**（**间歇性**，清缓存时才报）。**加 module 后逐个检查所有 go.mod，别只加被直接 import 的那个。**
 - **`commit -m` 的反引号会被 shell 吞掉**（bash 双引号串里是命令替换，报 `command not found`，**提交成功但消息留空洞**）。**长提交信息一律用 `git commit -F <file>`。**
@@ -670,7 +773,7 @@ PE 每段占 `FileAlignment` 整数倍（512 最小）→ `.pdata`+`.xdata` 内�
 
 ## 结果
 
-- **Nim 跨编译器验证**：5 个自包含内核（sieve / fib / intloop / strbuild / float）在 goc 与 gocl 下**全部与 gcc 逐位一致**；
+- **Nim 跨编译器验证**：5 个内核（sieve / fib / intloop / strbuild / float）在 goc 与 gocl 下**全部与 gcc 逐位一致**；
 - **计时**：三家 wall-clock 都在 0.16–0.20s，由 Nim 运行时启动主导，差异在 5–10% 噪声内——基准的真正价值是**正确性校验**而非计时；
 - **体积**：-O2 下 LLVM 侧总和比原生小 37%，且**不再有任何一档更大**；
 - **TLS**：从"读出垃圾值"到四类用例全对；

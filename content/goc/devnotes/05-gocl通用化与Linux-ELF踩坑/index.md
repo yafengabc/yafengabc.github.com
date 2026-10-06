@@ -43,13 +43,17 @@ goc 有两台独立编译器（同一前端）：`goc` 走自研 goa 汇编器�
 
 ### 坑 3：链接期自动生成 syscall 桩，但第 4 参数走了 rcx 而非 r10
 
-**现象**：`gocl -target linux` 编出的 ELF，凡是 ≥4 参数的 Linux syscall（`mmap`/`futex`/`wait4`/`clone`）一起失败，errno=8（或 -9 EBADF）。
+**现象**：`gocl -target linux` 编出的 ELF，凡是 ≥4 参数的 Linux syscall 一起失败，`errno=8`（EFAULT）。**这里记录的是最终修复版暴露的症状**——更早一轮（提交 `95ed623`，只改 goc 调用方）暴露的是另一组症状（`mmap`/`futex`/`wait4`/`clone` 返回 -9 EBADF），那一轮把r10 特例加在调用方，后来发现位置不对、才挪进桩里。两轮症状不要混看。
 
-**机制（先讲清楚 gocl 怎么处理 syscall）**：gocl 在链接期（`cmd/gocl/main.go` 的 `externalImports`）扫描 LLVM 对象里每个未定义符号，只要 `goa.IsLinuxSyscall(name)` 认识（表里含 `stat`=若干、`brk`=12、`getdents64`=217、`mmap` 等），就自动发射一条 `mov rax,N; syscall; ret` 的桩。所以 `__goclib_stat` 能跑，因为它就是这种外部符号，由链接时生成的桩提供实现。
+**机制（先讲清楚 gocl 怎么处理 syscall）**：gocl 在链接期（`cmd/gocl/main.go` 的 `externalImports`）扫描 LLVM 对象里每个未定义符号，只要 `goa.IsLinuxSyscall(name)` 认识（表里含 `stat`、`brk`=12、`getdents64`=217等），就自动发射一条桩。所以 `__goclib_stat` 能跑，因为它就是这种外部符号，由链接时生成的桩提供实现。
 
-**根因**：Linux **syscall** ABI 第 4 参数必须是 `r10`（`syscall` 指令会破坏 `rcx`/`r11`），而普通**函数**调用 ABI 第 4 参是 `rcx`。gocl 走标准 SysV，第 4 参落 `rcx`，内核却在 `r10` 读垃圾。结果 `mmap` 的 flags 进 rcx、内核读 r10 得 0 → `MAP_ANONYMOUS` 丢失 → 内核把 fd=-1 当真 fd → 返回 -9（EBADF）。
+> 桩的实际形态（`src/goa/asm.go:704-719`，容易被想象错）：不是裸的 `mov rax,N; syscall; ret`，而是
+> `mov rax,N; mov r10,rcx; call __goc_syscall; ret`。
+> `syscall` 指令被收敛到单一入口 `__goc_syscall`（由更早的 `fbc0b42`「gocld: become a real linker」引入），目的是让 Windows 测试用的 gocrun loader 能把整条桩重写成 Win32 后端翻译器。所以第 4 参的 `r10` 搬运**就发生在桩内部**，调用方完全无感——这正是修复要达到的效果。
 
-**修复**：把 `mov r10, rcx` 下沉到 goa 生成的**桩**里（约定属于桩，不属于调用方），`src/goc/codegen.go` 去掉对 syscall 名的 `r10` 特例。任何后端自动正确。涉及 `src/goa/asm.go`、`src/goc/codegen.go`、`src/gocl/cmd/gocl/main.go`（提交 `dfacc05`）。
+**根因**：Linux **syscall** ABI 第 4 参数必须是 `r10`（`syscall` 指令会破坏 `rcx`/`r11`），而普通**函数**调用 ABI 第 4 参是 `rcx`。gocl 走标准 SysV，第 4 参落 `rcx`，内核却在 `r10` 读垃圾。`dfacc05` 的 commit body 点名的是 **select(2)、setsockopt(2)、recvfrom(2)**，失败表现为 **EFAULT**。
+
+**修复**：把 `mov r10, rcx` 下沉到 goa 生成的**桩**里（约定属于桩，不属于调用方）。`src/goa/asm.go:688-691` 在 `mov rax,N` 之后发射 `{kind: K_REG, reg: 10}, {kind: K_REG, reg: 1}`（助记符就是 `mov r10, rcx`）；`src/goc/codegen.go:267-269` 的 `callArgRegs` 相应变成无条件 `return c.argRegs()`，Linux 侧返回 `{rdi,rsi,rdx,rcx,r8,r9}`，syscall 名特例删除。任何后端自动正确。提交 `dfacc05`（改了 `src/goa/asm.go`、`src/goc/codegen.go`、`src/gocl/cmd/gocl/main.go` 三处——但main.go 那处是坑 10 的 DLLNames，与本坑无关）。
 
 > 经验：几个**毫不相干**的 syscall 同时坏，先数**参数个数**。这是这条坑的线索——它们唯一的共同点就是参数个数。
 
@@ -133,14 +137,18 @@ func promoteInt(t *frontend.Type) *frontend.Type {
 
 **根因**：`src/gocl/call.go` 的 `member()` 无条件 `load()`。数组成员（如 `e->d_name`，类型是 `[256 x i8]`）被原样 load 成 `[256 x i8]` 值，而不是像 C 规定的那样**衰变成指向首元素的指针**。传参时 callee 期望 `ptr`，拿到数组值，类型不符。
 
-**修复**：在 `member()` 里对数组类型做 decay（仿 `ident()` 的处理）：
+**修复**：在 `member()` 里对数组类型做 decay（仿 `ident()` 的处理），`src/gocl/call.go:421-423`：
 
 ```go
 if ty != nil && ty.Kind == frontend.KArr {
-    // 结构体数组成员衰变成指向首元素的指针，与 C 的数组到指针转换一致
-    ty = &frontend.Type{Kind: frontend.KPtr, Base: ty.Base}
+    // 结构体数组成员衰变成指向首元素的指针，与 C 的数组到指针转换一致。
+    // 注意要用 frontend.PtrType(ty.Elem)：frontend.Type 里字段叫 Elem，
+    // 没有 Base 这个字段。
+    return val{op: p, ty: frontend.PtrType(ty.Elem)}
 }
 ```
+
+> 写这段时踩过一个更小的坑：照着 `ident()` 的写法手抄成 `&frontend.Type{Kind: frontend.KPtr, Base: ty.Base}`，而 `frontend/types.go:50` 的字段叫 `Elem *Type`，根本没有 `Base`——编译不过。构造指针类型一律走 `types.go:78` 的 `frontend.PtrType(elem)`。
 
 ### 坑 8：exprType 对库函数调用返回类型缺失，`__goclib_stat` i64 vs i32 不符
 
@@ -202,13 +210,21 @@ return &frontend.Call{Name: "fwrite", Args: []frontend.Expr{ lit, num(1), num(in
 
 **根因**：libc 的 `syscall()` 把错误压成 `-1` 并把号码记进**自己的** `errno`；goclib 按原始 `-errno` 写 → `-1` 变成"取负得 1，查 1"→ default。
 
-**修复**：`syscall.h` 加 `__goclib_raw()`（`__errno_location()`）还原真实错误码，21 个宏全套上；并补了它本该有的 include 守卫（`stdlib.c` 把它包含了两次）。
+**修复**：`syscall.h` 加 `__goclib_raw()`（`__errno_location()`）还原真实错误码，`syscall.h:219-222` 在位，全部走`syscall()` 的宏约 30 个全套上（不是原先估的 21 个——grep `__goclib_raw(` 有 33 处命中，其中 24 个是单行 `#define`，其余为跨行续定义）。
+
+关于 include 守卫，有一点要说清：守卫 `GOC_SYSCALL_H` **不是**这次加的，`git log -S` 指向更早的 `2db9259`（TCP/IP 层那一轮），`stdlib.c` 重复包含是这次用「删掉第二次 include」的方式解决的（`stdlib.c:718` 注释：「`<syscall.h>` 已在文件作用域包含过了，且是同一个翻译单元」），不是靠守卫兜住。
 
 ### 坑 12：Linux `struct stat` 缺 `st_mtime` 字段
 
 **现象**：`stat.h` 头注释承诺三字段同名（跨平台），但 Linux 分支的 `struct stat` 只有 `st_mtim_sec`，没有 `st_mtime`，与 Windows 分支不一致。
 
-**修复**：Linux 分支补上 `long st_mtime;`，与 Windows 分支对齐。
+**修复**：**不是加字段**，而是在 Linux 分支的 `struct stat` 之后加一条宏别名（`stat.h:69`）：
+
+```c
+#define st_mtime st_mtim_sec
+```
+
+这个区别不是较真。Linux 的 `struct stat` 布局钉在内核 x86-64 的字节偏移上——stat syscall 直接按内核那份布局填这个结构，重排或插入字段会静默读到错误的字节（`stat.h:9-11` 的注释专门说明这点）。所以只能在结构体外面做别名，碰不到里面的偏移。
 
 ### 坑 13：Windows `readdir` 返回 `.` 和 `..`
 
