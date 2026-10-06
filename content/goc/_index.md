@@ -72,6 +72,9 @@ goc 最有意思的地方不是"又写了个编译器"——那没什么新鲜�
 | 笔记 | 内容 |
 | --- | --- |
 | [变参窄整型丢符号性](/goc/devnotes/01-变参窄整型丢符号性/) | gocl 把经变参传的 32 位整型符号性丢掉：从误诊为"有符号除法"到定位为"8 字节参数槽没填满"的完整排查过程 |
+| [把 gocld 变成真正的链接器](/goc/devnotes/02-把gocld变成真正的链接器/) | 让 goc -c 产出可重定位目标文件，gocld 成为可独立运行的链接器：字符串表 NUL、Elf64_Sym 漏 st_other、section 索引 1-based 等字节级坑 |
+| [让 gocld 链接 .rsrc 资源节](/goc/devnotes/03-让gocld链接rsrc资源节/) | 让 gocld 读入/合并/写出 PE 的 .rsrc：OffsetToData 文件偏移陷阱、ENTRY 高位标志、rd32 符号扩展等 |
+| [gocl（LLVM 后端）填坑全记录](/goc/devnotes/04-gocl-llvm开发坑/) | 汇总 gocl 从编译 goclib、链接 Linux syscall 桩、Linux ELF 段错误、codegen 质量、printf 特化到跨平台一致性的 13 个坑，含根因/修复/验证 |
 
 ---
 
