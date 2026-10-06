@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="330" viewBox="0 0 680 330" font-family="ui-sans-serif, system-ui, 'Segoe UI', sans-serif">
+  <rect width="680" height="330" fill="#ffffff"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#1a1a1a">stress.c：goc 自研后端 vs gocl（LLVM 后端）</text>
+  <text x="20" y="48" font-size="11" fill="#666">字节，越小越好 · 实测于 2026-10-06 · 同一份源码</text>
+
+  <g stroke="#e8e8e8" stroke-width="1">
+    <line x1="130" y1="70" x2="640" y2="70"/><line x1="130" y1="110" x2="640" y2="110"/>
+    <line x1="130" y1="150" x2="640" y2="150"/><line x1="130" y1="190" x2="640" y2="190"/>
+    <line x1="130" y1="230" x2="640" y2="230"/><line x1="130" y1="270" x2="640" y2="270"/>
+  </g>
+  <g font-size="10" fill="#999" text-anchor="end">
+    <text x="125" y="74">10240</text><text x="125" y="114">8192</text>
+    <text x="125" y="154">6144</text><text x="125" y="194">4096</text>
+    <text x="125" y="234">2048</text><text x="125" y="274">0</text>
+  </g>
+
+  <!-- scale 10240 -> 510px, 1px = 20.07 bytes -->
+  <!-- -O0: goc 9728 -> 484.8 ; gocl 5632 -> 280.7 -->
+  <!-- -O1: goc 7680 -> 382.8 ; gocl 5632 -> 280.7 -->
+  <!-- -Os: goc 7680 -> 382.8 ; gocl 5632 -> 280.7 -->
+
+  <text x="20" y="84" font-size="11" fill="#333">-O0</text>
+  <rect x="130" y="74" width="484.8" height="13" fill="#2b6cb0"/>
+  <text x="620" y="84" font-size="10" fill="#555" text-anchor="end">goc 9728</text>
+  <rect x="130" y="90" width="280.7" height="13" fill="#38a169"/>
+  <text x="417" y="100" font-size="10" fill="#555">gocl 5632</text>
+
+  <text x="20" y="134" font-size="11" fill="#333">-O1</text>
+  <rect x="130" y="124" width="382.8" height="13" fill="#2b6cb0"/>
+  <text x="518" y="134" font-size="10" fill="#555" text-anchor="end">goc 7680</text>
+  <rect x="130" y="140" width="280.7" height="13" fill="#38a169"/>
+  <text x="417" y="150" font-size="10" fill="#555">gocl 5632</text>
+
+  <text x="20" y="184" font-size="11" fill="#333">-Os</text>
+  <rect x="130" y="174" width="382.8" height="13" fill="#2b6cb0"/>
+  <text x="518" y="184" font-size="10" fill="#555" text-anchor="end">goc 7680</text>
+  <rect x="130" y="190" width="280.7" height="13" fill="#38a169"/>
+  <text x="417" y="200" font-size="10" fill="#555">gocl 5632</text>
+
+  <!-- gcc 参照 40784 -->
+  <text x="20" y="234" font-size="11" fill="#333">gcc -O2</text>
+  <rect x="130" y="224" width="510" height="13" fill="#718096" transform="translate(690,0) scale(-1,1) translate(-690,0)"/>
+  <text x="636" y="234" font-size="10" fill="#555" text-anchor="end">gcc 40784（超出此图范围）</text>
+  <rect x="130" y="224" width="505" height="13" fill="#cbd5e0"/>
+
+  <line x1="130" y1="70" x2="130" y2="287" stroke="#333"/>
+  <line x1="130" y1="264" x2="640" y2="264" stroke="#e8e8e8"/>
+  <g font-size="10" fill="#666">
+    <rect x="20" y="278" width="10" height="10" fill="#2b6cb0"/><text x="35" y="287">goc 自研 x86-64 后端</text>
+    <rect x="200" y="278" width="10" height="10" fill="#38a169"/><text x="215" y="287">gocl LLVM 后端</text>
+    <rect x="370" y="278" width="10" height="10" fill="#cbd5e0"/><text x="385" y="287">gcc -O2 + msvcrt</text>
+  </g>
+  <text x="20" y="312" font-size="10" fill="#888">gocl 在所有优化档都稳定在 5632 字节——LLVM 的全局值编号与死代码消除天生更激进</text>
+</svg>
