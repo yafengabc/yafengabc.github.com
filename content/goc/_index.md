@@ -74,7 +74,7 @@ goc 最有意思的地方不是"又写了个编译器"——那没什么新鲜�
 | [变参窄整型丢符号性](/goc/devnotes/01-变参窄整型丢符号性/) | gocl 把经变参传的 32 位整型符号性丢掉：从误诊为"有符号除法"到定位为"8 字节参数槽没填满"的完整排查过程 |
 | [把 gocld 变成真正的链接器](/goc/devnotes/02-把gocld变成真正的链接器/) | 让 goc -c 产出可重定位目标文件，gocld 成为可独立运行的链接器：字符串表 NUL、Elf64_Sym 漏 st_other、section 索引 1-based 等字节级坑 |
 | [让 gocld 链接 .rsrc 资源节](/goc/devnotes/03-让gocld链接rsrc资源节/) | 让 gocld 读入/合并/写出 PE 的 .rsrc：OffsetToData 文件偏移陷阱、ENTRY 高位标志、rd32 符号扩展等 |
-| [gocl（LLVM 后端）踩过的坑](/goc/devnotes/04-gocl-LLVM后端踩过的坑/) | libLLVM 的 FFI 约定、LLVM IR 畸形输出、COFF 重定位丢 addend 导致控制台全哑、printf 特化的架构缺口、PE 段级文件对齐、TLS 访问被当成 extern 全局、AT&T 前端操作数方向——共 64 条 |
+| [gocl（LLVM 后端）踩过的坑](/goc/devnotes/04-gocl-LLVM后端踩过的坑/) | libLLVM 的 FFI 约定、LLVM IR 畸形输出、COFF 重定位丢 addend 导致控制台全哑、printf 特化的架构缺口、PE 段级文件对齐、TLS 访问被当成 extern 全局、AT&T 前端操作数方向——共 64 条，每条含源码位置与实测 |
 | [gocl 通用化与 Linux ELF 填坑](/goc/devnotes/05-gocl通用化与Linux-ELF踩坑/) | 从「连 goclib 都编不过」到「ls 在 Windows PE 与 Linux ELF 逐字节一致」的 13 个坑：__goc__ 宏、syscall 桩第 4 参、brk identity 宏段错误、整数提升、跨平台一致性 |
 
 ---
