@@ -52,10 +52,10 @@ goc 最有意思的地方不是"又写了个编译器"——那没什么新鲜�
 
 写这个专栏时的实测状态（2026-10-06）：
 
-- 仓库 176 次提交，最新 tag `v0.1.1`
+- 仓库 176 次提交，最新 tag `v0.1.1`（提交数会随迭代变化，以仓库为准）
 - `run_tests.sh` 在 Windows 11 + MSYS2 下跑出 **pass=253 fail=0**
 - 85 个C 示例，81 份 golden
-- 默认后端回归基线 `gocregress pass=475`（81 example × 6 腿）
+- 默认后端回归基线 `gocregress pass=490 fail=0`（82 example × 6 腿，2026-10-07 实测）
 - C99主体 + C11 类型系统 + **C23 实用子集**全部落地
 - `_BitInt(N)` 已实现，10 万位π 二分算法 100,011 位对拍 Python 大整数通过
 - **编译器本身便携**：`goc.exe` 4.65 MB 单文件（只导入 kernel32）；`gocl.exe` + `libLLVM.dll` 两个文件，拷到空目录、清空 `PATH` 也能编 C

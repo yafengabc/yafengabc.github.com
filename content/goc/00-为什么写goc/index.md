@@ -26,7 +26,7 @@ description: "编译器套娃已经很多了，为什么还要用 Go 写一个 C
               └─[goc -target linux]─[goa -f elf]─> foo    Linux ELF64，只用 syscall
 ```
 
-注意这里的"只导入 kernel32"不是说法。实测一个弹 MessageBox 的程序：
+注意这里的"只导入 kernel32"不是说法。实测一个弹MessageBox 的程序：
 
 ```bash
 $ objdump -p msgbox.exe | grep "DLL Name"
@@ -35,6 +35,8 @@ $ objdump -p msgbox.exe | grep "DLL Name"
 ```
 
 **没有 msvcrt。** 没有 CRT 启动代码，没有 `__stdio_common_vfprintf`，没有隐式链接的其它东西。用 MSYS2 的 gcc 编同样程序，依赖表里会多出一长串。
+
+这个"只导入 kernel32"的范围要说准：**只要程序不用 Win32 GUI 和socket**。用 Winsock 的程序会多一条 `ws2_32.dll`，用 `MessageBox` 的会多一条 `user32.dll`——但**永远不会有 `msvcrt`/`ucrt`/`vcruntime`**。库那一侧全部静态编进产物，Windows 提供的只有系统 API 本身。
 
 Linux 侧更彻底：静态 ELF，**一条动态链接都没有**，只用 `write` / `read` / `brk` / `exit_group` 四个 syscall。
 
@@ -65,15 +67,25 @@ bash build.sh    # goc + goa + 两个验证工具，全是 Go，一条命令
 goc 的做法是：**把 printf 当成一个真正的库函数，用 C 写出来**。
 
 ```
-goclib/
-├── os.c          5 个平台原语，唯一碰 OS 的文件
-├── stdio.c       printf sprintf puts putchar getchar
+goclib/                21 个 .c，约 10000 行
+├── os.c          6 个平台原语，唯一直接碰 OS 的文件
+├── stdio.c       printf 家族 + scanf 家族 + FILE 层
 ├── stdlib.c      malloc free calloc atoi abs strtol rand srand exit
-├── string.c      18 个字符串/内存函数
-└── ctype.c       13 个字符分类函数
+├── string.c      字符串/内存函数
+├── math.c        sqrt pow exp log sin cos atan2 erf lgamma …
+├── time.c        time clock localtime strftime mktime …
+├── ctype.c       字符分类
+├── wchar.c       wchar 族
+├── dir.c         opendir readdir closedir stat mkdir …
+├── socket.c      TCP/IP：Windows 走 ws2_32，Linux 走 syscall
+├── threads.c     thrd_ / mtx_ / tss_ / call_once
+├── stdbit.c      C23 stdc_* 泛型宏
+├── bitint.c      _BitInt(N) 大数运行时
+├── signal.c errno.c args.c assert.c uchar.c rt.c
+└── file.c        FILE 层与 fopen 家族
 ```
 
-一共 45 个函数。**只有 `os.c` 里的 5 个原语碰操作系统**：
+**484 个函数**（这是让编译器把"未定义符号"报错打出来数出来的精确值，见下）。但**只有 `os.c` 里的 6 个原语直接碰操作系统**：
 
 | 原语 | Windows | Linux |
 | --- | --- | --- |
@@ -81,11 +93,19 @@ goclib/
 | `__goclib_exit(code)` | `ExitProcess` | `exit_group`(231) |
 | `__goclib_heap_alloc(size)` | `GetProcessHeap` + `HeapAlloc` | `brk` bump allocator |
 | `__goclib_heap_free(p)` | `HeapFree` | 空操作 |
+| `__goclib_heap_realloc(p,n)` | `HeapReAlloc` | `brk` 原地扩 |
 | `__goclib_read(buf,len)` | `GetStdHandle` + `ReadFile` | `read`(fd=0) |
+
+其余 478 个函数要么是纯计算，要么最终落到这 6 个上。
+
+> 顺带一个好用的调试技巧：调一个 goclib 里没有的函数，codegen 会把**整个可用函数名清单**打进错误信息。想确认"某个函数到底有没有"、"库现在覆盖到哪"，比读头文件快：
+> ```
+> codegen error: unknown function "lround": not in goclib (FD_CLR, FD_ISSET, ... zstd..., ws_fail)
+> ```
 
 关键在于**按需发射**：goc 启动时把整个库当普通 C 程序编译，函数体按需发射——程序实际调用到的函数（及其传递闭包）才进产物。
 
-所以只用 `putchar` 的程序，不会背上 `printf` 的 512 字节输出缓冲。这个"调用闭包"分析是纯编译期的，没有链接器参与。
+所以只用 `putchar` 的程序，不会背上 `printf` 的 512 字节输出缓冲。这个"调用闭包"分析是纯编译期的。
 
 平台差异怎么处理？跟普通 C 库用 `#ifdef` 隔离平台代码是一个思路，跨平台的部分只写一遍：
 
@@ -188,7 +208,7 @@ tools/            验证工具
 
 goc 支持的：
 
-- 标量类型全套，`float`/`double` 走 SSE2 标量指令
+- 标量类型全套，`float`/`double` 走SSE2 标量指令
 - `struct`（嵌套、按值传参、按值返回）、`union`、`enum`、多维数组、指针、函数指针、`typedef`
 - **位域**：MSVC 布局规则，跨存储单元分配、`:0` 强制开新单元
 - **方法（UFCS）**：`x.f(args)` 在成员 `f` 不存在时按方法解析，定义 `T_f` 即可。**纯编译期重写，无 vtable、无运行时元数据**
@@ -198,24 +218,34 @@ goc 支持的：
 - `_Thread_local`：**goa 原生 TLS**（TLS 目录 + `gs:[0x58]`），不是软模拟
 - `_Atomic`（C11）：标量原子，`++`/`--` 发 `lock xadd`，其余走 `lock cmpxchg` 重试循环
 - `_BitInt(N)`：goclib 大整数运行时（schoolbook + Karatsuba 乘、Knuth D除、十进制转换）
+- **标准库远超"够用"**：`stdio`（含 `scanf` 全家族、`FILE` 层、`fopen`/`fgets`/`fputs`/`fread`/`fwrite`）、`math`、`time`、`string`、`stdlib`、`wchar`、`dirent`、`signal`、`threads`、`uchar`、`stdbit`，加平台头`windows.h` / `winsock2.h` / `shlwapi.h` / `ole32.h` / `commctrl.h` / `commdlg.h`。库内**400+ 个函数**，按需发射
+- **socket**：`socket.h` 提供跨平台 POSIX 拼写，Windows 走 `ws2_32`、Linux 走 syscall，两者返回同一套 goclib errno
+- **真正的两阶段**：`goc -c -o obj a.c b.c` 产 `obj/a.o` + `obj/b.o`，`goc obj/a.o obj/b.o -o out.exe` 走 gocld 完成链接
+
+链接器这一层最麻烦的地方是**内部链接**。两个 `.c` 各自声明一个 `static int scale(...)` 是完全合法的 C，但写进目标文件时如果只按原名记录，重定位就会出问题——COFF/ELF 都是按**符号名**解析引用的，两个对象各有一份同名 `static` 函数，要么被报成重复定义，要么一个对象的调用落到另一个对象的函数上。后者更坏：程序干净地链接、正常运行，只是算出错误的答案。
+
+所以 gocld 在写目标文件时就把内部链接的符号改名为对象名 + 原名（`unit.o` 里的 `scale` 记作 `unitscale`），并标记 `IMAGE_SYM_CLASS_STATIC` / `STB_LOCAL`。改名让两个对象不再同名，storage class 则把"这个名字不对外"这件事记进文件里，供任何别的工具读取。
 
 还没到的：
 
-- **没有独立的链接阶段**——不能消费 `.o`，也不能链接多个目标文件（但可以一次编译多个 `.c`，各自独立翻译单元）
-- 没有 `scanf`、文件 I/O、`math.h`、`time.h`（`wchar` 族后来补上了）
+- **不能消费 `.a` 静态库**。`.o` 逐个喂进去可以，但 `ar rcs libmy.a` 出来的归档会报 `coff: machine 0x3c21 is not AMD64`——gocld 只认裸目标文件，不解析归档索引
 - `printf` **宽度一概忽略**：`%5d` 打 `42`、`%02x` 打 `7`，这是与标准 C 明确的差异，代码里有意为之
 - 没有 `%e` `%a` `%n`，`%g` 是简化版（按小数位计数，不切科学计数法）
+- **数学库缺一部分 `long double` 取整族**：`round`/`trunc`/`floor`/`ceil` 有，`lround`/`llround` 没有（报错信息会把整个可用函数名打出来，400多个，可当清单读）
+- `winsock2.h` **不能被用户代码直接 include**——它是 `socket.c` 的内部实现，会 `#undef socket` 之类；用户走 `<socket.h>` 的 POSIX 拼写
 - 没有 VLA、`_Generic` 之外的部分 C99+ 边角
 
 这份清单本身就说明了 goc 的定位：**不追求 100% 标准合规**，而是补齐"现代 C 写法"最常用的那批特性。
 
 ## 归类：它更像什么
 
-goc 严格来说不是"编译器"，因为它没有链接阶段。更准确的说法是**单遍编译器 + 自带运行时**：
+goc 是**两阶段编译器 + 自带运行时**：
 
-- 输入：一批 `.c` 文件（各自独立翻译单元）
-- 输出：一个完整的可执行文件
-- 内部：前端 → 代码生成（自研 x86-64 或 LLVM）→ goa 链接
+- 前端：`.c` → `.o`（各自独立翻译单元）
+- 后端：gocld 把 `.o` 链接成PE32+ 或 ELF64 可执行文件
+- 运行时：goclib 按需发射，链接进来的只有实际调用到的闭包
+
+当然也支持一趟编完（`goc a.c b.c -o out.exe`，内部仍是编译 + 链接两步）。
 
 这也是为什么 `-o` 的语义照抄 gcc：**路径不存在时它表示输出文件名而不是目录**。测试脚本必须先 `mkdir -p bin/goc-out`，少了这一步第一个例子会写出一个叫 `bin/goc-out` 的文件，后面所有例子都 `Not a directory`。README 里专门记了这个坑，因为它真的踩过。
 
