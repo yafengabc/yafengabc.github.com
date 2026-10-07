@@ -6,7 +6,7 @@ draft: false
 weight: 1
 tags: ["goc", "C 编译器", "Go", "LLVM", "设计取舍"]
 categories: ["编程开发", "goc"]
-description: "编译器套娃已经很多了，为什么还要用 Go 写一个 C 编译器？goc 的答案是三条取舍：不依赖 gcc、不依赖 libc、不假设 CPU 行为。本文讲清这个定位怎么决定了整个项目形态。"
+description: "编译器套娃已经很多了，为什么还要用 Go 写一个 C 编译器？goc 的答案是四条取舍：不依赖 gcc、不依赖 libc、不假设 CPU 行为、交付物只有一个文件。本文讲清这个定位怎么决定了整个项目形态。"
 ---
 
 市面上的"X 语言实现的 Y"已经很多了：Go 实现的编译器、Brainfuck 实现的 C、Python 实现的 Python。为什么还要用 Go 写一个 C 编译器？
@@ -16,6 +16,8 @@ description: "编译器套娃已经很多了，为什么还要用 Go 写一个 C
 > **编译出来的 C 程序，产物里既没有 gcc 的痕迹，也没有 libc。**
 
 这一章讲清这个目标怎么决定了 goc 的整个形态。
+
+最后还要加一条不那么容易体现在功能列表里、但日常开发天天遇到的：**编译器本身也得是便携的**。拷一个文件过去就能编 C，不装 LLVM、不配环境变量、不用管 C 库在哪。这是"取舍四"，本章最后讲。
 
 ## 先看它有多极端
 
@@ -123,6 +125,46 @@ print(a);   // [11, 12, 13]
 
 实现上goclib 只有一份共享骨架 `__goclib_array_print(a, n, elem_size, conv)`，按元素字节步进、经函数指针回调逐个转文本。**新增一种数组类型 = 一个转换器 + 一个包装。**
 
+## 取舍四：交付物就是一个文件
+
+前三条取舍最终落到用户手上的东西，是这个：
+
+| 编译器 | 交付物 | 依赖 |
+| --- | --- | --- |
+| `goc.exe` | **4.65 MB，单文件** | 只导入 `kernel32.dll` |
+| `gocl.exe` + `libLLVM.dll` | **3.96 MB + 13.88 MB，两个文件** | 同上 |
+
+拷过去就能编。不需要装 LLVM、不需要配 `PATH`、不需要 `goclib/` 源码目录、不需要 worry 少了某个 `.h` 导致 `#include` 找不到。
+
+这一点在2026-10-07 之前是**不成立的**：goclib 当时是运行时从磁盘读的，Release 的 zip 必须整目录解压，只拷 `goc.exe` 出来立刻报 `cannot find the goclib C library`。现在库源码通过 `//go:embed goclib/*` 编译进了二进制，磁盘查找整个从热路径上消失（`src/libembed.go`）。
+
+这不只是"少拷一个目录"的问题。**编译器的正确性不该依赖使用者的目录布局**——少拷一个文件得到的是一个报 cryptic 错误的编译器，而不是"少一个功能"。把库嵌进去之后，"这个 exe 能不能独立工作"变成二进制自身的性质，不再是使用者的责任。
+
+`gocl` 多一个 `libLLVM.dll` 是没法再省的：它通过 `syscall.LazyProc` 直接调 LLVM 的 C API，动态库就是接口本身。它能做到的是**只依赖这一个外部**——LLVM 被裁剪成只保留 X86 后端，`libstdc++`/`winpthread` 静态链入，13 个 `api-ms-win-crt-*` 转发折叠成单个 `ucrtbase.dll`，最终依赖收敛到系统自带的那几个：
+
+```bash
+$ objdump -p libLLVM.dll | grep "DLL Name"
+	DLL Name: ADVAPI32.dll     # 系统
+	DLL Name: KERNEL32.dll     # 系统
+	DLL Name: ntdll.dll        # 系统
+	DLL Name: ole32.dll        # 系统
+	DLL Name: SHELL32.dll      # 系统
+	DLL Name: ucrtbase.dll     # 系统（Win10/11 自带）
+	DLL Name: WS2_32.dll       # 系统
+```
+
+原始构建产物是 42.9 MB、依赖 20 个 DLL（含 `libstdc++-6.dll`、`libwinpthread-1.dll`）。这个"静态重链 + UCRT 折叠"是纯链接期操作，不用重编译 LLVM 任何一行 `.o`——抽出 ninja 的链接命令行，追加 `-static-libstdc++` 和一段按顺序静态链入的 `libstdc++/libwinpthread`，再在库列表前插一个 `-lucrtbase`。细节记在 [开发笔记 04](/goc/devnotes/04-gocl-LLVM后端踩过的坑/)。
+
+顺带一个交叉编译的事实：**Windows 上的 gocl 就是 Linux 交叉编译器**，不需要 WSL 也不需要 Linux 机器：
+
+```bash
+$ gocl.exe -target linux hello.c -o hello    # PATH 完全清空
+$ file hello
+hello: ELF 64-bit LSB executable, x86-64, statically linked, not stripped
+```
+
+上一节的架构图里那个 `gocl -target linux` 分支，跑在 Windows 上。
+
 ## 架构：八个 Go 模块
 
 ```
@@ -130,15 +172,17 @@ src/frontend/     C 前端（零依赖）
 src/common/       预处理器 + C 库 + 链接（两后端共享）
 src/goc/          自研 x86-64 后端 codegen
 src/gocld/        链接器（PE32+ / ELF64 镜像）
-src/gocl/         LLVM 后端
-src/              自包含入口（embed goclib/，单文件编译器）
+src/gocl/         LLVM 后端（driver.go 是被 import 的驱动）
+src/              自包含入口：goc.go(tag goc) / gocl.go(tag gocl) + libembed.go
 src/goa/          汇编器
 tools/            验证工具
 ```
 
 有个容易被忽略的工程细节：**goa 已经编译进 goc 二进制了**。所以 Release zip 里的独立 `goa.exe` 只是给手写汇编用的，`goc` 编C 不需要它旁边有 goa。
 
-另一个细节：`goc` 在运行时要从磁盘读 C 标准库源码（`goclib/`）。查找顺序是 `GOCLIB_PATH` 环境变量 → exe 旁边的目录 → exe 的上级目录 → 当前工作目录。所以 zip **必须整目录一起解压**，只拷走 exe 会立刻失败并给出 `cannot find the goclib C library`。
+入口这一层的组织方式在 2026-10-07 变过一次。此前是两个独立的 `package main`（`src/cmd/goc/` 和 `src/gocl/cmd/gocl/`），各自重复了一整套参数解析；现在是 `src/` 下的两个文件靠 build tag 区分（`//go:build goc` / `//go:build gocl`），`goclib/` 由同目录的 `src/libembed.go` embed 进两个二进制。gocl 的驱动逻辑从 `package main` 搬到了 `src/gocl/driver.go` 的 `package gocl`——因为 `package main` 不可被 import，没法在一个文件里复用。
+
+（上面这节的另一条已过期：goc 曾经在运行时从磁盘读 `goclib/`，查找顺序是 `GOCLIB_PATH` → exe 旁边 → 上级目录 → cwd。当时确实必须整目录解压。现在库已embed，见"取舍四"。`common.FindRoot` 那套查找逻辑还在 `src/common/source.go` 里，但内置版入口不再走它——留它是给将来可能的磁盘库模式用的。）
 
 ## 语言子集：诚实地说清边界
 
@@ -177,18 +221,21 @@ goc 严格来说不是"编译器"，因为它没有链接阶段。更准确的�
 
 ## 小结
 
-三条取舍串起来是goc 的风格：
+四条取舍串起来是goc 的风格：
 
 | 取舍 | 代价 | 收益 |
 | --- | --- | --- |
 | 不要 gcc（连汇编器也不用） | 自研 x86-64 codegen + 汇编器，难度高 | 闭环、产物干净、无外部工具 |
 | 不要 libc | 得自己写 printf 全家，且克制范围 | 只导入系统 DLL，体积可控 |
 | 不要编译器魔法 | 得克制着不"顺便支持" | 行为可预测，体积可解释 |
+| 交付物只有一个文件 | goclib 要embed 进二进制；gocl 还要再链一遍 LLVM | 拷过去就能编，不看README |
 
 代价换来的是：**产物里每一字节都能解释来源**。这在玩具项目里是奢侈品，在编译器项目里是必需品——因为你得靠这个解释为什么产物是这个大小。
+
+最后一条取舍还有个附加好处：它逼着"这个 exe 能不能独立工作"变成一个**可以自动化测试的性质**。把 exe 拷到一个空目录、把 `PATH` 清空、跑一个用到 `math.h`/`string.h`/`stdlib.h` 的程序——能过就是能过。目录布局这种隐式契约，一旦允许存在，就迟早会在某次拷贝、某个 CI 缓存、某台新机器上变成 bug。
 
 下一章：[5 分钟跑起来](/goc/01-五分钟上手/)。
 
 ---
 
-> 本章数字与源码细节核对于 2026-10-06，对应 goc 提交 `f200cd1`。goc 迭代很快，读到时若已更新，以仓库 README 为准。
+> 本章数字与源码细节核对于 2026-10-07，对应 goc 提交 `cc83ef8`。"取舍四"一节的体积与依赖表为当日实测；"取舍四"之前的内容核对于 2026-10-06、提交 `f200cd1`。goc 迭代很快，读到时若已更新，以仓库 README 为准。

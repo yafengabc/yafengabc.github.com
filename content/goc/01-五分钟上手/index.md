@@ -6,7 +6,7 @@ draft: false
 weight: 2
 tags: ["goc", "C 编译器", "教程", "Go"]
 categories: ["编程开发", "goc"]
-description: "从零编译第一个 goc 程序：Windows 上装工具链、跑通 Hello World、输出汇编、交叉编译 Linux ELF，以及三个必踩的坑（goclib 路径、-o 语义、printf 宽度）。"
+description: "从零编译第一个 goc 程序：Windows 上装工具链、跑通 Hello World、输出汇编、交叉编译 Linux ELF，以及两个必踩的坑（-o 语义、printf 宽度）。goclib 已内嵌进二进制，编译器就是一个文件。"
 ---
 
 上一章讲了 goc 是什么。这一章把它跑起来。
@@ -156,7 +156,7 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 
 > 💡 Windows 上没法 exec ELF，所以验证 Linux 产物需要 QEMU。goc 自带 `tools/ucrun.py`（Unicorn，即 QEMU 的 TCG 核心）跑真指令语义。CI 的 Ubuntu job 则直接在**真实内核**上 exec这些 ELF——那才是最硬的证明。
 
-## 三个必踩的坑
+## 两个必踩的坑
 
 ### 坑 1：`-o` 的语义照抄 gcc
 
@@ -176,23 +176,7 @@ mkdir -p bin/goc-out
 
 这不是文档吹毛求疵——README 记载 `run_tests_linux.sh` 当年就因为少了 `mkdir -p`，第一个例子写出个名叫 `bin/goc-out` 的**文件**，后面所有例子一律 `Not a directory`。
 
-### 坑 2：zip 必须整目录解压
-
-Release 里的 zip 是开箱即用的工具链目录，但 **goc 在运行时要从磁盘读 C 源码**（`goclib/`）。只把 `goc.exe` 拷出来会立刻失败：
-
-```
-cannot find the goclib C library
-```
-
-它不静默出错，但也编不了任何东西。查找顺序在 `goc/libfs.go`：
-
-```
-GOCLIB_PATH 环境变量 → exe 旁边的目录 → exe 的上级目录 → 当前工作目录及其各级上级
-```
-
-想让多份编译器共用一份库，设 `GOCLIB_PATH` 指向它即可。
-
-### 坑 3：`printf` 的宽度被忽略
+### 坑 2：`printf` 的宽度被忽略
 
 ```c
 printf("%5d\n", 42);     // goc 输出：42      （标准 C 应为    42）
