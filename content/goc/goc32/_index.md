@@ -6,7 +6,7 @@ draft: false
 weight: 5
 tags: ["goc32", "TinyOS", "C 编译器", "RV32", "ESP32-C3", "ARM"]
 categories: ["编程教程", "goc32", "TinyOS"]
-description: "goc32 是一个不链接 libLLVM 的 TinyOS 用户态 C 编译器，一条命令把 C 源码变成 LZ4TOS 用户程序。本小节包含使用教程和用户程序 API 参考。"
+description: "goc32 是一个不链接 libLLVM 的 TinyOS 用户态 C 编译器，一条命令把 C 源码变成 LZ4TOS 用户程序。本小节包含串口上传教程和用户程序 API 参考。"
 ---
 
 **goc32** 是 [TinyOS](https://github.com/yafengabc/TinyOS) 的用户态 C 编译器，也是 [goc](https://github.com/yafengabc/goc) 前端在 32 位嵌入式方向上的延续。
@@ -29,7 +29,7 @@ C 源码
 
 | 文章 | 内容 |
 | --- | --- |
-| [使用教程](/goc/goc32/usage/) | 安装、命令行、目标平台、GPIO/文件示例、放进 TinyOS 运行、体积现状、限制与排错 |
+| [串口上传](/goc/goc32/usage/) | 用 goc32 编译 `.tos`，通过 `tosput` + `rx` 直接写进 littlefs 的 `/bin`，再从 shell 运行 |
 | [API 参考](/goc/goc32/api/) | `user/lib.h` 里的系统调用、文件、时间、内存、GPIO/ADC、屏幕等用户态 API |
 
 ## 它适合做什么
